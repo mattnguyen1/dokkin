@@ -1,0 +1,18 @@
+.card {
+  .card-character { 
+    width: 100px;
+  }
+  .card-frame {
+    width: 100px;
+    background-size: 80px;
+    background-repeat: no-repeat;
+    background-position: 10px 14px; 
+  }
+  height: auto;
+}
+
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  // width: 100%;
+}
