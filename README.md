@@ -22,4 +22,5 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
   - Needs to be queryable by rarity, type/element, name, etc.
 - GET `/api/search`
   - This might be pushed off by adding more functionality into `/api/cards` and offloading requests by sending the client some minimal dataset of all the card ids and the associated names/leader skill names.
+- All the UI.
 
