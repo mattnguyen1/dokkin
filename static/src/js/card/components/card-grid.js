@@ -4,7 +4,7 @@ import Card from './card';
 
 class CardGrid extends Component {
   componentDidMount() {
-    this.props.fetchCards('Goku');
+    this.props.fetchCards('Super Saiyan Gotenks');
   }
 
   render() {

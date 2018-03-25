@@ -1,5 +1,5 @@
 /**
- * @fileoverview Utilities for manipulating URLs
+ * @fileoverview Utilities for creating URLs
  * @author mattnguyen1
  */
 
@@ -9,7 +9,8 @@
 
 const DOKKIN_S3_BASE_URL = 'https://dokkin.s3.amazonaws.com';
 const THUMBNAIL_URL_PATH = '/thumb';
-const THUMBNAIL_BG_URL_PATH = '/thumb_bg'
+const THUMBNAIL_BG_URL_PATH = '/thumb_bg';
+const RARITY_ICON_URL_PATH = '/rarity';
 
 // ------------------------------------------------------------------------------
 // Private
@@ -37,6 +38,14 @@ function getThumbnailBGPath(element, rarity) {
   return `/cha_base_0${element}_0${rarity}.png`;
 }
 
+/**
+ * Returns the path of the card's rarity icon
+ * @param {string} rarityStr - rarity in string format
+ */
+function getRarityIconPath(rarityStr) {
+  return `/cha_rare_sm_${rarityStr}.png`
+}
+
 // ------------------------------------------------------------------------------
 // Public
 // ------------------------------------------------------------------------------
@@ -57,4 +66,12 @@ export function getThumbnailUrl(cardId) {
  */
 export function getThumbnailBGUrl(element, rarity) {
   return DOKKIN_S3_BASE_URL + THUMBNAIL_BG_URL_PATH + getThumbnailBGPath(element, rarity);
+}
+
+/**
+ * Return the url for a card's rarity icon
+ * @param {string} rarityStr - rarity of the card in string format
+ */
+export function getRarityIconUrl(rarityStr) {
+  return DOKKIN_S3_BASE_URL + RARITY_ICON_URL_PATH + getRarityIconPath(rarityStr);
 }

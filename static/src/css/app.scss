@@ -4,9 +4,15 @@
   }
   .card-frame {
     width: 100px;
+    height: 100px;
     background-size: 80px;
     background-repeat: no-repeat;
     background-position: 10px 14px; 
+  }
+  .card-rarity {
+    width: 45px;
+    bottom: 44px;
+    position: relative;
   }
   height: auto;
 }

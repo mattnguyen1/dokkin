@@ -11,8 +11,12 @@ defmodule Dokkin.API.CardService do
   def list_cards(name) do
     query = from c in Card,
               where: c.name == ^name and
-                      c.card_unique_info_id != @no_card,
+                      c.card_unique_info_id != @no_card and
+                      fragment(
+                        "? IN (SELECT card_id FROM card_awakening_routes WHERE type != \"CardAwakeningRoute::Dokkan\")", c.id
+                      ),
               select: c
+
     Repo.all(query)
   end
 end
