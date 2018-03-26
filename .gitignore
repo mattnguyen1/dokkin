@@ -6,6 +6,7 @@
 node_modules/
 /static/src/node_modules/
 dist/
+/priv/static
 
 # Generated on crash by the VM
 erl_crash.dump

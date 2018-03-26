@@ -8,11 +8,18 @@
     <meta name="author" content="">
 
     <title>Dokk.in</title>
-    <%= {:safe, css_link_tag()} %>
+    <%# <%= {:safe, css_link_tag()} %>
+    <%= if Mix.env == :prod do %>
+      <link rel="stylesheet" href="<%= static_path(@conn, "/css/bundle.css") %>">
+    <% end %>
   </head>
 
   <body>
     <%= render @view_module, @view_template, assigns %>
-    <%= {:safe, js_script_tag()} %>
+    <%= if Mix.env == :prod do %>
+      <script src="<%= static_path(@conn, "/js/bundle.js") %>"></script>
+    <% else %>
+      <script src="http://localhost:8080/bundle.js"></script>
+    <% end %>
   </body>
 </html>
