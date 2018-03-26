@@ -1,4 +1,25 @@
+$grey: #36393F;
+$white: #fff;
+$font: "Helvetica Neue", "Helvetica", "sans-sarif";
+$font-medium: 12px;
+
+body {
+  background-color: $grey;
+  color: $white;
+  font-family: $font;
+  font-size: $font-medium;
+}
+
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .card {
+  height: auto;
+  margin: 10px;
+
   .card-character { 
     width: 100px;
   }
@@ -26,10 +47,4 @@
     height: 100%;
     width: 100%;
   }
-  height: auto;
-}
-
-.card-grid {
-  display: flex;
-  flex-wrap: wrap;
 }

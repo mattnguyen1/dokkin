@@ -22,7 +22,6 @@ defmodule DokkinWeb do
       use Phoenix.Controller, namespace: DokkinWeb
       import Plug.Conn
       import DokkinWeb.Router.Helpers
-      import DokkinWeb.Gettext
     end
   end
 
@@ -39,7 +38,6 @@ defmodule DokkinWeb do
 
       import DokkinWeb.Router.Helpers
       import DokkinWeb.ErrorHelpers
-      import DokkinWeb.Gettext
     end
   end
 
@@ -54,7 +52,6 @@ defmodule DokkinWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import DokkinWeb.Gettext
     end
   end
 
