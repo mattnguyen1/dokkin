@@ -26,6 +26,7 @@ body {
   .card-frame {
     width: 100px;
     height: 100px;
+    margin: 0 auto;
     background-size: 80px;
     background-repeat: no-repeat;
     background-position: 10px 14px; 
@@ -46,5 +47,13 @@ body {
     position: absolute;
     height: 100%;
     width: 100%;
+  }
+  .card-name {
+    width: 125px;
+    text-align: center;
+
+    span {
+      display: block;
+    }
   }
 }

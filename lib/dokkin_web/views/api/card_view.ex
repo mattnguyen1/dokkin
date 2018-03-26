@@ -8,14 +8,15 @@ defmodule DokkinWeb.API.CardView do
     }
   end
 
-  def render("card.json", %{card: card}) do
+  def render("card.json", %{card: {card, leader_skill}}) do
     %{
       id: card.id,
       name: card.name,
       alliance_type: @alliance_types[card.awakening_element_type],
       rarity: card.rarity,
       rarity_string: @rarity[card.rarity],
-      element: card.element
+      element: card.element,
+      leader_skill: leader_skill
     }
   end
 end
