@@ -7,7 +7,7 @@
 // Constants
 // ------------------------------------------------------------------------------
 
-const DOKKIN_S3_BASE_URL = 'https://dokkin.s3.amazonaws.com';
+const DOKKIN_S3_BASE_URL = 'https://static.dokk.in';
 const THUMBNAIL_URL_PATH = '/thumb';
 const THUMBNAIL_BG_URL_PATH = '/thumb_bg';
 const RARITY_ICON_URL_PATH = '/rarity';
