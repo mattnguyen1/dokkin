@@ -57,7 +57,8 @@ defmodule Dokkin.Mixfile do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       "test": ["ecto.create --quiet", "ecto.migrate", "test"],
       "dev": ["kill_webpack", "phx.server"],
-      "prod.build": ["build_assets", "phx.digest"]
+      "prod.build": ["build_assets", "phx.digest"],
+      "prod.start": ["prod.build", "kill_phoenix", "start_detached_server"]
     ]
   end
 end

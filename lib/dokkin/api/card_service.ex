@@ -13,7 +13,7 @@ defmodule Dokkin.API.CardService do
     get_cards_from_cache(name)
   end
 
-  def get_cards_from_cache(name) do
+  defp get_cards_from_cache(name) do
     Cachex.fetch(:cards_cache, name, fn(slug) ->
         do_list_cards(slug)
     end)
@@ -23,7 +23,7 @@ defmodule Dokkin.API.CardService do
     end
   end
 
-  def do_list_cards(name) do
+  defp do_list_cards(name) do
     query = from c in Card,
               join: ls in LeaderSkill,
               where: like(c.name, ^name) and
