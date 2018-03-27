@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import Card from './card';
 
 class CardGrid extends Component {
-  componentDidMount() {
-    this.props.fetchCards('Super Saiyan Goku');
-  }
 
   render() {
     const { cards } = this.props;
@@ -25,8 +22,7 @@ class CardGrid extends Component {
 }
 
 CardGrid.propTypes = {
-  cards: PropTypes.arrayOf(PropTypes.any),
-  fetchCards: PropTypes.func
+  cards: PropTypes.arrayOf(PropTypes.any)
 }
 
 export default CardGrid;
