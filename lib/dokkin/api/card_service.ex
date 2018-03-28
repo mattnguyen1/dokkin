@@ -9,28 +9,41 @@ defmodule Dokkin.API.CardService do
   alias Dokkin.LeaderSkill
   @no_card 9999
 
-  def list_cards(name) do
+  def get_cards(name) do
     get_cards_from_cache(name)
   end
 
-  defp get_cards_from_cache(name) do
-    Cachex.fetch(:cards_cache, name, fn(slug) ->
-        do_list_cards(slug)
-    end)
-    |> case do
-      {:error, _} -> []
-      {success, value} when success in [:ok, :commit] -> value
-    end
+  def get_cards() do
+    get_cards_from_cache()
   end
 
-  defp do_list_cards(name) do
+  defp get_cards_from_cache(name) do
+    Repo.fetch_cards(name, &do_get_cards/1, 1)
+  end
+
+  defp get_cards_from_cache() do
+    Repo.fetch_cards("all_cards", &do_get_cards/0)
+  end
+
+  defp do_get_cards(name) do
     Card
+    |> has_name(name)
+    |> base_card_query()
+    |> Repo.all()
+  end
+
+  def do_get_cards() do
+    Card
+    |> base_card_query()
+    |> Repo.all()
+  end
+
+  defp base_card_query(query) do
+    query
     |> card_exists()
     |> base_card()
-    |> has_name(name)
     |> with_leader_skill()
     |> select_with_leader_skill()
-    |> Repo.all()
   end
 
   defp has_name(query, name) do
