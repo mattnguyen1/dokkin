@@ -24,16 +24,39 @@ defmodule Dokkin.API.CardService do
   end
 
   defp do_list_cards(name) do
-    query = from c in Card,
-              join: ls in LeaderSkill,
-              where: like(c.name, ^name) and
-                      c.card_unique_info_id != @no_card and
-                      fragment(
-                        "? IN (SELECT card_id FROM card_awakening_routes WHERE type != \"CardAwakeningRoute::Dokkan\")", c.id
-                      ) and
-                      c.leader_skill_id == ls.id,
-              select: {c, ls.name}
+    Card
+    |> card_exists()
+    |> base_card()
+    |> has_name(name)
+    |> with_leader_skill()
+    |> select_with_leader_skill()
+    |> Repo.all()
+  end
 
-    Repo.all(query)
+  defp has_name(query, name) do
+    query |> where([c], like(c.name, ^name))
+  end
+
+  defp select_with_leader_skill(query) do
+    from [c, ls] in query,
+    select: {c, ls.name}
+  end
+
+  defp with_leader_skill(query) do
+    from c in query,
+    join: ls in LeaderSkill,
+    where: c.leader_skill_id == ls.id
+  end
+
+  defp base_card(query) do
+    from c in query,
+    where: fragment(
+      "? IN (SELECT card_id FROM card_awakening_routes WHERE type != \"CardAwakeningRoute::Dokkan\")", c.id
+    )
+  end
+
+  defp card_exists(query) do
+    from c in query,
+    where: c.card_unique_info_id != @no_card
   end
 end
