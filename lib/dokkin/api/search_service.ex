@@ -6,6 +6,7 @@ defmodule Dokkin.API.SearchService do
   use Dokkin.Constants
   use GenServer
   alias Dokkin.API.CardService
+  alias Dokkin.Repo
 
   @search_timeout 5000
 
@@ -28,6 +29,11 @@ defmodule Dokkin.API.SearchService do
   """
   @spec search(String.t) :: list
   def search(query) do
+    Repo.fetch_search(query, &do_search/1, 1)
+  end
+
+  @spec do_search(String.t) :: list
+  defp do_search(query) do
     GenServer.call(Dokkin.API.SearchService, {:search, query})
   end
 

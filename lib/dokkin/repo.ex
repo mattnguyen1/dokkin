@@ -13,8 +13,12 @@ defmodule Dokkin.Repo do
     fetch(slug, :cards_cache, fetch_fn)
   end
 
-  def fetch_cards(slug, fetch_fn, arity) do
+  def fetch_cards(slug, fetch_fn, 1) do
     fetch(slug, :cards_cache, fetch_fn, 1)
+  end
+
+  def fetch_search(slug, fetch_fn, 1) do
+    fetch(slug, :search_cache, fetch_fn, 1)
   end
 
   defp fetch(slug, cache, fetch_fn, 1) do
