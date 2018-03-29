@@ -17,6 +17,10 @@ defmodule Dokkin.API.CardService do
     get_cards_from_cache(name)
   end
 
+  def get_cards_by_id(ids) do
+    do_get_cards_by_id(ids)
+  end
+
   @doc """
   Get all the existing cards
   """
@@ -43,6 +47,13 @@ defmodule Dokkin.API.CardService do
     |> Repo.all()
   end
 
+  defp do_get_cards_by_id(ids) do
+    Card
+    |> has_ids(ids)
+    |> base_card_query()
+    |> Repo.all()
+  end
+
   @spec do_get_all_cards() :: list
   def do_get_all_cards() do
     Card
@@ -55,6 +66,7 @@ defmodule Dokkin.API.CardService do
     query
     |> card_exists()
     |> base_card()
+    |> is_resource()
     |> with_leader_skill()
     |> select_with_leader_skill()
   end
@@ -62,6 +74,11 @@ defmodule Dokkin.API.CardService do
   @spec has_name(Ecto.Queryable.t, String.t) :: Ecto.Queryable.t
   defp has_name(query, name) do
     query |> where([c], like(c.name, ^name))
+  end
+
+  defp has_ids(query, ids) do
+    query 
+    |> where([c], c.id in ^ids)
   end
 
   @spec select_with_leader_skill(Ecto.Queryable.t) :: Ecto.Queryable.t
@@ -83,6 +100,12 @@ defmodule Dokkin.API.CardService do
     where: fragment(
       "? IN (SELECT card_id FROM card_awakening_routes WHERE type != \"CardAwakeningRoute::Dokkan\")", c.id
     )
+  end
+
+  @spec is_resource(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp is_resource(query) do
+    from c in query,
+    where: c.resource_id == c.id or is_nil(c.resource_id)
   end
 
   @spec card_exists(Ecto.Queryable.t) :: Ecto.Queryable.t

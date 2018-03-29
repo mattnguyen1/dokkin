@@ -1,8 +1,6 @@
 defmodule Dokkin.Application do
   use Application
 
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
   def start(_type, _args) do
     import Supervisor.Spec
 
@@ -12,10 +10,9 @@ defmodule Dokkin.Application do
       supervisor(Dokkin.Repo, []),
       # Start the endpoint when the application starts
       supervisor(DokkinWeb.Endpoint, []),
-      # Start your own worker by calling: Dokkin.Worker.start_link(arg1, arg2, arg3)
-      # worker(Dokkin.Worker, [arg1, arg2, arg3]),
       worker(Cachex, [:cards_cache, []], id: :cards_cache),
       worker(Cachex, [:search_cache, []], id: :search_cache),
+      worker(Dokkin.API.SearchService, [Dokkin.API.SearchService])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
