@@ -1,6 +1,6 @@
 defmodule Dokkin.API.SearchService do
   @moduledoc """
-  The Search Service context.
+  Service for searching cards
   """
 
   use Dokkin.Constants
@@ -13,12 +13,12 @@ defmodule Dokkin.API.SearchService do
     GenServer.start_link(__MODULE__, [])
   end
 
+  @doc """
+  Searches the set of all cards based on the query.
+  """
+  @spec search(pid, String.t) :: list
   def search(pid, query) do
     GenServer.call(pid, {:search, query})
-  end
-
-  def get(pid) do
-    GenServer.call(pid, :get)
   end
 
   # Server
@@ -32,10 +32,6 @@ defmodule Dokkin.API.SearchService do
     {:reply, results, state}
   end
 
-  def handle_call(:get, _from, state) do
-    {:reply, state, state}
-  end
-
   def handle_call(request, from, state) do
     super(request, from, state)
   end
@@ -45,7 +41,7 @@ defmodule Dokkin.API.SearchService do
   end
 
   defp create_index() do
-    CardService.get_cards()
+    CardService.get_all_cards()
     |> Enum.map(&card_to_index/1)
   end
 
