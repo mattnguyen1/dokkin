@@ -68,6 +68,7 @@ defmodule Dokkin.API.CardService do
     |> base_card()
     |> is_resource()
     |> with_leader_skill()
+    |> order_by_atk()
     |> select_with_leader_skill()
   end
 
@@ -77,8 +78,12 @@ defmodule Dokkin.API.CardService do
   end
 
   defp has_ids(query, ids) do
-    query 
-    |> where([c], c.id in ^ids)
+    query |> where([c], c.id in ^ids)
+  end
+
+  @spec select_with_leader_skill(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp order_by_atk(query) do
+    query |> order_by([c], [desc: c.atk_max])
   end
 
   @spec select_with_leader_skill(Ecto.Queryable.t) :: Ecto.Queryable.t

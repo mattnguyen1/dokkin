@@ -13,12 +13,13 @@ defmodule Dokkin.Card do
     field :awakening_element_type, :integer
     field :card_unique_info_id, :integer
     field :resource_id, :integer
+    field :atk_max, :integer
   end
 
   @doc false
   def changeset(card, attrs) do
     card
-    |> cast(attrs, [:name, :character_id, :cost, :rarity, :element, :leader_skill_id, :awakening_element_type, :card_unique_info_id, :resource_id])
-    |> validate_required([:name, :character_id, :cost, :rarity, :element, :leader_skill_id, :awakening_element_type, :card_unique_infos, :resource_id])
+    |> cast(attrs, [:name, :character_id, :cost, :rarity, :element, :leader_skill_id, :awakening_element_type, :card_unique_info_id, :resource_id, :atk_max])
+    |> validate_required([:name, :character_id, :cost, :rarity, :element, :leader_skill_id, :awakening_element_type, :card_unique_infos, :resource_id, :atk_max])
   end
 end
