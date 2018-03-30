@@ -13,18 +13,34 @@ defmodule Dokkin.API.CardService do
   Get cards that match the given name
   """
   @spec get_cards(String.t) :: list
+
   def get_cards(name) do
     get_cards_from_cache(name)
   end
+
+  @doc """
+  Get cards matching all the given ids
+  """
+  @spec get_cards_by_id(list) :: list
 
   def get_cards_by_id(ids) do
     do_get_cards_by_id(ids)
   end
 
   @doc """
+  Get a single card matching the given id
+  """
+  @spec get_card_by_id(integer) :: Card.t
+
+  def get_card_by_id(id) do
+    List.first(do_get_cards_by_id([id]))
+  end
+
+  @doc """
   Get all the existing cards
   """
   @spec get_all_cards() :: list
+
   def get_all_cards() do
     get_all_cards_from_cache()
   end

@@ -4,11 +4,11 @@ defmodule DokkinWeb.API.CardView do
 
   def render("index.json", %{cards: cards}) do
     %{
-      cards: render_many(cards, DokkinWeb.API.CardView, "card.json")
+      cards: render_many(cards, DokkinWeb.API.CardView, "show.json")
     }
   end
 
-  def render("card.json", %{card: {card, leader_skill}}) do
+  def render("show.json", %{card: {card, leader_skill}}) do
     %{
       id: card.id,
       name: card.name,
