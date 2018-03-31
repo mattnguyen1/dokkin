@@ -29,7 +29,9 @@ defmodule Dokkin.API.SearchService do
   """
   @spec search(String.t) :: list
   def search(query) do
-    Repo.fetch_search(query, &do_search/1, 1)
+    Benchmark.measure("Dokkin.API.SearchService.search()", fn ->
+      Repo.fetch_search(query, &do_search/1, 1)
+    end)
   end
 
   @spec do_search(String.t) :: list
@@ -76,14 +78,35 @@ defmodule Dokkin.API.SearchService do
     |> Enum.map(&card_to_index/1)
   end
 
-  defp card_to_index(%{card: card, leader_skill: leader_skill}) do
+  defp card_to_index(%{
+    card: card,
+    leader_skill: leader_skill,
+    link1: link1,
+    link2: link2,
+    link3: link3,
+    link4: link4,
+    link5: link5,
+    link6: link6,
+    link7: link7,
+    cat1: cat1,
+    cat2: cat2,
+    cat3: cat3,
+    cat4: cat4,
+    cat5: cat5,
+    cat6: cat6
+  }) do
+    alliance = Atom.to_string(@alliance_types[card.awakening_element_type])
+    type = Atom.to_string(@element[rem(card.element,10)])
     %{
       id: card.id,
       name: Enum.join([
-        Atom.to_string(@alliance_types[card.awakening_element_type]),
-        Atom.to_string(@element[rem(card.element,10)]),
+        alliance, type,
         WordSmith.remove_accents(leader_skill),
-        WordSmith.remove_accents(card.name)], " ")
+        WordSmith.remove_accents(card.name)], " "),
+      links: Enum.reject([link1, link2, link3, link4, link5, link6], &is_nil/1),
+      categories: Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1),
+      alliance: alliance,
+      type: type
     }
   end
 

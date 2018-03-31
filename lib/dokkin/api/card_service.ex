@@ -26,7 +26,9 @@ defmodule Dokkin.API.CardService do
   @spec get_cards_by_id(list) :: list
 
   def get_cards_by_id(ids) do
-    do_get_cards_by_id(ids)
+    Benchmark.measure("Dokkin.API.CardService.get_cards_by_id()", fn ->
+      do_get_cards_by_id(ids)
+    end)
   end
 
   @doc """
@@ -75,12 +77,23 @@ defmodule Dokkin.API.CardService do
   @spec do_get_all_cards() :: list
   def do_get_all_cards() do
     Card
-    |> base_card_query()
+    |> search_index_query()
     |> Repo.all()
   end
 
   @spec base_card_query(Ecto.Queryable.t) :: Ecto.Queryable.t
   defp base_card_query(query) do
+    query
+    |> card_exists()
+    |> base_card()
+    |> is_resource()
+    |> with_leader_skill()
+    |> order_by_atk()
+    |> select_with_leader_skill()
+  end
+
+  @spec search_index_query(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp search_index_query(query) do
     query
     |> card_exists()
     |> base_card()
@@ -124,6 +137,15 @@ defmodule Dokkin.API.CardService do
       cat4: cat4.name,
       cat5: cat5.name,
       cat6: cat6.name
+    }
+  end
+
+  @spec select_with_leader_skill(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp select_with_leader_skill(query) do
+    from [c, ls] in query,
+    select: %{
+      card: c,
+      leader_skill: ls.name
     }
   end
 
