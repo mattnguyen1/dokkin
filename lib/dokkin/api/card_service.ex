@@ -7,6 +7,8 @@ defmodule Dokkin.API.CardService do
   alias Dokkin.Repo
   alias Dokkin.Card
   alias Dokkin.LeaderSkill
+  alias Dokkin.LinkSkills
+  alias Dokkin.Categories
   @no_card_unique_id 9999
 
   @doc """
@@ -83,9 +85,9 @@ defmodule Dokkin.API.CardService do
     |> card_exists()
     |> base_card()
     |> is_resource()
-    |> with_leader_skill()
+    |> with_text()
     |> order_by_atk()
-    |> select_with_leader_skill()
+    |> select_with_all_text()
   end
 
   @spec has_name(Ecto.Queryable.t, String.t) :: Ecto.Queryable.t
@@ -97,15 +99,51 @@ defmodule Dokkin.API.CardService do
     query |> where([c], c.id in ^ids)
   end
 
-  @spec select_with_leader_skill(Ecto.Queryable.t) :: Ecto.Queryable.t
+  @spec order_by_atk(Ecto.Queryable.t) :: Ecto.Queryable.t
   defp order_by_atk(query) do
     query |> order_by([c], [desc: c.atk_max])
   end
 
-  @spec select_with_leader_skill(Ecto.Queryable.t) :: Ecto.Queryable.t
-  defp select_with_leader_skill(query) do
-    from [c, ls] in query,
-    select: {c, ls.name}
+  @spec select_with_all_text(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp select_with_all_text(query) do
+    from [c, ls, link1, link2, link3, link4, link5, link6, link7,
+          cat1, cat2, cat3, cat4, cat5, cat6] in query,
+    select: %{
+      card: c,
+      leader_skill: ls.name,
+      link1: link1.name,
+      link2: link2.name,
+      link3: link3.name,
+      link4: link4.name,
+      link5: link5.name,
+      link6: link6.name,
+      link7: link7.name,
+      cat1: cat1.name,
+      cat2: cat2.name,
+      cat3: cat3.name,
+      cat4: cat4.name,
+      cat5: cat5.name,
+      cat6: cat6.name
+    }
+  end
+
+  @spec with_text(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp with_text(query) do
+    from c in query,
+    left_join: ls in LeaderSkill, on: c.leader_skill_id == ls.id,
+    left_join: link1 in LinkSkills, on: c.link_skill1_id == link1.id,
+    left_join: link2 in LinkSkills, on: c.link_skill2_id == link2.id,
+    left_join: link3 in LinkSkills, on: c.link_skill3_id == link3.id,
+    left_join: link4 in LinkSkills, on: c.link_skill4_id == link4.id,
+    left_join: link5 in LinkSkills, on: c.link_skill5_id == link5.id,
+    left_join: link6 in LinkSkills, on: c.link_skill6_id == link6.id,
+    left_join: link7 in LinkSkills, on: c.link_skill7_id == link7.id,
+    left_join: cat1 in Categories, on: c.card_category1_id == cat1.id,
+    left_join: cat2 in Categories, on: c.card_category2_id == cat2.id,
+    left_join: cat3 in Categories, on: c.card_category3_id == cat3.id,
+    left_join: cat4 in Categories, on: c.card_category4_id == cat4.id,
+    left_join: cat5 in Categories, on: c.card_category5_id == cat5.id,
+    left_join: cat6 in Categories, on: c.card_category6_id == cat6.id
   end
 
   @spec with_leader_skill(Ecto.Queryable.t) :: Ecto.Queryable.t

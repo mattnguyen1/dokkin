@@ -76,7 +76,7 @@ defmodule Dokkin.API.SearchService do
     |> Enum.map(&card_to_index/1)
   end
 
-  defp card_to_index({card, leader_skill}) do
+  defp card_to_index(%{card: card, leader_skill: leader_skill}) do
     %{
       id: card.id,
       name: Enum.join([
