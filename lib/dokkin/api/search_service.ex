@@ -64,7 +64,8 @@ defmodule Dokkin.API.SearchService do
   def handle_call({:search, query}, _from, state) do
     query = query |> WordSmith.remove_accents()
     results = Benchmark.measure("Dokkin.API.SearchService.handle_call(:search)::filter", fn -> 
-      Enum.filter(state, fn(card) -> Regex.match?(regex_search(query), card.name) end) end)
+      Enum.filter(state, fn(card) -> Regex.match?(regex_search(query), card.name) end)
+    end)
     |> Enum.reduce([], fn(card, acc) -> [card.id | acc] end)
     |> CardService.get()
     {:reply, results, state}

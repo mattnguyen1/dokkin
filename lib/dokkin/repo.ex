@@ -9,18 +9,39 @@ defmodule Dokkin.Repo do
     {:ok, Keyword.put(opts, :url, System.get_env("DATABASE_URL"))}
   end
 
+  @doc """
+  Fetch cards from cache, or get from db
+  and insert into cache if it misses.
+  """
+  @spec fetch_cards(String.t, fun) :: list
+
   def fetch_cards(slug, fetch_fn) do
     fetch(slug, :cards_cache, fetch_fn)
   end
+
+  @doc """
+  Fetch cards from cache with the slug passed into
+  the fetch function, or get from db and insert
+  into the cache if it misses.
+  """
+  @spec fetch_cards(String.t, fun, integer) :: list
 
   def fetch_cards(slug, fetch_fn, 1) do
     fetch(slug, :cards_cache, fetch_fn, 1)
   end
 
+  @doc """
+  Fetch cards from the search cache with the slug query
+  passed into the fetch function, or get from db and insert
+  into the cache if it misses.
+  """
+  @spec fetch_search(String.t, fun, integer) :: list
+
   def fetch_search(slug, fetch_fn, 1) do
     fetch(slug, :search_cache, fetch_fn, 1)
   end
 
+  @spec fetch(String.t, atom, fun, integer) :: list
   defp fetch(slug, cache, fetch_fn, 1) do
     Cachex.fetch(cache, slug, fn(slug) ->
       fetch_fn.(slug)
@@ -31,6 +52,7 @@ defmodule Dokkin.Repo do
     end
   end
 
+  @spec fetch(String.t, atom, fun) :: list 
   defp fetch(slug, cache, fetch_fn) do
     Cachex.fetch(cache, slug, fn(slug) ->
       fetch_fn.()
