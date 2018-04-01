@@ -5,7 +5,7 @@ defmodule DokkinWeb.API.CardController do
   alias Dokkin.API.CardService
 
   def index(conn, params) do
-    render conn, "index.json", %{cards: SearchService.search(params["name"])}
+    render conn, "index.json", %{cards: SearchService.search(params["search_q"])}
   end
 
   def show(conn, %{"id" => id}) do

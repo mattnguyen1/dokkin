@@ -7,10 +7,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Dokk.in</title>
-    <%# <%= {:safe, css_link_tag()} %>
+    <title>dokk.in</title>
     <%= if Mix.env == :prod do %>
       <link rel="stylesheet" href="<%= static_path(@conn, "/css/bundle.css") %>">
+      <link rel="icon" href="<%= static_path(@conn, "/favicon.png") %>">
+    <% else %>
+      <link rel="icon" href="http://localhost:8080/favicon.png">
     <% end %>
   </head>
 

@@ -6,6 +6,7 @@ const Card = ({id, name, element, rarity, rarity_string, leader_skill}) => {
   const cardStyle = {
     backgroundImage: `url(${getThumbnailBGUrl(element, rarity)})`
   }
+  
   return (
     <div className="card" data-type-id={id} title={leader_skill + " " + name}>
       <div className="card-frame" style={cardStyle}>

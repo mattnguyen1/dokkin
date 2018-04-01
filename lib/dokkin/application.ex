@@ -12,7 +12,7 @@ defmodule Dokkin.Application do
       supervisor(DokkinWeb.Endpoint, []),
       worker(Cachex, [:cards_cache, []], id: :cards_cache),
       worker(Cachex, [:search_cache, []], id: :search_cache),
-      worker(Dokkin.API.SearchService, [Dokkin.API.SearchService])
+      worker(Dokkin.API.SearchService.Supervisor, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

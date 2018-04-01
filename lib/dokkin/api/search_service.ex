@@ -14,8 +14,8 @@ defmodule Dokkin.API.SearchService do
   ### Client ###
   ##############
 
-  def start_link(name \\ nil) do
-    GenServer.start_link(__MODULE__, nil, [name: name])
+  def start_link(args \\ nil) do
+    GenServer.start_link(__MODULE__, args)
   end
 
   @doc """
@@ -38,20 +38,12 @@ defmodule Dokkin.API.SearchService do
 
   @spec do_search(String.t) :: list
   defp do_search(query) do
-    GenServer.call(Dokkin.API.SearchService, {:search, query})
+    :poolboy.transaction(
+      :search_pool,
+      fn(pid) -> GenServer.call(pid, {:search, query}) end,
+      @search_timeout
+    )
   end
-
-  # @doc """
-  # Searches the set of all cards based on the query.
-  # """  
-  # @spec search(String.t) :: list
-  # def search(query) do
-  #   :poolboy.transaction(
-  #     :search_worker,
-  #     fn(pid) -> GenServer.call(pid, {:search, query}) end,
-  #     @search_timeout
-  #   )
-  # end
 
   ##############
   ### Server ###

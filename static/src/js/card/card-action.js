@@ -9,7 +9,7 @@ export function fetchCardsSuccess(cards) {
 
 export function fetchCards(name) {
   return (dispatch) => {
-    fetch('/api/cards?name=' + name)
+    fetch('/api/cards?search_q=' + name)
       .then((response) => response.json())
       .then((responseBody) => {
         dispatch(fetchCardsSuccess(responseBody.cards));
