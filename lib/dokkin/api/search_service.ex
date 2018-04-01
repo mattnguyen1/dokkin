@@ -3,14 +3,16 @@ defmodule Dokkin.API.SearchService do
   Service for searching cards
   """
 
-  use Dokkin.Constants
   use GenServer
+  use Dokkin.Constants
   alias Dokkin.API.CardService
   alias Dokkin.Repo
 
   @search_timeout 5000
 
-  # Client
+  ##############
+  ### Client ###
+  ##############
 
   def start_link(name \\ nil) do
     GenServer.start_link(__MODULE__, nil, [name: name])
@@ -51,17 +53,20 @@ defmodule Dokkin.API.SearchService do
   #   )
   # end
 
-  # Server
+  ##############
+  ### Server ###
+  ##############
 
-  def init(args) do
+  def init(_) do
     {:ok, create_index()}
   end
 
   def handle_call({:search, query}, _from, state) do
     query = query |> WordSmith.remove_accents()
-    results = Enum.filter(state, fn(card) -> Regex.match?(search_regex(query), card.name) end)
+    results = Benchmark.measure("Dokkin.API.SearchService.handle_call(:search)::filter", fn -> 
+      Enum.filter(state, fn(card) -> Regex.match?(regex_search(query), card.name) end) end)
     |> Enum.reduce([], fn(card, acc) -> [card.id | acc] end)
-    |> CardService.get_cards_by_id()
+    |> CardService.get()
     {:reply, results, state}
   end
 
@@ -73,11 +78,13 @@ defmodule Dokkin.API.SearchService do
     super(request, state)
   end
 
+  @spec create_index() :: list
   defp create_index() do
-    CardService.get_all_cards()
+    CardService.get_all()
     |> Enum.map(&card_to_index/1)
   end
 
+  @spec card_to_index(map) :: map
   defp card_to_index(%{
     card: card,
     leader_skill: leader_skill,
@@ -103,17 +110,18 @@ defmodule Dokkin.API.SearchService do
         alliance, type,
         WordSmith.remove_accents(leader_skill),
         WordSmith.remove_accents(card.name)], " "),
-      links: Enum.reject([link1, link2, link3, link4, link5, link6], &is_nil/1),
+      links: Enum.reject([link1, link2, link3, link4, link5, link6, link7], &is_nil/1),
       categories: Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1),
       alliance: alliance,
       type: type
     }
   end
 
-  defp search_regex(query) do
+  @spec regex_search(String.t) :: Regex.t
+  defp regex_search(query) do
     query
     |> String.split(" ")
-    |> Enum.reduce("", fn(token, acc) -> acc <> search_lookahead_regex(token) end)
+    |> Enum.reduce("", fn(token, acc) -> acc <> regex_single_search_token(token) end)
     |> Regex.compile("i")
     |> case do
         {:ok, regex} -> regex
@@ -121,7 +129,8 @@ defmodule Dokkin.API.SearchService do
       end
   end
 
-  defp search_lookahead_regex(query_token) do
+  @spec regex_single_search_token(String.t) :: String.t
+  defp regex_single_search_token(query_token) do
     "(?=.*#{query_token})"
   end
 end

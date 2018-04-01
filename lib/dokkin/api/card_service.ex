@@ -11,104 +11,110 @@ defmodule Dokkin.API.CardService do
   alias Dokkin.Categories
   @no_card_unique_id 9999
 
+  ##############
+  ### Client ###
+  ##############
+
   @doc """
   Get cards that match the given name
   """
-  @spec get_cards(String.t) :: list
+  @spec get(map) :: list
 
-  def get_cards(name) do
-    get_cards_from_cache(name)
-  end
-
-  @doc """
-  Get cards matching all the given ids
-  """
-  @spec get_cards_by_id(list) :: list
-
-  def get_cards_by_id(ids) do
-    Benchmark.measure("Dokkin.API.CardService.get_cards_by_id()", fn ->
-      do_get_cards_by_id(ids)
-    end)
+  def get(%{name: name}) do
+    cache_get(name)
   end
 
   @doc """
   Get a single card matching the given id
   """
-  @spec get_card_by_id(integer) :: Card.t
+  @spec get(map) :: Card.t
 
-  def get_card_by_id(id) do
-    List.first(do_get_cards_by_id([id]))
+  def get(%{id: id}) do
+    List.first(do_get([id]))
+  end
+
+  @doc """
+  Get cards matching all the given ids
+  """
+  @spec get(list) :: list
+
+  def get(ids) when is_list(ids) do
+    Benchmark.measure("Dokkin.API.CardService.get(ids)", fn ->
+      do_get(ids)
+    end)
   end
 
   @doc """
   Get all the existing cards
   """
-  @spec get_all_cards() :: list
+  @spec get_all() :: list
 
-  def get_all_cards() do
-    get_all_cards_from_cache()
+  def get_all() do
+    cache_get_all()
   end
 
-  @spec get_cards_from_cache(String.t) :: list
-  defp get_cards_from_cache(name) do
-    Repo.fetch_cards(name, &do_get_cards/1, 1)
+  @spec cache_get(String.t) :: list
+  defp cache_get(name) do
+    Repo.fetch_cards(name, &do_get/1, 1)
   end
 
-  @spec get_all_cards_from_cache() :: list
-  defp get_all_cards_from_cache() do
-    Repo.fetch_cards("all_cards", &do_get_all_cards/0)
+  @spec cache_get_all() :: list
+  defp cache_get_all() do
+    Repo.fetch_cards("all_cards", &do_get_all/0)
   end
 
-  @spec do_get_cards(String.t) :: list
-  defp do_get_cards(name) do
+  ###############
+  ### Queries ###
+  ###############
+
+  @spec do_get(String.t) :: list
+  defp do_get(name) when is_binary(name) do
     Card
-    |> has_name(name)
-    |> base_card_query()
+    |> by_name(name)
+    |> query_minimal()
     |> Repo.all()
   end
 
-  defp do_get_cards_by_id(ids) do
+  @spec do_get(list) :: list
+  defp do_get(ids) when is_list(ids) do
     Card
-    |> has_ids(ids)
-    |> base_card_query()
+    |> by_ids(ids)
+    |> query_minimal()
     |> Repo.all()
   end
 
-  @spec do_get_all_cards() :: list
-  def do_get_all_cards() do
+  @spec do_get_all() :: list
+  def do_get_all() do
     Card
-    |> search_index_query()
+    |> query_detailed()
     |> Repo.all()
   end
 
-  @spec base_card_query(Ecto.Queryable.t) :: Ecto.Queryable.t
-  defp base_card_query(query) do
+  @spec query_minimal(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp query_minimal(query) do
     query
-    |> card_exists()
-    |> base_card()
-    |> is_resource()
-    |> with_leader_skill()
+    |> join_leader_skill()
+    |> by_base_awakening()
     |> order_by_atk()
     |> select_with_leader_skill()
   end
 
-  @spec search_index_query(Ecto.Queryable.t) :: Ecto.Queryable.t
-  defp search_index_query(query) do
+  @spec query_detailed(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp query_detailed(query) do
     query
-    |> card_exists()
-    |> base_card()
-    |> is_resource()
-    |> with_text()
+    |> join_all()
+    |> by_base_awakening()
     |> order_by_atk()
-    |> select_with_all_text()
+    |> select_all()
   end
 
-  @spec has_name(Ecto.Queryable.t, String.t) :: Ecto.Queryable.t
-  defp has_name(query, name) do
+  @spec by_name(Ecto.Queryable.t, String.t) :: Ecto.Queryable.t
+  defp by_name(query, name) do
     query |> where([c], like(c.name, ^name))
   end
 
-  defp has_ids(query, ids) do
+  @spec by_ids(Ecto.Queryable.t, list) :: Ecto.Queryable.t
+  defp by_ids(query, ids) do
     query |> where([c], c.id in ^ids)
   end
 
@@ -117,8 +123,8 @@ defmodule Dokkin.API.CardService do
     query |> order_by([c], [desc: c.atk_max])
   end
 
-  @spec select_with_all_text(Ecto.Queryable.t) :: Ecto.Queryable.t
-  defp select_with_all_text(query) do
+  @spec select_all(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp select_all(query) do
     from [c, ls, link1, link2, link3, link4, link5, link6, link7,
           cat1, cat2, cat3, cat4, cat5, cat6] in query,
     select: %{
@@ -149,8 +155,8 @@ defmodule Dokkin.API.CardService do
     }
   end
 
-  @spec with_text(Ecto.Queryable.t) :: Ecto.Queryable.t
-  defp with_text(query) do
+  @spec join_all(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp join_all(query) do
     from c in query,
     left_join: ls in LeaderSkill, on: c.leader_skill_id == ls.id,
     left_join: link1 in LinkSkills, on: c.link_skill1_id == link1.id,
@@ -168,30 +174,20 @@ defmodule Dokkin.API.CardService do
     left_join: cat6 in Categories, on: c.card_category6_id == cat6.id
   end
 
-  @spec with_leader_skill(Ecto.Queryable.t) :: Ecto.Queryable.t
-  defp with_leader_skill(query) do
+  @spec join_leader_skill(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp join_leader_skill(query) do
     from c in query,
     join: ls in LeaderSkill,
     where: c.leader_skill_id == ls.id
   end
 
-  @spec base_card(Ecto.Queryable.t) :: Ecto.Queryable.t
-  defp base_card(query) do
+  @spec by_base_awakening(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp by_base_awakening(query) do
     from c in query,
     where: fragment(
       "? IN (SELECT card_id FROM card_awakening_routes WHERE type != \"CardAwakeningRoute::Dokkan\")", c.id
-    )
-  end
-
-  @spec is_resource(Ecto.Queryable.t) :: Ecto.Queryable.t
-  defp is_resource(query) do
-    from c in query,
-    where: c.resource_id == c.id or is_nil(c.resource_id)
-  end
-
-  @spec card_exists(Ecto.Queryable.t) :: Ecto.Queryable.t
-  defp card_exists(query) do
-    from c in query,
+    ),
+    where: c.resource_id == c.id or is_nil(c.resource_id),
     where: c.card_unique_info_id != @no_card_unique_id
   end
 end
