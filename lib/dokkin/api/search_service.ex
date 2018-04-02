@@ -140,6 +140,16 @@ defmodule Dokkin.API.SearchService do
   defp contains_all?(query, text) do
     query
     |> String.split(" ")
-    |> Enum.all?(fn(token) -> String.contains?(text, token) end)
+    |> Enum.all?(fn(token) -> 
+      String.contains?(text, normalize_contains_all_token(token))
+    end)
+  end
+
+  defp normalize_contains_all_token(token) do
+    if token == "ss" do
+      " ss "
+    else 
+      token
+    end
   end
 end
