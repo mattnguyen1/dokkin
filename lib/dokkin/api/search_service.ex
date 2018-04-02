@@ -54,9 +54,9 @@ defmodule Dokkin.API.SearchService do
   end
 
   def handle_call({:search, query}, _from, state) do
-    query = query |> WordSmith.remove_accents()
+    query = normalize(query)
     results = Benchmark.measure("Dokkin.API.SearchService.handle_call(:search)::filter", fn -> 
-      Enum.filter(state, fn(card) -> Regex.match?(regex_search(query), card.name) end)
+      Enum.filter(state, fn(card) -> contains_all?(query, card.name) end)
     end)
     |> Enum.reduce([], fn(card, acc) -> [card.id | acc] end)
     |> CardService.get()
@@ -99,10 +99,7 @@ defmodule Dokkin.API.SearchService do
     type = Atom.to_string(@element[rem(card.element,10)])
     %{
       id: card.id,
-      name: Enum.join([
-        alliance, type,
-        WordSmith.remove_accents(leader_skill),
-        WordSmith.remove_accents(card.name)], " "),
+      name: Enum.join([alliance, type, normalize(leader_skill), normalize(card.name)], " "),
       links: Enum.reject([link1, link2, link3, link4, link5, link6, link7], &is_nil/1),
       categories: Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1),
       alliance: alliance,
@@ -110,20 +107,17 @@ defmodule Dokkin.API.SearchService do
     }
   end
 
-  @spec regex_search(String.t) :: Regex.t
-  defp regex_search(query) do
-    query
-    |> String.split(" ")
-    |> Enum.map_join("", fn(token) -> regex_single_search_token(token) end)
-    |> Regex.compile("i")
-    |> case do
-        {:ok, regex} -> regex
-        _ -> nil
-      end
+  @spec normalize(String.t) :: String.t
+  defp normalize(text) do
+    text
+    |> WordSmith.remove_accents
+    |> String.downcase
   end
 
-  @spec regex_single_search_token(String.t) :: String.t
-  defp regex_single_search_token(query_token) do
-    "(#{query_token}.*?)"
+  @spec contains_all?(String.t, String.t) :: boolean
+  defp contains_all?(query, text) do
+    query
+    |> String.split(" ")
+    |> Enum.all?(fn(token) -> String.contains?(text, token) end)
   end
 end
