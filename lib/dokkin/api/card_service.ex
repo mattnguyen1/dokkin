@@ -10,6 +10,7 @@ defmodule Dokkin.API.CardService do
   alias Dokkin.LinkSkills
   alias Dokkin.Categories
   alias Dokkin.AwakeningRoutes
+  alias Dokkin.PassiveSkillSet
   @no_card_unique_id 9999
 
   ##############
@@ -126,12 +127,13 @@ defmodule Dokkin.API.CardService do
 
   @spec select_all(Ecto.Queryable.t) :: Ecto.Queryable.t
   defp select_all(query) do
-    from [c, ls, a, link1, link2, link3, link4, link5, link6, link7,
+    from [c, ls, a, p, link1, link2, link3, link4, link5, link6, link7,
           cat1, cat2, cat3, cat4, cat5, cat6] in query,
     select: %{
       card: c,
       leader_skill: ls.name,
       leader_skill_description: ls.description,
+      passive_description: p.description,
       link1: link1.name,
       link2: link2.name,
       link3: link3.name,
@@ -162,6 +164,7 @@ defmodule Dokkin.API.CardService do
     from c in query,
     join: ls in LeaderSkill, on: c.leader_skill_id == ls.id,
     join: a in AwakeningRoutes, on: a.card_id == c.id,
+    left_join: p in PassiveSkillSet, on: c.passive_skill_set_id == p.id,
     left_join: link1 in LinkSkills, on: c.link_skill1_id == link1.id,
     left_join: link2 in LinkSkills, on: c.link_skill2_id == link2.id,
     left_join: link3 in LinkSkills, on: c.link_skill3_id == link3.id,

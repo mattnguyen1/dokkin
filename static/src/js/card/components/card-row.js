@@ -21,6 +21,9 @@ const CardRow = (props) => {
           <div className="card-row-detail-item">
             <span className="card-row-detail-title">Leader Skill: </span>{props.leader_skill_description}
           </div>
+          <div className="card-row-detail-item">
+            <span className="card-row-detail-title">Passive: </span>{props.passive_description}
+          </div>
         </div>
       </div>
     </div>
