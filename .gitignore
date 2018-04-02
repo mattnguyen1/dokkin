@@ -6,8 +6,10 @@
 node_modules/
 /static/src/node_modules/
 dist/
-/priv/static
-!/priv/static/favicon.png
+/priv/static/css
+/priv/static/js
+/priv/static/cache_manifest.json
+/priv/static/favicon-*
 
 # Generated on crash by the VM
 erl_crash.dump
