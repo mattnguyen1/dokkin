@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Card from './card';
+import CardRow from './card-row';
 
 class CardGrid extends Component {
+
+  componentDidMount() {
+    this.props.fetchCards("goku");
+  }
 
   render() {
     const { cards } = this.props;
@@ -10,7 +14,7 @@ class CardGrid extends Component {
       <div className="card-grid">
         {
           cards && cards.map((item) => 
-            <Card 
+            <CardRow
               key={item.id}
               {...item}
             />
@@ -22,7 +26,8 @@ class CardGrid extends Component {
 }
 
 CardGrid.propTypes = {
-  cards: PropTypes.arrayOf(PropTypes.any)
+  cards: PropTypes.arrayOf(PropTypes.any),
+  fetchCards: PropTypes.func
 }
 
 export default CardGrid;

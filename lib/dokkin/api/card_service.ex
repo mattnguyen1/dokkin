@@ -80,7 +80,7 @@ defmodule Dokkin.API.CardService do
   defp do_get(ids) when is_list(ids) do
     Card
     |> by_ids(ids)
-    |> query_minimal()
+    |> query_detailed()
     |> Repo.all()
   end
 
@@ -131,6 +131,7 @@ defmodule Dokkin.API.CardService do
     select: %{
       card: c,
       leader_skill: ls.name,
+      leader_skill_description: ls.description,
       link1: link1.name,
       link2: link2.name,
       link3: link3.name,

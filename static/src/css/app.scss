@@ -1,14 +1,23 @@
+// Colors
 $grey: #36393F;
 $light-grey: #484B51;
+$dark-grey: #2F3136;
 $white: #fff;
+$light-blue: #93cddc;
+$offwhite: hsla(0,0%,100%,.7);
+
+// Fonts
 $font: "Helvetica Neue", "Helvetica", "sans-sarif";
-$font-medium: 12px;
+$font-small: 12px;
+$font-medium: 14px;
 
 body {
   background-color: $grey;
-  color: $white;
+  color: $offwhite;
   font-family: $font;
   font-size: $font-medium;
+  letter-spacing: .6px;
+  font-weight: 300;
 }
 
 .app-container {
@@ -21,11 +30,39 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  max-width: 100%;
+}
+
+.card-row {
+  background-color: $dark-grey;
+  max-width: 100%;
+  width: 500px;
+  display: flex;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 9px;
+
+  .card-row-right {
+    margin-left: 20px;
+  }
+
+  .card-row-title {
+    font-size: $font-small;
+    color: $light-blue;
+  }
+
+  .card-row-details {
+    margin-top: 10px;
+    font-size: $font-small;
+
+    .card-row-detail-title {
+      font-weight: bold;    
+    }
+  }
 }
 
 .card {
   height: auto;
-  margin: 10px;
 
   .card-character { 
     width: 100px;

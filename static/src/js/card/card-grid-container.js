@@ -7,4 +7,8 @@ const mapStateToProps = (state) => ({
   searchInput: state.searchReducer.input
 })
 
-export default connect(mapStateToProps)(CardGrid)
+const mapDispatchToProps = (dispatch) => ({
+  fetchCards: (name) => dispatch(fetchCards(name))  
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardGrid)

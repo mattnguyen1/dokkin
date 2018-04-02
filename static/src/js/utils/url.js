@@ -87,6 +87,14 @@ export function getThumbnailUrl(cardId) {
 };
 
 /**
+ * Return the url for a card's fallback image
+ * @returns {string}
+ */
+export function getFallbackThumbnailUrl() {
+  return DOKKIN_S3_BASE_URL + THUMBNAIL_URL_PATH + '/card_0000000_thumb.png';
+};
+
+/**
  * Return the url for a card's background
  * @param {int} element - type of card element (ex: str, teq, etc.)
  * @param {int} rarity  - rarity of the card (ex: r, ssr, lr, etc.)

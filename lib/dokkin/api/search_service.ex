@@ -9,6 +9,18 @@ defmodule Dokkin.API.SearchService do
   alias Dokkin.Repo
 
   @search_timeout 5000
+  @aliases %{
+    "ssj" => "super saiyan",
+    "ss2" => "super saiyan 2",
+    "ssj2" => "super saiyan 2",
+    "ss3" => "super saiyan 3",
+    "ssj3" => "super saiyan 3",
+    "ss4" => "super saiyan 4",
+    "ssj4" => "super saiyan 4",
+    "ssb" => "super saiyan god ss",
+    "vb" => "super saiyan god ss vegito",
+    "buuhan" => "majin buu (ultimate gohan)"
+  }
 
   ##############
   ### Client ###
@@ -54,7 +66,7 @@ defmodule Dokkin.API.SearchService do
   end
 
   def handle_call({:search, query}, _from, state) do
-    query = normalize(query)
+    query = normalize(query) |> IO.inspect
     results = Benchmark.measure("Dokkin.API.SearchService.handle_call(:search)::filter", fn -> 
       Enum.filter(state, fn(card) -> contains_all?(query, card.name) end)
     end)
@@ -95,11 +107,12 @@ defmodule Dokkin.API.SearchService do
     cat5: cat5,
     cat6: cat6
   }) do
+    rarity = Atom.to_string(@rarity[card.rarity])
     alliance = Atom.to_string(@alliance_types[card.awakening_element_type])
     type = Atom.to_string(@element[rem(card.element,10)])
     %{
       id: card.id,
-      name: Enum.join([alliance, type, normalize(leader_skill), normalize(card.name)], " "),
+      name: Enum.join([rarity, alliance, type, normalize(leader_skill), normalize(card.name)], " "),
       links: Enum.reject([link1, link2, link3, link4, link5, link6, link7], &is_nil/1),
       categories: Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1),
       alliance: alliance,
@@ -112,6 +125,15 @@ defmodule Dokkin.API.SearchService do
     text
     |> WordSmith.remove_accents
     |> String.downcase
+    |> String.split(" ")
+    |> Enum.map_join(" ", fn(token) -> 
+      token_alias = @aliases[token]
+      if (token_alias) do
+        token_alias
+      else
+        token
+      end
+    end)
   end
 
   @spec contains_all?(String.t, String.t) :: boolean
