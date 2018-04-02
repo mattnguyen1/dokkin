@@ -173,14 +173,16 @@ defmodule Dokkin.API.CardService do
     left_join: cat3 in Categories, on: c.card_category3_id == cat3.id,
     left_join: cat4 in Categories, on: c.card_category4_id == cat4.id,
     left_join: cat5 in Categories, on: c.card_category5_id == cat5.id,
-    left_join: cat6 in Categories, on: c.card_category6_id == cat6.id
+    left_join: cat6 in Categories, on: c.card_category6_id == cat6.id,
+    where: a.type != "CardAwakeningRoute::Dokkan"
   end
 
   @spec join_minimal(Ecto.Queryable.t) :: Ecto.Queryable.t
   defp join_minimal(query) do
     from c in query,
     join: ls in LeaderSkill, on: c.leader_skill_id == ls.id,
-    join: a in AwakeningRoutes, on: c.id == a.card_id
+    join: a in AwakeningRoutes, on: c.id == a.card_id,
+    where: a.type != "CardAwakeningRoute::Dokkan"
   end
 
   @spec by_base_awakening(Ecto.Queryable.t) :: Ecto.Queryable.t
