@@ -9,7 +9,7 @@ dist/
 /priv/static/css
 /priv/static/js
 /priv/static/cache_manifest.json
-/priv/static/favicon-*
+/priv/static/images/favicon-*
 
 # Generated on crash by the VM
 erl_crash.dump
