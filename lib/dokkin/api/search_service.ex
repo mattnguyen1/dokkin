@@ -114,7 +114,7 @@ defmodule Dokkin.API.SearchService do
   defp regex_search(query) do
     query
     |> String.split(" ")
-    |> Enum.reduce("", fn(token, acc) -> acc <> regex_single_search_token(token) end)
+    |> Enum.map_join("", fn(token) -> regex_single_search_token(token) end)
     |> Regex.compile("i")
     |> case do
         {:ok, regex} -> regex
@@ -124,6 +124,6 @@ defmodule Dokkin.API.SearchService do
 
   @spec regex_single_search_token(String.t) :: String.t
   defp regex_single_search_token(query_token) do
-    "(?=.*#{query_token})"
+    "(#{query_token}.*?)"
   end
 end
