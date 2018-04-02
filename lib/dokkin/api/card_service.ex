@@ -9,6 +9,7 @@ defmodule Dokkin.API.CardService do
   alias Dokkin.LeaderSkill
   alias Dokkin.LinkSkills
   alias Dokkin.Categories
+  alias Dokkin.AwakeningRoutes
   @no_card_unique_id 9999
 
   ##############
@@ -93,10 +94,10 @@ defmodule Dokkin.API.CardService do
   @spec query_minimal(Ecto.Queryable.t) :: Ecto.Queryable.t
   defp query_minimal(query) do
     query
-    |> join_leader_skill()
+    |> join_minimal()
     |> by_base_awakening()
     |> order_by_atk()
-    |> select_with_leader_skill()
+    |> select_minimal()
   end
 
   @spec query_detailed(Ecto.Queryable.t) :: Ecto.Queryable.t
@@ -125,7 +126,7 @@ defmodule Dokkin.API.CardService do
 
   @spec select_all(Ecto.Queryable.t) :: Ecto.Queryable.t
   defp select_all(query) do
-    from [c, ls, link1, link2, link3, link4, link5, link6, link7,
+    from [c, ls, a, link1, link2, link3, link4, link5, link6, link7,
           cat1, cat2, cat3, cat4, cat5, cat6] in query,
     select: %{
       card: c,
@@ -146,9 +147,9 @@ defmodule Dokkin.API.CardService do
     }
   end
 
-  @spec select_with_leader_skill(Ecto.Queryable.t) :: Ecto.Queryable.t
-  defp select_with_leader_skill(query) do
-    from [c, ls] in query,
+  @spec select_minimal(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp select_minimal(query) do
+    from [c, ls, a] in query,
     select: %{
       card: c,
       leader_skill: ls.name
@@ -158,7 +159,8 @@ defmodule Dokkin.API.CardService do
   @spec join_all(Ecto.Queryable.t) :: Ecto.Queryable.t
   defp join_all(query) do
     from c in query,
-    left_join: ls in LeaderSkill, on: c.leader_skill_id == ls.id,
+    join: ls in LeaderSkill, on: c.leader_skill_id == ls.id,
+    join: a in AwakeningRoutes, on: a.card_id == c.id,
     left_join: link1 in LinkSkills, on: c.link_skill1_id == link1.id,
     left_join: link2 in LinkSkills, on: c.link_skill2_id == link2.id,
     left_join: link3 in LinkSkills, on: c.link_skill3_id == link3.id,
@@ -174,19 +176,16 @@ defmodule Dokkin.API.CardService do
     left_join: cat6 in Categories, on: c.card_category6_id == cat6.id
   end
 
-  @spec join_leader_skill(Ecto.Queryable.t) :: Ecto.Queryable.t
-  defp join_leader_skill(query) do
+  @spec join_minimal(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp join_minimal(query) do
     from c in query,
-    join: ls in LeaderSkill,
-    where: c.leader_skill_id == ls.id
+    join: ls in LeaderSkill, on: c.leader_skill_id == ls.id,
+    join: a in AwakeningRoutes, on: c.id == a.card_id
   end
 
   @spec by_base_awakening(Ecto.Queryable.t) :: Ecto.Queryable.t
   defp by_base_awakening(query) do
     from c in query,
-    where: fragment(
-      "? IN (SELECT card_id FROM card_awakening_routes WHERE type != \"CardAwakeningRoute::Dokkan\")", c.id
-    ),
     where: c.resource_id == c.id or is_nil(c.resource_id),
     where: c.card_unique_info_id != @no_card_unique_id
   end
