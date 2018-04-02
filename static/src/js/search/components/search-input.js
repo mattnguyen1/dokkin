@@ -17,7 +17,7 @@ class SearchInput extends Component {
     return (
       <div className="search">
         <form onSubmit={this.onSubmit}>
-          <input type="text" placeholder="Search names (ex: super str ssb vegito)" 
+          <input type="text" placeholder="Search (example: str ssb vegito)" 
             value={input}
             onChange={this.onInputChange} 
           />
