@@ -11,6 +11,8 @@ Making a full-featured and user friendly Dokkan webapp.
     - https://elixir-lang.org/install.html
   - Node 8
     - https://nodejs.org/en/download/package-manager/
+  - (opt) SQLite browser
+    - http://sqlitebrowser.org/
 
 ### Starting the Phoenix web server
 
