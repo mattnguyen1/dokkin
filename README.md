@@ -6,10 +6,11 @@ Making a full-featured and user friendly Dokkan webapp.
 
 ### Prerequisites:
 
-This is what I have, so lower versions may or may not be supported.
   - Erlang 20
   - Elixir 1.6.1
+    - https://elixir-lang.org/install.html
   - Node 8
+    - https://nodejs.org/en/download/package-manager/
 
 ### Starting the Phoenix web server
 
