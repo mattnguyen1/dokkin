@@ -1,4 +1,4 @@
-# Dokkin
+# dokk.in
 
 Making a full-featured and user friendly Dokkan webapp.
 
