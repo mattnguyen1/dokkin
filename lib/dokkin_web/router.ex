@@ -13,16 +13,16 @@ defmodule DokkinWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", DokkinWeb do
-    pipe_through :browser # Use the default browser stack
-
-    get "/", PageController, :index
-  end
-
   scope "/api", DokkinWeb.API do
     pipe_through :api
 
     resources "/cards", CardController
+  end
+
+  scope "/", DokkinWeb do
+    pipe_through :browser # Use the default browser stack
+
+    get "/*path", PageController, :index
   end
 
   # Other scopes may use custom stacks.

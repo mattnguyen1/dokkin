@@ -31,7 +31,12 @@ const CardRow = (props) => {
 }
 
 CardRow.propTypes = {
-  name: PropTypes.string.isRequired
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  element: PropTypes.number.isRequired,
+  rarity: PropTypes.number.isRequired,
+  rarity_string: PropTypes.string.isRequired,
+  leader_skill: PropTypes.string.isRequired
 }
 
 export default CardRow;

@@ -1,13 +1,17 @@
 import React from 'react'
-import Card from '../card/components/card'
-import CardGrid from '../card/card-grid-container'
-import SearchInput from '../search/search-container';
+import { Link, Route, Switch, BrowserRouter } from 'react-router-dom';
+import SearchPage from '../pages/search-page';
+import CardPage from '../pages/card-page';
 require('../../css/app.scss')
 
-const App = ({cards}) => (
-  <div className="app-container">
-    <SearchInput/>
-    <CardGrid cards />
-  </div>
+
+
+const App = () => (
+    <BrowserRouter>
+      <div className="app-container">
+        <Route exact path="/" component={SearchPage}/>
+        <Route path="/card/:cardSlug" component={CardPage}/>
+      </div>
+    </BrowserRouter>
 );
 export default App;
