@@ -4,10 +4,6 @@ import CardRow from './card-row';
 
 class CardGrid extends Component {
 
-  componentDidMount() {
-    this.props.fetchCards("goku");
-  }
-
   render() {
     const { cards } = this.props;
     return (
@@ -26,8 +22,7 @@ class CardGrid extends Component {
 }
 
 CardGrid.propTypes = {
-  cards: PropTypes.arrayOf(PropTypes.any),
-  fetchCards: PropTypes.func
+  cards: PropTypes.arrayOf(PropTypes.any)
 }
 
 export default CardGrid;

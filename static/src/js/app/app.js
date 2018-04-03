@@ -10,6 +10,7 @@ const App = () => (
     <BrowserRouter>
       <div className="app-container">
         <Route exact path="/" component={SearchPage}/>
+        <Route path="/search" component={SearchPage}/>
         <Route path="/card/:cardSlug" component={CardPage}/>
       </div>
     </BrowserRouter>
