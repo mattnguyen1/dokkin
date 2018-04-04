@@ -6,7 +6,7 @@ import Card from './card';
 const CardRow = (props) => {
   
   return (
-    <div className="card-row" data-type-id={props.id}>
+    <li className="card-row" data-type-id={props.id}>
       <div className="card-row-left">
         <Card {...props}></Card>
       </div>
@@ -26,7 +26,7 @@ const CardRow = (props) => {
           </div>
         </div>
       </div>
-    </div>
+    </li>
   )
 }
 

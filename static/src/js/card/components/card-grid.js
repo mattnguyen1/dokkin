@@ -7,7 +7,7 @@ class CardGrid extends Component {
   render() {
     const { cards } = this.props;
     return (
-      <div className="card-grid">
+      <ul className="card-grid">
         {
           cards && cards.map((item) => 
             <CardRow
@@ -16,7 +16,7 @@ class CardGrid extends Component {
             />
           )
         }
-      </div>
+      </ul>
     )
   }
 }
