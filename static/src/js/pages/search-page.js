@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Card from '../card/components/card'
 import CardGrid from '../card/card-grid-container'
 import SearchInput from '../search/search-container'
 import queryString from 'query-string'
 import { fetchCards } from '../card/card-action'
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 class SearchPage extends Component {
 

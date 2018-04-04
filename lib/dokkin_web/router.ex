@@ -22,11 +22,7 @@ defmodule DokkinWeb.Router do
   scope "/", DokkinWeb do
     pipe_through :browser # Use the default browser stack
 
+    # React does all the routing outside of the API
     get "/*path", PageController, :index
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", DokkinWeb do
-  #   pipe_through :api
-  # end
 end

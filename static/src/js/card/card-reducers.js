@@ -1,16 +1,36 @@
 import { combineReducers } from 'redux'
-import { FETCH_CARDS_SUCCESS } from './card-action-types'
+import { 
+  FETCH_CARDS_SUCCESS, FETCH_CARDS_LOADING, FETCH_CARDS_ERROR,
+  FETCH_CARD_SUCCESS, FETCH_CARD_LOADING, FETCH_CARD_ERROR
+} from './card-action-types'
 
 function cards(state = [], action) {
   switch (action.type) {
     case FETCH_CARDS_SUCCESS:
       return action.cards;
     
+    case FETCH_CARDS_ERROR:
+      return [];
+    
+    default:
+      return state;
+  }
+}
+
+function card(state = {}, action) {
+  switch (action.type) {
+    case FETCH_CARD_SUCCESS:
+      return action.card;
+
+    case FETCH_CARD_ERROR:
+      return {};
+
     default:
       return state;
   }
 }
 
 export default combineReducers({
-  cards: cards
+  cards: cards,
+  card: card
 });

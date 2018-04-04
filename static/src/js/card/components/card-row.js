@@ -2,13 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getThumbnailUrl, getThumbnailBGUrl, getRarityIconUrl, getElementIconUrl } from '../../utils/url';
 import Card from './card';
+import { Link } from 'react-router-dom'
 
 const CardRow = (props) => {
   
   return (
     <li className="card-row" data-type-id={props.id}>
       <div className="card-row-left">
-        <Card {...props}></Card>
+        <Link to={`/card/${props.id}`}>
+          <Card {...props}></Card>
+        </Link>
       </div>
       <div className="card-row-right">
         <div className="card-row-title">
