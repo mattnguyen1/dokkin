@@ -63,6 +63,9 @@ body {
   .card-char-bg,
   .card-char-effect {
     opacity: .4;
+    // This is so that any image interaction
+    // will always happen on the character
+    pointer-events: none;
   }
 
   img {
