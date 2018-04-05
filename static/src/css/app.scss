@@ -11,6 +11,7 @@ $font: "Helvetica Neue", "Helvetica", "sans-sarif";
 $font-small: 12px;
 $font-medium: 14px;
 $font-large: 16px;
+$font-heading: 20px;
 
 body {
   background-color: $grey;
@@ -25,6 +26,51 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.card-page-content {
+  display: flex;
+  margin-top: 20px;
+
+  .card-page-info {
+    width: 100%;
+    max-width: 380px;
+    padding: 10px;
+    margin-left: 20px;
+    font-size: $font-small;
+
+    .card-page-name {
+      margin-bottom: 10px;    
+      .card-page-title {
+        font-size: $font-heading;
+        color: $light-blue;
+      }
+
+      .card-page-base-name {
+        font-size: $font-heading;
+      }
+    }
+  }
+}
+
+.card-full-art {
+  height: 350px;
+  // Since the children are positioned
+  // absolute, the width has to be manually
+  // put in to match the height.
+  width: 262.5px;
+  position: relative;
+
+  .card-char-bg,
+  .card-char-effect {
+    opacity: .4;
+  }
+
+  img {
+    height: 100%;
+    border-radius: 9px;
+    position: absolute;
+  }
 }
 
 .card-grid {
@@ -51,14 +97,17 @@ body {
     font-size: $font-small;
     color: $light-blue;
   }
+}
 
-  .card-row-details {
-    margin-top: 10px;
-    font-size: $font-small;
+.card-row-details {
+  font-size: $font-small;
 
-    .card-row-detail-title {
-      font-weight: bold;    
-    }
+  .card-row-detail-title {
+    font-weight: bold;
+  }
+
+  .card-row-detail-item {
+    margin-top: 5px;
   }
 }
 

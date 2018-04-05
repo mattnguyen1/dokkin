@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 
 import Card from 'dokkin/js/card/components/card'
 import SearchInput from 'dokkin/js/search/search-input-container'
-import { getCharacterImageUrl } from 'dokkin/js/utils/url'
+import { getCharacterImageUrl, getCharacterBGUrl, getCharacterEffectUrl } from 'dokkin/js/utils/url'
 
 class CardPage extends Component {
 
@@ -34,43 +34,55 @@ class CardPage extends Component {
         <SearchInput/>
         {
           card &&
-          <div>
-            <img src={getCharacterImageUrl(card.id)}/>
-            <div>
-              {card.leader_skill} {card.name}
+          <div className="card-page-content">
+            <div className="card-full-art">
+              <img className="card-char-bg" src={getCharacterBGUrl(card.id)}/>
+              <img className="card-char-art" src={getCharacterImageUrl(card.id)}/>
+              <img className="card-char-effect" src={getCharacterEffectUrl(card.id)}/>
             </div>
-            <div>
-              {card.leader_skill_description}
-            </div>
-            <div>
-              {card.passive_description}
-            </div>
-            {
-              card.links &&
-              <div>
-                Links:
-                {
-                  card.links.map((link) =>
-                    <div key={link}>
-                      {link}
-                    </div>
-                  )
-                }
+            <div className="card-page-info card-row-details">
+              <div className="card-page-name">
+                <div className="card-page-title">{card.leader_skill}</div>
+                <div className="card-page-base-name">{card.name}</div>
               </div>
-            }
-            {
-              card.categories &&
-              <div>
-                Categories:
-                {
-                  card.categories.map((category) =>
-                    <div key={category}>
-                      {category}
-                    </div>
-                  )
-                }
+              <div className="card-row-detail-item">
+                <span className="card-row-detail-title">Leader Skill: </span>{card.leader_skill_description}
               </div>
-            }
+              <div className="card-row-detail-item">
+                <span className="card-row-detail-title">Passive: </span>{card.passive_description}
+              </div>
+              {
+                card.links &&
+                <div className="card-row-detail-item card-page-links">
+                  <div className="card-row-detail-title">Links:</div>
+                  <ul>
+                    {
+                      card.links.map((link) =>
+                        <li key={link}>
+                          {link}
+                        </li>
+                      )
+                    }
+                  </ul>
+                </div>
+              }
+              {
+                card.categories &&
+                <div className="card-row-detail-item card-page-categories">
+                  <div className="card-row-detail-title">Categories:</div>
+                  <ul>
+                  {
+                    card.categories.map((category) =>
+                      <li key={category}>
+                        {category}
+                      </li>
+                    )
+                  }
+                  </ul>
+                </div>
+              }
+            </div>
+            
           </div>
         }
       </div>
