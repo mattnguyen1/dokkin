@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
-import { SEARCH_INPUT_CHANGED } from './search-action-types'
+
+import { SEARCH_INPUT_CHANGED } from 'dokkin/js/search/search-action-types'
 
 function input(state = '', action) {
   switch (action.type) {

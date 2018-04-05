@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
-import SearchInput from './components/search-input'
-import { updateSearchInput } from './search-action'
-import { fetchCards } from '../card/card-action'
 
+import SearchInput from 'dokkin/js/search/components/search-input'
+import { updateSearchInput } from 'dokkin/js/search/search-action'
+import { fetchCards } from 'dokkin/js/card/card-action'
 
 const mapStateToProps = (state) => ({
   input: state.searchReducer.input

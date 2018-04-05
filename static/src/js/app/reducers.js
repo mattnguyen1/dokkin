@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import cardReducer from '../card/card-reducers'
-import searchReducer from '../search/search-reducers'
+import cardReducer from 'dokkin/js/card/card-reducers'
+import searchReducer from 'dokkin/js/search/search-reducers'
 
 const rootReducer = combineReducers({
   cardReducer,

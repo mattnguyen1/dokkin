@@ -1,9 +1,10 @@
 import { connect } from 'react-redux'
-import CardGrid from './components/card-grid'
-import { fetchCards } from './card-action'
+
+import CardGrid from 'dokkin/js/card/components/card-grid'
+import { fetchCards } from 'dokkin/js/card/card-action'
 
 const mapStateToProps = (state) => ({
-  cards: state.cardReducer.cards
+  cardsList: state.cardReducer.cardsList
 });
 
 export default connect(mapStateToProps)(CardGrid)

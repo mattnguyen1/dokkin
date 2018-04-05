@@ -1,7 +1,7 @@
 import { 
   FETCH_CARDS_SUCCESS, FETCH_CARDS_LOADING, FETCH_CARDS_ERROR,
   FETCH_CARD_SUCCESS, FETCH_CARD_LOADING, FETCH_CARD_ERROR
-} from './card-action-types';
+} from 'dokkin/js/card/card-action-types'
 
 export function fetchCards(query) {
   return (dispatch) => {
@@ -31,12 +31,10 @@ export function fetchCard(id) {
   }
 }
 
-
-
-export function fetchCardsSuccess(cards) {
+export function fetchCardsSuccess(cardsList) {
   return {
     type: FETCH_CARDS_SUCCESS,
-    cards
+    cardsList
   }
 }
 

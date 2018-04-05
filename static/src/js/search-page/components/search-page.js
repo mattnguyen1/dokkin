@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Card from '../card/components/card'
-import CardGrid from '../card/card-grid-container'
-import SearchInput from '../search/search-container'
-import queryString from 'query-string'
-import { fetchCards } from '../card/card-action'
 import { withRouter } from 'react-router-dom'
+import queryString from 'query-string'
+
+import Card from 'dokkin/js/card/components/card'
+import CardGrid from 'dokkin/js/card/card-grid-container'
+import SearchInput from 'dokkin/js/search/search-input-container'
+
+const DEFAULT_SEARCH_QUERY = 'goku';
 
 class SearchPage extends Component {
 
@@ -25,7 +26,7 @@ class SearchPage extends Component {
   updateCardGrid(props) {
     const { pathname, search } = props.location;
     const queryParams = queryString.parse(search);
-    let searchQuery = queryParams.q || 'goku';
+    let searchQuery = queryParams.q || DEFAULT_SEARCH_QUERY;
 
     this.props.fetchCards(searchQuery);
   }
@@ -40,8 +41,4 @@ class SearchPage extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchCards: (query) => dispatch(fetchCards(query))  
-})
-
-export default connect(null, mapDispatchToProps)(SearchPage);
+export default SearchPage;

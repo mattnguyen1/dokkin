@@ -1,6 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { getThumbnailUrl, getThumbnailBGUrl, getRarityIconUrl, getElementIconUrl, getFallbackThumbnailUrl } from '../../utils/url';
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import {
+  getThumbnailUrl, getThumbnailBGUrl, getRarityIconUrl,
+  getElementIconUrl, getFallbackThumbnailUrl
+} from 'dokkin/js/utils/url'
 
 const Card = ({id, name, element, rarity, rarity_string, leader_skill}) => {
   const cardStyle = {

@@ -1,8 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { getThumbnailUrl, getThumbnailBGUrl, getRarityIconUrl, getElementIconUrl } from '../../utils/url';
-import Card from './card';
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+
+import { getThumbnailUrl, getThumbnailBGUrl, getRarityIconUrl, getElementIconUrl } from 'dokkin/js/utils/url'
+import Card from 'dokkin/js/card/components/card'
 
 const CardRow = (props) => {
   

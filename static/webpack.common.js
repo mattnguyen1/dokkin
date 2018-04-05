@@ -16,5 +16,10 @@ module.exports = {
         }
       }
     ]
+  },
+  resolve: {
+    alias: {
+      dokkin: path.resolve(__dirname, 'src')
+    }
   }
 };

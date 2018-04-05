@@ -1,8 +1,8 @@
 import React from "react"
 import { render } from "react-dom"
 import { Provider } from "react-redux"
-import App from "./app/app"
-import configureStore from './configure-store'
+import App from "dokkin/js/app"
+import configureStore from 'dokkin/js/configure-store'
 
 const store = configureStore();
 

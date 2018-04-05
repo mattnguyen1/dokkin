@@ -1,4 +1,4 @@
-import { SEARCH_INPUT_CHANGED } from './search-action-types';
+import { SEARCH_INPUT_CHANGED } from 'dokkin/js/search/search-action-types'
 
 export function updateSearchInput(input) {
   return {

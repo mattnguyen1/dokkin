@@ -4,10 +4,10 @@ import {
   FETCH_CARD_SUCCESS, FETCH_CARD_LOADING, FETCH_CARD_ERROR
 } from './card-action-types'
 
-function cards(state = [], action) {
+function cardsList(state = [], action) {
   switch (action.type) {
     case FETCH_CARDS_SUCCESS:
-      return action.cards;
+      return action.cardsList;
     
     case FETCH_CARDS_ERROR:
       return [];
@@ -17,10 +17,14 @@ function cards(state = [], action) {
   }
 }
 
-function card(state = {}, action) {
+function cardCache(state = {}, action) {
   switch (action.type) {
     case FETCH_CARD_SUCCESS:
-      return action.card;
+      // @TODO: Set a bound on this cache
+      return {
+        ...state,
+        [action.card.id]: action.card
+      };
 
     case FETCH_CARD_ERROR:
       return {};
@@ -31,6 +35,6 @@ function card(state = {}, action) {
 }
 
 export default combineReducers({
-  cards: cards,
-  card: card
+  cardsList: cardsList,
+  cardCache: cardCache
 });

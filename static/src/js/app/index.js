@@ -1,10 +1,9 @@
 import React from 'react'
-import { Link, Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
-import SearchPage from '../pages/search-page';
-import CardPage from '../pages/card-page';
-require('../../css/app.scss')
+import { Link, Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
 
-
+import SearchPage from 'dokkin/js/search-page'
+import CardPage from 'dokkin/js/card-page'
+require('dokkin/css/app.scss')
 
 const App = () => (
     <BrowserRouter>

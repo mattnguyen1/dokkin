@@ -12,6 +12,7 @@ const THUMBNAIL_URL_PATH = '/thumb';
 const THUMBNAIL_BG_URL_PATH = '/thumb_bg';
 const RARITY_ICON_URL_PATH = '/rarity';
 const ELEMENT_ICON_URL_PATH = '/element';
+const CARD_URL_PATH = '/card';
 
 // ------------------------------------------------------------------------------
 // Private
@@ -72,6 +73,15 @@ function getElementIconPath(element) {
   return `/cha_type_icon_${element}.png`;
 }
 
+/**
+ * Returns the path of the card's character image
+ * @param {string} id
+ * @returns {string}
+ */
+function getCharacterImagePath(id) {
+  id = Math.floor(id / 10) * 10;
+  return `/${id}/card_${id}_character.png`;
+}
 
 // ------------------------------------------------------------------------------
 // Public
@@ -110,7 +120,7 @@ export function getThumbnailBGUrl(element, rarity) {
  * @returns {string}
  */
 export function getRarityIconUrl(rarityStr) {
-  return DOKKIN_S3_BASE_URL + RARITY_ICON_URL_PATH + getRarityIconPath(rarityStr);
+  return DOKKIN_S3_BASE_URL + RARITY_ICON_URL_PATH + `/cha_rare_sm_${rarityStr}.png`;
 }
 
 /**
@@ -120,4 +130,13 @@ export function getRarityIconUrl(rarityStr) {
  */
 export function getElementIconUrl(element) {
   return DOKKIN_S3_BASE_URL + ELEMENT_ICON_URL_PATH + getElementIconPath(element);
+}
+
+/**
+ * Return the url for a card's character image
+ * @param {string} id
+ * @returns {string}
+ */
+export function getCharacterImageUrl(id) {
+  return DOKKIN_S3_BASE_URL + CARD_URL_PATH + getCharacterImagePath(id);
 }

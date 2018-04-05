@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Card from '../card/components/card'
-import SearchInput from '../search/search-container'
-import { fetchCard } from '../card/card-action'
 import { withRouter } from 'react-router-dom'
+
+import Card from 'dokkin/js/card/components/card'
+import SearchInput from 'dokkin/js/search/search-input-container'
+import { getCharacterImageUrl } from 'dokkin/js/utils/url'
 
 class CardPage extends Component {
 
@@ -26,13 +26,16 @@ class CardPage extends Component {
   }
 
   render() {
-    const { card } = this.props;
+    const { cardCache } = this.props;
+    const { params } = this.props.match;
+    const card = cardCache[params.cardSlug];
     return (
       <div className="page card-page">
         <SearchInput/>
         {
           card &&
           <div>
+            <img src={getCharacterImageUrl(card.id)}/>
             <div>
               {card.leader_skill} {card.name}
             </div>
@@ -75,12 +78,4 @@ class CardPage extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  card: state.cardReducer.card
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchCard: (id) => dispatch(fetchCard(id))  
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(CardPage);
+export default CardPage;
