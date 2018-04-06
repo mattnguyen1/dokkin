@@ -7,7 +7,6 @@ class CardGrid extends Component {
 
   render() {
     const { cardsList } = this.props;
-    console.log(this.props)
     return (
       <ul className="card-grid">
         {

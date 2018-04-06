@@ -110,11 +110,16 @@ defmodule Dokkin.API.SearchService do
     rarity = Atom.to_string(@rarity[card.rarity])
     alliance = Atom.to_string(@alliance_types[card.awakening_element_type])
     type = Atom.to_string(@element[rem(card.element,10)])
+    links = Enum.reject([link1, link2, link3, link4, link5, link6, link7], &is_nil/1)
+    categories = Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1)
     %{
       id: card.id,
-      name: Enum.join([rarity, alliance, type, normalize(leader_skill), normalize(card.name)], " "),
-      links: Enum.reject([link1, link2, link3, link4, link5, link6, link7], &is_nil/1),
-      categories: Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1),
+      name: Enum.join(
+        [rarity, alliance, type, normalize(leader_skill), normalize(card.name),
+         String.downcase(Enum.join(links, " ")),
+         String.downcase(Enum.join(categories, " "))], " "),
+      links: links,
+      categories: categories,
       alliance: alliance,
       type: type
     }
