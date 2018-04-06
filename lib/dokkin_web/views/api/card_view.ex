@@ -13,6 +13,8 @@ defmodule DokkinWeb.API.CardView do
       card: card,
       leader_skill: leader_skill,
       leader_skill_description: leader_skill_description,
+      super_attack: super_attack,
+      super_attack_description: super_attack_description,
       passive_description: passive_description,
       link1: link1,
       link2: link2,
@@ -37,6 +39,8 @@ defmodule DokkinWeb.API.CardView do
       element: card.element,
       leader_skill: leader_skill,
       leader_skill_description: leader_skill_description,
+      super_attack: super_attack,
+      super_attack_description: super_attack_description,
       passive_description: passive_description,
       links: Enum.reject([link1, link2, link3, link4, link5, link6, link7], &is_nil/1),
       categories: Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1)

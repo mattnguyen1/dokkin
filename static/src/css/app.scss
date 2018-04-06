@@ -11,7 +11,8 @@ $font: "Helvetica Neue", "Helvetica", "sans-sarif";
 $font-small: 12px;
 $font-medium: 14px;
 $font-large: 16px;
-$font-heading: 20px;
+$font-heading: 26px;
+$font-subheading: 22px;
 
 body {
   background-color: $grey;
@@ -30,13 +31,29 @@ body {
 
 .card-page-content {
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   margin-top: 20px;
+  // Really hacky way to make flex wrap
+  // look alright with pure CSS
+  margin-left: -20px;
+
+  .card-full-art {
+    margin-bottom: 25px;
+    margin-left: 20px; 
+  }
 
   .card-page-info {
     max-width: 380px;
-    padding: 10px;
+    padding: 0 10px 10px 10px;
     margin-left: 20px;
     font-size: $font-small;
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
 
     .card-page-name {
       margin-bottom: 10px;    
@@ -46,18 +63,27 @@ body {
       }
 
       .card-page-base-name {
-        font-size: $font-heading;
+        font-size: $font-subheading;
       }
+    }
+
+    .card-row-detail-item {
+      margin-bottom: 10px;
+    }
+
+    .card-info-category {
+      margin-left: -41px;
+      height: 46px;
     }
   }
 }
 
 .card-full-art {
-  height: 350px;
+  height: 500px;
   // Since the children are positioned
   // absolute, the width has to be manually
   // put in to match the height.
-  width: 262.5px;
+  width: 375px;
   position: relative;
 
   .card-char-bg,
@@ -80,6 +106,9 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   max-width: 100%;
+
+  padding: 0;
+  list-style-type: none;
 }
 
 .card-row {
@@ -110,6 +139,9 @@ body {
 
   .card-row-detail-item {
     margin-top: 5px;
+    img {
+      opacity: .6;
+    }
   }
 }
 

@@ -44,17 +44,24 @@ class CardPage extends Component {
               <div className="card-page-name">
                 <div className="card-page-title">{card.leader_skill}</div>
                 <div className="card-page-base-name">{card.name}</div>
+                <hr/>
               </div>
               <div className="card-row-detail-item">
-                <span className="card-row-detail-title">Leader Skill: </span>{card.leader_skill_description}
+                <img src="https://static.dokk.in/label/com_label_leader_skill_03.png" title="Leader Skill"/>
+                <div>{card.leader_skill_description}</div>
               </div>
               <div className="card-row-detail-item">
-                <span className="card-row-detail-title">Passive: </span>{card.passive_description}
+                <img src="https://static.dokk.in/label/com_label_passive_skill_02.png" title="Passive Skill"/>
+                <div>{card.passive_description}</div>
+              </div>
+              <div className="card-row-detail-item">
+                <img src="https://static.dokk.in/label/com_label_sp_atk.png" title="Super ATK"/>
+                <div>{card.super_attack_description}</div>
               </div>
               {
                 card.links &&
                 <div className="card-row-detail-item card-page-links">
-                  <div className="card-row-detail-title">Links:</div>
+                  <img src="https://static.dokk.in/label/com_label_link_skill.png" title="Link Skill"/>
                   <ul>
                     {
                       card.links.map((link) =>
@@ -69,7 +76,7 @@ class CardPage extends Component {
               {
                 card.categories &&
                 <div className="card-row-detail-item card-page-categories">
-                  <div className="card-row-detail-title">Categories:</div>
+                  <img className="card-info-category" src="https://static.dokk.in/label/com_label_category.png" title="Category"/>
                   <ul>
                   {
                     card.categories.map((category) =>

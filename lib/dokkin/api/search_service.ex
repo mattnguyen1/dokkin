@@ -67,7 +67,7 @@ defmodule Dokkin.API.SearchService do
   end
 
   def handle_call({:search, query}, _from, state) do
-    query = normalize(query) |> IO.inspect
+    query = normalize(query)
     results = Benchmark.measure("Dokkin.API.SearchService.handle_call(:search)::filter", fn -> 
       Enum.filter(state, fn(card) -> contains_all?(query, card.name) end)
     end)
