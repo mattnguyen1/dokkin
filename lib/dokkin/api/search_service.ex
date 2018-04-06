@@ -21,6 +21,7 @@ defmodule Dokkin.API.SearchService do
     "vb" => "super saiyan god ss vegito",
     "buuhan" => "majin buu (ultimate gohan)"
   }
+  @token_blacklist ["ss", "agl", "str", "teq", "int", "phy", "r", "n", "1", "2", "3", "4"]
 
   ##############
   ### Client ###
@@ -115,9 +116,8 @@ defmodule Dokkin.API.SearchService do
     %{
       id: card.id,
       name: Enum.join(
-        [rarity, alliance, type, normalize(leader_skill), normalize(card.name),
-         String.downcase(Enum.join(links, " ")),
-         String.downcase(Enum.join(categories, " "))], " "),
+        [alliance, rarity, type, normalize(leader_skill), normalize(card.name),
+         normalize(Enum.join(links, " ")), normalize(Enum.join(categories, " "))], " "),
       links: links,
       categories: categories,
       alliance: alliance,
@@ -150,10 +150,11 @@ defmodule Dokkin.API.SearchService do
     end)
   end
 
+  @spec normalize_contains_all_token(String.t) :: String.t
   defp normalize_contains_all_token(token) do
-    if token == "ss" do
-      " ss "
-    else 
+    if Enum.member?(@token_blacklist,token) do
+      " " <> token <> " "
+    else
       token
     end
   end
