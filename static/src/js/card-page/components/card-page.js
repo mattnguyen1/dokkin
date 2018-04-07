@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
 import Card from 'dokkin/js/card/components/card'
 import SearchInput from 'dokkin/js/search/search-input-container'
@@ -99,12 +100,14 @@ class CardPage extends Component {
                 </div>
               }
             </div>
-            <meta property="og:site" content="dokk.in"/>
-            <meta property="og:type" content="website"/>
-            <meta property="og:card" content={"Leader Skill: " + card.leader_skill_description + "\n" + "Passive: " + card.passive_description} />
-            <meta property="og:title" content={card.leader_skill + " " + card.name}/>
-            <meta property="og:image" content={getCharacterImageUrl(card.id)}/>
-            <meta property="og:url" content={document.location}/>
+            <Helmet>
+              <meta property="og:site" content="dokk.in"/>
+              <meta property="og:type" content="website"/>
+              <meta property="og:card" content={"Leader Skill: " + card.leader_skill_description + "\n" + "Passive: " + card.passive_description} />
+              <meta property="og:title" content={card.leader_skill + " " + card.name}/>
+              <meta property="og:image" content={getCharacterImageUrl(card.id)}/>
+              <meta property="og:url" content={document.location}/>
+            </Helmet>
           </div>
         }
       </div>
