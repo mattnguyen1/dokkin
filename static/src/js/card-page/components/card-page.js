@@ -20,7 +20,6 @@ class CardPage extends Component {
     const nextCard = nextCardCache[params.cardSlug];
     if (pathname !== nextProps.location.pathname ||
         search !== nextProps.location.search) {
-
       this.updateCard(nextProps)
       if (card) {
         document.title = card.leader_skill + " " + card.name;
@@ -100,9 +99,12 @@ class CardPage extends Component {
                 </div>
               }
             </div>
-            <meta name="twitter:card" content={"Leader Skill: " + card.leader_skill_description + "\n" + "Passive: " + card.passive_description} />
-            <meta name="twitter:title" content={card.leader_skill + " " + card.name} />
-            <meta name="twitter:image" content={getCharacterImageUrl(card.id)} />
+            <meta property="og:site" content="dokk.in"/>
+            <meta property="og:type" content="website"/>
+            <meta property="og:card" content={"Leader Skill: " + card.leader_skill_description + "\n" + "Passive: " + card.passive_description} />
+            <meta property="og:title" content={card.leader_skill + " " + card.name}/>
+            <meta property="og:image" content={getCharacterImageUrl(card.id)}/>
+            <meta property="og:url" content={document.location}/>
           </div>
         }
       </div>
