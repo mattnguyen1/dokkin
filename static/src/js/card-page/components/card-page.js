@@ -12,11 +12,22 @@ class CardPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { cardCache } = this.props;
+    const { cardCache: nextCardCache } = nextProps;
     const { pathname, search } = this.props.location;
+    const { params } = this.props.match;
+    const card = cardCache[params.cardSlug];
+    const nextCard = nextCardCache[params.cardSlug];
     if (pathname !== nextProps.location.pathname ||
         search !== nextProps.location.search) {
 
       this.updateCard(nextProps)
+      if (card) {
+        document.title = card.leader_skill + " " + card.name;
+      }
+    }
+    if (!card && nextCard) {
+      document.title = nextCard.leader_skill + " " + nextCard.name;
     }
   }
 
@@ -61,7 +72,7 @@ class CardPage extends Component {
               {
                 card.links &&
                 <div className="card-row-detail-item card-page-links">
-                  <img src="https://static.dokk.in/label/com_label_link_skill.png" title="Link Skill"/>
+                  <img src="https://static.dokk.in/label/com_label_link_skill_99.png" title="Link Skill"/>
                   <ul>
                     {
                       card.links.map((link) =>
@@ -76,7 +87,7 @@ class CardPage extends Component {
               {
                 card.categories &&
                 <div className="card-row-detail-item card-page-categories">
-                  <img className="card-info-category" src="https://static.dokk.in/label/com_label_category.png" title="Category"/>
+                  <img className="card-info-category" src="https://static.dokk.in/label/com_label_category_99.png" title="Category"/>
                   <ul>
                   {
                     card.categories.map((category) =>
@@ -89,7 +100,9 @@ class CardPage extends Component {
                 </div>
               }
             </div>
-            
+            <meta name="twitter:card" content={"Leader Skill: " + card.leader_skill_description + "\n" + "Passive: " + card.passive_description} />
+            <meta name="twitter:title" content={card.leader_skill + " " + card.name} />
+            <meta name="twitter:image" content={getCharacterImageUrl(card.id)} />
           </div>
         }
       </div>

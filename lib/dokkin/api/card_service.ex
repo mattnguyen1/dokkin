@@ -85,6 +85,7 @@ defmodule Dokkin.API.CardService do
     |> by_ids(ids)
     |> query_detailed()
     |> Repo.all()
+    |> merge_super_attacks()
   end
 
   @spec do_get_all() :: list
@@ -92,6 +93,7 @@ defmodule Dokkin.API.CardService do
     Card
     |> query_detailed()
     |> Repo.all()
+    |> merge_super_attacks()
   end
 
   @spec query_minimal(Ecto.Queryable.t) :: Ecto.Queryable.t
@@ -135,8 +137,8 @@ defmodule Dokkin.API.CardService do
       card: c,
       leader_skill: ls.name,
       leader_skill_description: ls.description,
-      super_attack: s.name,
-      super_attack_description: s.description,
+      super_attack: [s.name],
+      super_attack_description: [s.description],
       passive_description: p.description,
       link1: link1.name,
       link2: link2.name,
@@ -168,8 +170,8 @@ defmodule Dokkin.API.CardService do
     from c in query,
     join: ls in LeaderSkill, on: c.leader_skill_id == ls.id,
     join: a in AwakeningRoutes, on: a.card_id == c.id,
-    left_join: cs in CardSpecials, on: c.id == cs.card_id,
-    left_join: s in Specials, on: s.id == cs.special_id,
+    join: cs in CardSpecials, on: c.id == cs.card_id,
+    join: s in Specials, on: c.id == cs.card_id and s.id == cs.special_id,
     left_join: p in PassiveSkillSet, on: c.passive_skill_set_id == p.id,
     left_join: link1 in LinkSkills, on: c.link_skill1_id == link1.id,
     left_join: link2 in LinkSkills, on: c.link_skill2_id == link2.id,
@@ -200,5 +202,31 @@ defmodule Dokkin.API.CardService do
     from c in query,
     where: c.resource_id == c.id or is_nil(c.resource_id),
     where: c.card_unique_info_id != @no_card_unique_id
+  end
+
+  @spec merge_super_attacks(list) :: list
+  defp merge_super_attacks(card_list) do
+    card_list
+    |> Enum.reverse()
+    |> Enum.reduce([], &do_merge_super_attacks/2)
+  end
+
+  @spec do_merge_super_attacks(map, list) :: list
+  defp do_merge_super_attacks(card, []) do
+    [card]
+  end
+
+  @spec do_merge_super_attacks(map, list) :: list
+  defp do_merge_super_attacks(card, card_list) do
+    if List.first(card_list).card.id == card.card.id do
+      List.update_at(card_list, 0, fn (card_dupe) ->
+        %{card |
+          super_attack: card.super_attack ++ card_dupe.super_attack,
+          super_attack_description: card.super_attack_description ++ card_dupe.super_attack_description
+        }
+      end)
+    else
+      [card | card_list]
+    end
   end
 end
