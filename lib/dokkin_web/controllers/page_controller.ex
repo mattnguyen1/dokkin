@@ -19,7 +19,7 @@ defmodule DokkinWeb.PageController do
     url = DokkinWeb.Router.Helpers.url(conn) <> conn.request_path
     conn
     |> assign(:og_title, "dokk.in")
-    |> assign(:og_card, "Search for any DBZ Dokkan cards")
+    |> assign(:og_description, "Search for any DBZ Dokkan cards")
     |> assign(:og_image, "https://static.dokk.in/thumb/card_1008880_thumb.png")
     |> assign(:og_url, url)
   end
@@ -32,10 +32,22 @@ defmodule DokkinWeb.PageController do
       leader_skill_description: leader_skill_description,
       passive_description: passive_description
     } = CardService.get_minimal(card_id)
+    card_id = get_id_as_card_id(card_id)
     conn
     |> assign(:og_title, leader_skill <> " " <> card.name)
-    |> assign(:og_card, "Leader Skill: " <> leader_skill_description <> "\nPassive: " <> passive_description)
+    |> assign(:og_description, "Leader Skill: " <> leader_skill_description <> "\nPassive: " <> passive_description)
     |> assign(:og_image, "https://static.dokk.in/thumb/card_" <> card_id <> "_thumb.png")
     |> assign(:og_url, url)
+  end
+
+  @spec get_id_as_card_id(String.t) :: String.t
+  defp get_id_as_card_id(id) do
+    id
+    |> String.to_integer()
+    |> (&(&1 / 10)).()
+    |> Float.floor()
+    |> (&(&1 * 10)).()
+    |> Kernel.trunc()
+    |> Integer.to_string()
   end
 end

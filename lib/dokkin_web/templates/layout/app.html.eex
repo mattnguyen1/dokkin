@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:site" content="dokk.in"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:card" content="<%= @og_card %>" />
+    <meta property="og:description" content="<%= @og_description %>" />
     <meta property="og:title" content="<%= @og_title %>"/>
     <meta property="og:image" content="<%= @og_image %>"/>
     <meta property="og:url" content="<%= @og_url %>"/>

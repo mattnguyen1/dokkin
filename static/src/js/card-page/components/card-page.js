@@ -100,14 +100,14 @@ class CardPage extends Component {
                 </div>
               }
             </div>
-            <Helmet>
+            {/* <Helmet>
               <meta property="og:site" content="dokk.in"/>
               <meta property="og:type" content="website"/>
               <meta property="og:card" content={"Leader Skill: " + card.leader_skill_description + "\n" + "Passive: " + card.passive_description} />
               <meta property="og:title" content={card.leader_skill + " " + card.name}/>
               <meta property="og:image" content={getCharacterImageUrl(card.id)}/>
               <meta property="og:url" content={document.location}/>
-            </Helmet>
+            </Helmet> */}
           </div>
         }
       </div>
