@@ -25,6 +25,7 @@ defmodule Dokkin.API.SearchService do
     "sv" => "super vegito"
   }
   @token_blacklist ["ss", "agl", "str", "teq", "int", "phy", "r", "n", "1", "2", "3", "4"]
+  @split_regex ~r/[ ]+(?=([^"]*"[^"]*")*[^"]*$)/
 
   ##############
   ### Client ###
@@ -70,7 +71,7 @@ defmodule Dokkin.API.SearchService do
   end
 
   def handle_call({:search, query}, _from, state) do
-    query = normalize(query)
+    query = normalize(query) |> IO.inspect
     results = Benchmark.measure("Dokkin.API.SearchService.handle_call(:search)::filter", fn -> 
       Enum.filter(state, fn(card) -> contains_all?(query, card.name) end)
     end)
@@ -119,7 +120,7 @@ defmodule Dokkin.API.SearchService do
     %{
       id: card.id,
       name: Enum.join(
-        [alliance, rarity, type, normalize(leader_skill), normalize(card.name),
+        [alliance, type, rarity, normalize(leader_skill), normalize(card.name),
          normalize(Enum.join(links, " ")), normalize(Enum.join(categories, " "))], " "),
       links: links,
       categories: categories,
@@ -147,7 +148,9 @@ defmodule Dokkin.API.SearchService do
   @spec contains_all?(String.t, String.t) :: boolean
   defp contains_all?(query, text) do
     query
-    |> String.split(" ")
+    |> String.split(@split_regex)
+    |> Enum.map(&remove_quotes/1)
+    |> IO.inspect
     |> Enum.all?(fn(token) -> 
       String.contains?(text, normalize_contains_all_token(token))
     end)
@@ -160,5 +163,10 @@ defmodule Dokkin.API.SearchService do
     else
       token
     end
+  end
+
+  @spec remove_quotes(String.t) :: String.t
+  defp remove_quotes(text) do
+    String.replace(text, "\"", "")
   end
 end
