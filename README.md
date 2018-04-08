@@ -31,7 +31,4 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 ## In Progress
 
 - Quick search: auto complete in the search input similar to the autocomplete results in twitch
-- Single page cards: detailed page for each individual card
-  - URL slugs: Creating slugs for all the card page's url for SEO optimization
-- Improved filtering, especially for links and categories
 
