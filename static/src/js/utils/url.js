@@ -102,3 +102,9 @@ export function getCharacterBGUrl(id) {
 export function getCharacterEffectUrl(id) {
   return DOKKIN_S3_BASE_URL + CARD_URL_PATH + getCharacterEffectImagePath(id);
 }
+
+export function getSlugFromName(id, name) {
+  name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+  name = name.split(" ").join("-").toLowerCase()
+  return `${id}-${name}`;
+}

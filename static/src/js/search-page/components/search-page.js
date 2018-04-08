@@ -12,14 +12,15 @@ class SearchPage extends Component {
 
   componentWillMount() {
     this.updateCardGrid(this.props);
+    document.title = "dokk.in";
   }
 
   componentWillReceiveProps(nextProps) {
     const { pathname, search } = this.props.location;
     if (pathname !== nextProps.location.pathname ||
         search !== nextProps.location.search) {
-
       this.updateCardGrid(nextProps);
+      document.title = "dokk.in";
     }
   }
 

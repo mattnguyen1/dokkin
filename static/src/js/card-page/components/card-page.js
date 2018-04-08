@@ -33,13 +33,15 @@ class CardPage extends Component {
 
   updateCard(props) {
     const { params } = props.match;
-    this.props.fetchCard(params.cardSlug);
+    const slug = params.cardSlug.split(/-(.+)/)[0];
+    this.props.fetchCard(slug);
   }
 
   render() {
     const { cardCache } = this.props;
     const { params } = this.props.match;
-    const card = cardCache[params.cardSlug];
+    const slug = params.cardSlug.split(/-(.+)/)[0];
+    const card = cardCache[slug];
     return (
       <div className="page card-page">
         <SearchInput/>
@@ -100,14 +102,14 @@ class CardPage extends Component {
                 </div>
               }
             </div>
-            {/* <Helmet>
+            <Helmet>
               <meta property="og:site" content="dokk.in"/>
               <meta property="og:type" content="website"/>
               <meta property="og:card" content={"Leader Skill: " + card.leader_skill_description + "\n" + "Passive: " + card.passive_description} />
               <meta property="og:title" content={card.leader_skill + " " + card.name}/>
               <meta property="og:image" content={getCharacterImageUrl(card.id)}/>
               <meta property="og:url" content={document.location}/>
-            </Helmet> */}
+            </Helmet>
           </div>
         }
       </div>

@@ -46,4 +46,8 @@ defmodule DokkinWeb.API.CardView do
       categories: Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1)
     }
   end
+
+  def render("show.json", _params) do
+    IO.inspect(_params)
+  end
 end

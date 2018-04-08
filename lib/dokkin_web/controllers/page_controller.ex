@@ -24,20 +24,33 @@ defmodule DokkinWeb.PageController do
     |> assign(:og_url, url)
   end
 
-  defp assign_meta(conn, card_id) do
+  defp assign_meta(conn, slug) do
     url = DokkinWeb.Router.Helpers.url(conn) <> conn.request_path
+    [card_id | suffix] = String.split(slug, "-")
     %{
       card: card,
       leader_skill: leader_skill,
       leader_skill_description: leader_skill_description,
       passive_description: passive_description
     } = CardService.get_minimal(card_id)
+    full_name = leader_skill <> " " <> card.name
+    correct_slug = normalize_slug(card_id <> "-" <> full_name)
     card_id = get_id_as_card_id(card_id)
     conn
     |> assign(:og_title, leader_skill <> " " <> card.name)
     |> assign(:og_description, "Leader Skill: " <> leader_skill_description <> "\nPassive: " <> passive_description)
     |> assign(:og_image, "https://static.dokk.in/thumb/card_" <> card_id <> "_thumb.png")
     |> assign(:og_url, url)
+    |> maybe_redirect(slug, correct_slug)
+  end
+
+  defp maybe_redirect(conn, actual_slug, correct_slug) do
+    if actual_slug == correct_slug do
+      conn
+    else
+      conn
+      |> redirect(to: "/card/" <> correct_slug)
+    end
   end
 
   @spec get_id_as_card_id(String.t) :: String.t
@@ -49,5 +62,13 @@ defmodule DokkinWeb.PageController do
     |> (&(&1 * 10)).()
     |> Kernel.trunc()
     |> Integer.to_string()
+  end
+
+  @spec normalize_slug(String.t) :: String.t
+  defp normalize_slug(text) do
+    text
+    |> WordSmith.remove_accents()
+    |> String.downcase()
+    |> String.replace(" ", "-")
   end
 end
