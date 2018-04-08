@@ -17,8 +17,9 @@ class CardPage extends Component {
     const { cardCache: nextCardCache } = nextProps;
     const { pathname, search } = this.props.location;
     const { params } = this.props.match;
-    const card = cardCache[params.cardSlug];
-    const nextCard = nextCardCache[params.cardSlug];
+    const cardId = params.cardSlug.split(/-(.+)/)[0];
+    const card = cardCache[cardId];
+    const nextCard = nextCardCache[cardId];
     if (pathname !== nextProps.location.pathname ||
         search !== nextProps.location.search) {
       this.updateCard(nextProps)
@@ -33,15 +34,15 @@ class CardPage extends Component {
 
   updateCard(props) {
     const { params } = props.match;
-    const slug = params.cardSlug.split(/-(.+)/)[0];
-    this.props.fetchCard(slug);
+    const cardId = params.cardSlug.split(/-(.+)/)[0];
+    this.props.fetchCard(cardId);
   }
 
   render() {
     const { cardCache } = this.props;
     const { params } = this.props.match;
-    const slug = params.cardSlug.split(/-(.+)/)[0];
-    const card = cardCache[slug];
+    const cardId = params.cardSlug.split(/-(.+)/)[0];
+    const card = cardCache[cardId];
     return (
       <div className="page card-page">
         <SearchInput/>
