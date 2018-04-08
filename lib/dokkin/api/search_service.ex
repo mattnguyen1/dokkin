@@ -19,7 +19,10 @@ defmodule Dokkin.API.SearchService do
     "ssj4" => "super saiyan 4",
     "ssb" => "super saiyan god ss",
     "vb" => "super saiyan god ss vegito",
-    "buuhan" => "majin buu (ultimate gohan)"
+    "buuhan" => "majin buu (ultimate gohan)",
+    "agf" => "angel golden frieza",
+    "blue" => "super saiyan god ss",
+    "sv" => "super vegito"
   }
   @token_blacklist ["ss", "agl", "str", "teq", "int", "phy", "r", "n", "1", "2", "3", "4"]
 
