@@ -27,6 +27,8 @@ defmodule Dokkin.API.SearchService do
   }
   @token_blacklist ["ss", "agl", "str", "teq", "int", "phy", "r", "n", "1", "2", "3", "4"]
   @split_regex ~r/[ ]+(?=([^"]*"[^"]*")*[^"]*$)/
+  @default_limit 100
+  @default_offset 0
 
   ##############
   ### Client ###
@@ -47,18 +49,20 @@ defmodule Dokkin.API.SearchService do
   @doc """
   Searches the set of all cards based on the query from the SearchService genserver process
   """
-  @spec search(String.t) :: list
-  def search(query) do
+  @spec search(map) :: list
+  def search(%{"search_q" => search_q} = params) do
     Benchmark.measure("Dokkin.API.SearchService.search()", fn ->
-      Repo.fetch_search(query, &do_search/1, 1)
+      limit = if Map.has_key?(params, "limit") do String.to_integer(params["limit"]) else @default_limit end
+      offset = if Map.has_key?(params, "offset") do String.to_integer(params["offset"]) else @default_offset end
+      Repo.fetch_search(search_q, limit, offset, &do_search/3)
     end)
   end
 
-  @spec do_search(String.t) :: list
-  defp do_search(query) do
+  @spec do_search(String.t, integer, integer) :: list
+  defp do_search(query, limit, offset) do
     :poolboy.transaction(
       :search_pool,
-      fn(pid) -> GenServer.call(pid, {:search, query}) end,
+      fn(pid) -> GenServer.call(pid, {:search, query, limit, offset}) end,
       @search_timeout
     )
   end
@@ -71,14 +75,22 @@ defmodule Dokkin.API.SearchService do
     {:ok, create_index()}
   end
 
-  def handle_call({:search, query}, _from, state) do
+  def handle_call({:search, query, limit, offset}, _from, state) do
     query = normalize(query)
     results = Benchmark.measure("Dokkin.API.SearchService.handle_call(:search)::filter", fn -> 
       Enum.filter(state, fn(card) -> contains_all?(query, card.name) end)
     end)
+    total = length(results)
+    marker = if total - offset - limit > 0 do offset + limit else -1 end
+
+    # Return paginated results
+    results
+    |> Enum.sort_by(&(&1.atk_max), &>=/2)
+    |> Enum.drop(offset)
+    |> Enum.take(limit)
     |> Enum.reduce([], fn(card, acc) -> [card.id | acc] end)
     |> CardService.get()
-    {:reply, results, state}
+    |> (&({:reply, {&1, total, marker}, state})).()
   end
 
   def handle_call(request, from, state) do
@@ -126,7 +138,8 @@ defmodule Dokkin.API.SearchService do
       links: links,
       categories: categories,
       alliance: alliance,
-      type: type
+      type: type,
+      atk_max: card.atk_max
     }
   end
 

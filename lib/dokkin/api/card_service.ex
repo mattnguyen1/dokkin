@@ -40,17 +40,6 @@ defmodule Dokkin.API.CardService do
   end
 
   @doc """
-  Get minimal card info matching the given id
-  """
-  @spec get_minimal(String.t) :: list
-
-  def get_minimal(id) when is_binary(id) do
-    Benchmark.measure("Dokkin.API.CardService.get_minimal(id)", fn ->
-      List.first(cache_get_minimal(id))
-    end)
-  end
-
-  @doc """
   Get cards matching all the given ids
   """
   @spec get(list) :: list
@@ -58,6 +47,29 @@ defmodule Dokkin.API.CardService do
   def get(ids) when is_list(ids) do
     Benchmark.measure("Dokkin.API.CardService.get(ids)", fn ->
       do_get(ids)
+    end)
+  end
+
+  @doc """
+  Get cards matching all the given ids from the given
+  offse with at most a limit number of cards.
+  """
+  @spec get(list, integer, integer) :: list
+
+  def get(ids, limit, offset) when is_list(ids) do
+    Benchmark.measure("Dokkin.API.CardService.get(ids)", fn ->
+      do_get(ids, limit, offset)
+    end)
+  end
+
+  @doc """
+  Get minimal card info matching the given id
+  """
+  @spec get_minimal(String.t) :: list
+
+  def get_minimal(id) when is_binary(id) do
+    Benchmark.measure("Dokkin.API.CardService.get_minimal(id)", fn ->
+      List.first(cache_get_minimal(id))
     end)
   end
 
@@ -102,6 +114,25 @@ defmodule Dokkin.API.CardService do
     |> Repo.all()
   end
 
+  @spec do_get(list) :: list
+  defp do_get(ids) when is_list(ids) do
+    Card
+    |> by_ids(ids)
+    |> query_detailed()
+    |> Repo.all()
+    |> merge_super_attacks()
+  end
+
+  @spec do_get(list, integer, integer) :: list
+  defp do_get(ids, limit, offset) when is_list(ids) do
+    Card
+    |> by_ids(ids)
+    |> query_detailed()
+    |> by_page(limit, offset)
+    |> Repo.all()
+    |> merge_super_attacks()
+  end
+
   @spec do_get_minimal(String.t) :: list
   defp do_get_minimal(id) do
     Card
@@ -114,19 +145,11 @@ defmodule Dokkin.API.CardService do
     do_get([id])
   end
 
-  @spec do_get(list) :: list
-  defp do_get(ids) when is_list(ids) do
-    Card
-    |> by_ids(ids)
-    |> query_detailed()
-    |> Repo.all()
-    |> merge_super_attacks()
-  end
-
   @spec do_get_all() :: list
   def do_get_all() do
     Card
     |> query_detailed()
+    |> order_by_atk()
     |> Repo.all()
     |> merge_super_attacks()
   end
@@ -140,6 +163,7 @@ defmodule Dokkin.API.CardService do
     |> select_minimal()
   end
 
+  @spec query_minimal_by_id(Ecto.Queryable.t, integer) :: Ecto.Queryable.t
   def query_minimal_by_id(query, id) do
     query
     |> join_minimal()
@@ -154,6 +178,13 @@ defmodule Dokkin.API.CardService do
     |> by_base_awakening()
     |> order_by_atk()
     |> select_all()
+  end
+
+  @spec by_page(Ecto.Queryable.t, integer, integer) :: Ecto.Queryable.t
+  defp by_page(query, limit, offset) do
+    query
+    |> limit(^limit)
+    |> offset(^offset)
   end
 
   @spec by_name(Ecto.Queryable.t, String.t) :: Ecto.Queryable.t

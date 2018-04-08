@@ -2,9 +2,12 @@ defmodule DokkinWeb.API.CardView do
   use DokkinWeb, :view
   use Dokkin.Constants
 
-  def render("index.json", %{cards: cards}) do
+  def render("index.json", %{cards: cards, total_results: total_results, marker: marker}) do
+    
     %{
-      cards: render_many(cards, DokkinWeb.API.CardView, "show.json")
+      cards: render_many(cards, DokkinWeb.API.CardView, "show.json"),
+      total_results: total_results,
+      marker: marker
     }
   end
 

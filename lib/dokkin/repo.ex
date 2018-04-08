@@ -52,6 +52,18 @@ defmodule Dokkin.Repo do
     fetch(slug, :search_cache, fetch_fn, 1)
   end
 
+  @doc """
+  Fetch cards from the search cache with the slug query
+  passed into the fetch function, or get from db and insert
+  into the cache if it misses. Chunks the results by
+  an offset, and takes at most a limit amount of results.
+  """
+  @spec fetch_search(String.t, integer, integer, fun) :: list
+
+  def fetch_search(slug, limit, offset, fetch_fn) do
+    fetch(slug, limit, offset, :search_cache, fetch_fn)
+  end
+
   @spec fetch(String.t, atom, fun, integer) :: list
   defp fetch(slug, cache, fetch_fn, 1) do
     Cachex.fetch(cache, slug, fn(slug) ->
@@ -78,6 +90,18 @@ defmodule Dokkin.Repo do
   defp fetch(slug, cache, fetch_fn) do
     Cachex.fetch(cache, slug, fn(slug) ->
       fetch_fn.()
+    end)
+    |> case do
+      {:error, _} -> []
+      {success, value} when success in [:ok, :commit] -> value
+    end
+  end
+
+  @spec fetch(String.t, integer, integer, atom, fun) :: list 
+  defp fetch(slug, limit, offset, cache, fetch_fn) do
+    cache_slug = slug <> "-" <> Integer.to_string(limit) <> "-" <> Integer.to_string(offset)
+    Cachex.fetch(cache, cache_slug, fn(some_slug) ->
+      fetch_fn.(slug, limit, offset)
     end)
     |> case do
       {:error, _} -> []
