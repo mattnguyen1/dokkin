@@ -22,7 +22,8 @@ defmodule Dokkin.API.SearchService do
     "buuhan" => "majin buu (ultimate gohan)",
     "agf" => "angel golden frieza",
     "blue" => "super saiyan god ss",
-    "sv" => "super vegito"
+    "sv" => "super vegito",
+    "bojack" => "boujack",
   }
   @token_blacklist ["ss", "agl", "str", "teq", "int", "phy", "r", "n", "1", "2", "3", "4"]
   @split_regex ~r/[ ]+(?=([^"]*"[^"]*")*[^"]*$)/
@@ -71,7 +72,7 @@ defmodule Dokkin.API.SearchService do
   end
 
   def handle_call({:search, query}, _from, state) do
-    query = normalize(query) |> IO.inspect
+    query = normalize(query)
     results = Benchmark.measure("Dokkin.API.SearchService.handle_call(:search)::filter", fn -> 
       Enum.filter(state, fn(card) -> contains_all?(query, card.name) end)
     end)
@@ -150,7 +151,6 @@ defmodule Dokkin.API.SearchService do
     query
     |> String.split(@split_regex)
     |> Enum.map(&remove_quotes/1)
-    |> IO.inspect
     |> Enum.all?(fn(token) -> 
       String.contains?(text, normalize_contains_all_token(token))
     end)

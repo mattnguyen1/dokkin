@@ -4,8 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta property="og:site" content="dokk.in"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:card" content="<%= @og_card %>" />
+    <meta property="og:title" content="<%= @og_title %>"/>
+    <meta property="og:image" content="<%= @og_image %>"/>
+    <meta property="og:url" content="<%= @og_url %>"/>
 
     <title>dokk.in</title>
     <%= if Mix.env == :prod do %>

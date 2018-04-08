@@ -31,6 +31,17 @@ defmodule Dokkin.Repo do
   end
 
   @doc """
+  Fetch cards from cache with the slug passed into
+  the fetch function, or get from db and insert
+  into the cache if it misses.
+  """
+  @spec fetch_cards(String.t, String.t, fun, integer) :: list
+
+  def fetch_cards(prefix, slug, fetch_fn, 1) do
+    fetch(prefix, slug, :cards_cache, fetch_fn, 1)
+  end
+
+  @doc """
   Fetch cards from the search cache with the slug query
   passed into the fetch function, or get from db and insert
   into the cache if it misses.
@@ -44,6 +55,17 @@ defmodule Dokkin.Repo do
   @spec fetch(String.t, atom, fun, integer) :: list
   defp fetch(slug, cache, fetch_fn, 1) do
     Cachex.fetch(cache, slug, fn(slug) ->
+      fetch_fn.(slug)
+    end)
+    |> case do
+      {:error, _} -> []
+      {success, value} when success in [:ok, :commit] -> value
+    end
+  end
+
+  @spec fetch(String.t, String.t, atom, fun, integer) :: list
+  defp fetch(prefix, slug, cache, fetch_fn, 1) do
+    Cachex.fetch(cache, prefix <> slug, fn(some_slug) ->
       fetch_fn.(slug)
     end)
     |> case do

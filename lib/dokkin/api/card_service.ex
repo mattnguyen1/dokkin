@@ -34,7 +34,20 @@ defmodule Dokkin.API.CardService do
   @spec get(map) :: Card.t
 
   def get(%{id: id}) do
-    List.first(do_get([id]))
+    Benchmark.measure("Dokkin.API.CardService.get(%{id: id})", fn ->
+      List.first(cache_get_by_id(id))
+    end)
+  end
+
+  @doc """
+  Get minimal card info matching the given id
+  """
+  @spec get_minimal(String.t) :: list
+
+  def get_minimal(id) when is_binary(id) do
+    Benchmark.measure("Dokkin.API.CardService.get_minimal(id)", fn ->
+      List.first(cache_get_minimal(id))
+    end)
   end
 
   @doc """
@@ -62,6 +75,16 @@ defmodule Dokkin.API.CardService do
     Repo.fetch_cards(name, &do_get/1, 1)
   end
 
+  @spec cache_get_by_id(String.t) :: list
+  defp cache_get_by_id(id) do
+    Repo.fetch_cards(id, &do_get_by_id/1, 1)
+  end
+
+  @spec cache_get_minimal(String.t) :: list
+  defp cache_get_minimal(id) do
+    Repo.fetch_cards("minimal-", id, &do_get_minimal/1, 1)
+  end
+
   @spec cache_get_all() :: list
   defp cache_get_all() do
     Repo.fetch_cards("all_cards", &do_get_all/0)
@@ -77,6 +100,18 @@ defmodule Dokkin.API.CardService do
     |> by_name(name)
     |> query_minimal()
     |> Repo.all()
+  end
+
+  @spec do_get_minimal(String.t) :: list
+  defp do_get_minimal(id) do
+    Card
+    |> query_minimal_by_id(id)
+    |> Repo.all()
+  end
+
+  @spec do_get_by_id(String.t) :: list
+  defp do_get_by_id(id) do
+    do_get([id])
   end
 
   @spec do_get(list) :: list
@@ -102,6 +137,13 @@ defmodule Dokkin.API.CardService do
     |> join_minimal()
     |> by_base_awakening()
     |> order_by_atk()
+    |> select_minimal()
+  end
+
+  def query_minimal_by_id(query, id) do
+    query
+    |> join_minimal()
+    |> by_ids([id])
     |> select_minimal()
   end
 
@@ -158,10 +200,12 @@ defmodule Dokkin.API.CardService do
 
   @spec select_minimal(Ecto.Queryable.t) :: Ecto.Queryable.t
   defp select_minimal(query) do
-    from [c, ls, a] in query,
+    from [c, ls, a, p] in query,
     select: %{
       card: c,
-      leader_skill: ls.name
+      leader_skill: ls.name,
+      leader_skill_description: ls.description,
+      passive_description: p.description
     }
   end
 
@@ -194,6 +238,7 @@ defmodule Dokkin.API.CardService do
     from c in query,
     join: ls in LeaderSkill, on: c.leader_skill_id == ls.id,
     join: a in AwakeningRoutes, on: c.id == a.card_id,
+    left_join: p in PassiveSkillSet, on: c.passive_skill_set_id == p.id,
     where: a.type != "CardAwakeningRoute::Dokkan"
   end
 
