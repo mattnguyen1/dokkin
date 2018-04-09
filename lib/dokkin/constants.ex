@@ -2,7 +2,7 @@ defmodule Dokkin.Constants do
   defmacro __using__(_) do
     quote do
 
-      @alliance_types %{1 => :super, 2 => :extreme}
+      @alliance_types %{1 => "Super", 2 => "Extreme"}
       @element %{
         0 => :agl,
         1 => :teq,

@@ -39,6 +39,7 @@ defmodule DokkinWeb.API.CardView do
       rarity: card.rarity,
       rarity_string: @rarity[card.rarity],
       element: card.element,
+      element_string: @element[rem(card.element, 10)],
       leader_skill: leader_skill,
       leader_skill_description: leader_skill_description,
       super_attack: super_attack,

@@ -1,5 +1,6 @@
 defmodule DokkinWeb.PageController do
   use DokkinWeb, :controller
+  use Dokkin.Constants
   
   alias Dokkin.API.CardService
 
@@ -34,11 +35,15 @@ defmodule DokkinWeb.PageController do
       leader_skill_description: leader_skill_description,
       passive_description: passive_description
     } = CardService.get_minimal(card_id)
+    rarity = @rarity[card.rarity] |> Atom.to_string() |> String.capitalize()
+    element = @element[card.element] |> Atom.to_string() |> String.capitalize()
+    alliance = @alliance_types[card.awakening_element_type]
     full_name = leader_skill <> " " <> card.name
     correct_slug = normalize_slug(card_id <> "-" <> full_name)
     card_id = get_id_as_card_id(card_id)
-    passive_text = if passive_description do passive_description else "" end
-    title = leader_skill <> " " <> card.name
+    passive_text = if passive_description do passive_description else "-" end
+    title = leader_skill <> " " <> card.name <> " | "
+      <> rarity <> ", " <> alliance <> " "  <> element <> " | DBZ Dokkan Battle"
 
     conn
     |> assign(:title, title)

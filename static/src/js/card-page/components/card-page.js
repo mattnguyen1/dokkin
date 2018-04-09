@@ -24,12 +24,18 @@ class CardPage extends Component {
         search !== nextProps.location.search) {
       this.updateCard(nextProps)
       if (card) {
-        document.title = card.leader_skill + " " + card.name;
+        document.title = this._getPageTitle(card);
       }
     }
     if (!card && nextCard) {
-      document.title = nextCard.leader_skill + " " + nextCard.name;
+      document.title = this._getPageTitle(nextCard);
     }
+  }
+
+  _getPageTitle(card) {
+    return card.leader_skill + " " + card.name + " | " 
+      + card.rarity_string.toUpperCase() + ", " + card.alliance_type + " " + card.element_string.toUpperCase()
+      + " | DBZ Dokkan Battle";
   }
 
   updateCard(props) {
