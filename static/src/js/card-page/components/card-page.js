@@ -33,9 +33,7 @@ class CardPage extends Component {
   }
 
   _getPageTitle(card) {
-    return card.leader_skill + " " + card.name + " | " 
-      + card.rarity_string.toUpperCase() + ", " + card.alliance_type + " " + card.element_string.toUpperCase()
-      + " | DBZ Dokkan Battle";
+    return card.leader_skill + " " + card.name + " | DBZ Dokkan Battle";
   }
 
   updateCard(props) {
