@@ -15,8 +15,7 @@ config :dokkin, DokkinWeb.Endpoint,
   secret_key_base: "NA4qXdV46yNWBUv8fsUNSagNkDDT4SVkvXwPUITuYRl6KO0thqT/HSqu1OaAiz3u",
   render_errors: [view: DokkinWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Dokkin.PubSub,
-           adapter: Phoenix.PubSub.PG2],
-  http: [compress: true]
+           adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,

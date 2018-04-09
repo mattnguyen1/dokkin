@@ -2,6 +2,8 @@ defmodule DokkinWeb.API.CardView do
   use DokkinWeb, :view
   use Dokkin.Constants
 
+  alias Dokkin.APIHelpers
+
   def render("index.json", %{cards: cards, total_results: total_results, marker: marker}) do
     %{
       cards: render_many(cards, DokkinWeb.API.CardView, "show.json"),
@@ -31,7 +33,7 @@ defmodule DokkinWeb.API.CardView do
       cat4: cat4,
       cat5: cat5,
       cat6: cat6
-    }}) do
+    } = card_response}) do
     %{
       id: card.id,
       name: card.name,
@@ -46,7 +48,8 @@ defmodule DokkinWeb.API.CardView do
       super_attack_description: super_attack_description,
       passive_description: passive_description,
       links: Enum.reject([link1, link2, link3, link4, link5, link6, link7], &is_nil/1),
-      categories: Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1)
+      categories: Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1),
+      url: APIHelpers.card_url(card_response)
     }
   end
 end
