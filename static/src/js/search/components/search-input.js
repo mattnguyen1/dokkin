@@ -17,7 +17,7 @@ class SearchInput extends Component {
     const { input, updateSearchInput } = this.props;
     return (
       <div className="search">
-        <form onSubmit={this.onSubmit}>
+        <form action="" onSubmit={this.onSubmit}>
           <input type="search" placeholder="Search (example: str ssb vegito)" 
             value={input}
             onChange={this.onInputChange} 
