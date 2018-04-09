@@ -3,7 +3,6 @@ defmodule DokkinWeb.API.CardView do
   use Dokkin.Constants
 
   def render("index.json", %{cards: cards, total_results: total_results, marker: marker}) do
-    
     %{
       cards: render_many(cards, DokkinWeb.API.CardView, "show.json"),
       total_results: total_results,
@@ -48,9 +47,5 @@ defmodule DokkinWeb.API.CardView do
       links: Enum.reject([link1, link2, link3, link4, link5, link6, link7], &is_nil/1),
       categories: Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1)
     }
-  end
-
-  def render("show.json", _params) do
-    IO.inspect(_params)
   end
 end
