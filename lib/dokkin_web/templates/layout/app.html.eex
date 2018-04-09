@@ -11,7 +11,7 @@
     <meta property="og:image" content="<%= @og_image %>"/>
     <meta property="og:url" content="<%= @og_url %>"/>
 
-    <title>dokk.in</title>
+    <title><%= @title %></title>
     <%= if Mix.env == :prod do %>
       <link rel="stylesheet" href="<%= static_path(@conn, "/css/bundle.css") %>">
       <link rel="icon" href="<%= static_path(@conn, "/images/favicon.png") %>">

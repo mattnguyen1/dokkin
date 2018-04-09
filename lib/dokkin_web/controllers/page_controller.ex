@@ -37,9 +37,11 @@ defmodule DokkinWeb.PageController do
     correct_slug = normalize_slug(card_id <> "-" <> full_name)
     card_id = get_id_as_card_id(card_id)
     passive_text = if passive_description do passive_description else "" end
+    title = leader_skill <> " " <> card.name
 
     conn
-    |> assign(:og_title, leader_skill <> " " <> card.name)
+    |> assign(:title, title)
+    |> assign(:og_title, title)
     |> assign(:og_description, "Leader Skill: " <> leader_skill_description <> "\nPassive: " <> passive_text)
     |> assign(:og_image, "https://static.dokk.in/thumb/card_" <> card_id <> "_thumb.png")
     |> assign(:og_url, url)
