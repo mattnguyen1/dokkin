@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
 import Card from 'dokkin/js/card/components/card'
-import SearchInput from 'dokkin/js/search/search-input-container'
 import { getCharacterImageUrl, getCharacterBGUrl, getCharacterEffectUrl } from 'dokkin/js/utils/url'
 
 class CardPage extends Component {
@@ -17,9 +16,11 @@ class CardPage extends Component {
     const { cardCache: nextCardCache } = nextProps;
     const { pathname, search } = this.props.location;
     const { params } = this.props.match;
-    const cardId = params.cardSlug.split(/-(.+)/)[0];
+
+    const cardId = params.cardSlug.split("-")[0];
     const card = cardCache[cardId];
     const nextCard = nextCardCache[cardId];
+
     if (pathname !== nextProps.location.pathname ||
         search !== nextProps.location.search) {
       this.updateCard(nextProps)
@@ -33,7 +34,8 @@ class CardPage extends Component {
   }
 
   _getPageTitle(card) {
-    return card.leader_skill + " " + card.name + " | DBZ Dokkan Battle";
+    const name = card.name.replace("#", "");
+    return card.leader_skill + " " + name + " | DBZ Dokkan Battle";
   }
 
   updateCard(props) {
@@ -49,7 +51,6 @@ class CardPage extends Component {
     const card = cardCache[cardId];
     return (
       <div className="page card-page">
-        <SearchInput/>
         {
           card &&
           <div className="card-page-content">

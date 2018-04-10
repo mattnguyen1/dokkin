@@ -104,7 +104,12 @@ export function getCharacterEffectUrl(id) {
 }
 
 export function getSlugFromName(id, name) {
-  name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
-  name = name.split(" ").join("-").toLowerCase()
+  name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+  name = getUrlFriendlyString(name);
+  name = name.split(/ +/).join("-").toLowerCase();
   return `${id}-${name}`;
+}
+
+export function getUrlFriendlyString(str) {
+  return str.replace(/[^a-zA-Z0-9-_\(\)~ ]/g, '');
 }

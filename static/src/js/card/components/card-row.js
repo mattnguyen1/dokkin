@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-import { getThumbnailUrl, getThumbnailBGUrl, getRarityIconUrl, getElementIconUrl, getSlugFromName } from 'dokkin/js/utils/url'
+import { getThumbnailUrl, getThumbnailBGUrl, getRarityIconUrl,
+  getElementIconUrl, getSlugFromName, getUrlFriendlyString } from 'dokkin/js/utils/url'
 import Card from 'dokkin/js/card/components/card'
 
 const CardRow = (props) => {
   
-  const fullName = props.leader_skill + " " + props.name;
+  let fullName = props.leader_skill + " " + props.name;
   const cardUrl = "/card/" + getSlugFromName(props.id, fullName);
 
   return (

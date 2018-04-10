@@ -4,7 +4,6 @@ import queryString from 'query-string'
 
 import Card from 'dokkin/js/card/components/card'
 import CardGrid from 'dokkin/js/card/card-grid-container'
-import SearchInput from 'dokkin/js/search/search-input-container'
 
 const DEFAULT_SEARCH_QUERY = '';
 
@@ -35,7 +34,6 @@ class SearchPage extends Component {
   render() {
     return (
       <div className="page search-page">
-        <SearchInput/>
         <CardGrid />
       </div>
     )
