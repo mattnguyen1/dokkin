@@ -19,15 +19,15 @@ defmodule Dokkin.Card do
   end
 
   def alliance(card) do
-    @alliance_types[card.awakening_element_type]    
+    @alliance_types[card.awakening_element_type]
   end
 
   def rarity(card) do
-    Atom.to_string(@element[card.rarity]) |> String.upcase()
+    Atom.to_string(@rarity[card.rarity]) |> String.upcase()
   end
 
   def element(card) do
-    Atom.to_string(@element[rem(card.element, 10) * 10]) |> String.upcase()
+    Atom.to_string(@element[rem(card.element, 10)]) |> String.upcase()
   end
 
   @doc false

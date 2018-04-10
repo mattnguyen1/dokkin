@@ -82,7 +82,7 @@ class CardPage extends Component {
                 <img src="https://static.dokk.in/label/com_label_sp_atk.png" title="Super ATK"/>
                 <div>
                 {
-                  card.super_attack_description.map((description) => <div>{description}</div>)
+                  card.super_attack_description.map((description) => <div key={description}>{description}</div>)
                 }
                 </div>
               </div>
