@@ -50,7 +50,7 @@ defmodule DokkinWeb.PageController do
     conn
     |> assign(:title, title)
     |> assign(:og_title, title)
-    |> assign(:og_description, element_rarity_text <> " Leader Skill: " <> leader_skill_description <> "\nPassive: " <> passive_text)
+    |> assign(:og_description, element_rarity_text <> "Leader Skill: " <> leader_skill_description <> "\nPassive: " <> passive_text)
     |> assign(:og_image, "https://static.dokk.in/thumb/card_" <> card_id <> "_thumb.png")
     |> assign(:og_url, url)
     |> maybe_redirect(slug, correct_slug)
