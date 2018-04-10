@@ -3,7 +3,8 @@ import { withRouter } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
 import Card from 'dokkin/js/card/components/card'
-import { getCharacterImageUrl, getCharacterBGUrl, getCharacterEffectUrl } from 'dokkin/js/utils/url'
+import { getCharacterImageUrl, getCharacterBGUrl,getCharacterEffectUrl,
+  getLargeRarityIconUrl, getElementIconUrl } from 'dokkin/js/utils/url'
 
 class CardPage extends Component {
 
@@ -58,6 +59,10 @@ class CardPage extends Component {
               <img className="card-char-bg" src={getCharacterBGUrl(card.id)}/>
               <img className="card-char-art" src={getCharacterImageUrl(card.id)}/>
               <img className="card-char-effect" src={getCharacterEffectUrl(card.id)}/>
+              <div className="card-overlay">
+                <img className="card-rarity" src={getLargeRarityIconUrl(card.rarity_string)}/>
+                <img className="card-element" src={getElementIconUrl(card.element)}/>
+              </div>
             </div>
             <div className="card-page-info card-row-details">
               <div className="card-page-name">

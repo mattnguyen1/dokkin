@@ -87,6 +87,10 @@ export function getRarityIconUrl(rarityStr) {
   return DOKKIN_S3_BASE_URL + RARITY_ICON_URL_PATH + `/cha_rare_sm_${rarityStr}.png`;
 }
 
+export function getLargeRarityIconUrl(rarityStr) {
+  return DOKKIN_S3_BASE_URL + RARITY_ICON_URL_PATH + `/cha_rare_${rarityStr}.png`;
+}
+
 export function getElementIconUrl(element) {
   return DOKKIN_S3_BASE_URL + ELEMENT_ICON_URL_PATH + getElementIconPath(element);
 }

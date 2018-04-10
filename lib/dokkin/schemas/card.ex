@@ -1,5 +1,6 @@
 defmodule Dokkin.Card do
   use Ecto.Schema
+  use Dokkin.Constants
   import Ecto.Changeset
 
   @derive {Poison.Encoder, except: [:__meta__]}
@@ -15,6 +16,18 @@ defmodule Dokkin.Card do
     field :resource_id, :integer
     field :atk_max, :integer
     field :passive_skill_set_id, :integer
+  end
+
+  def alliance(card) do
+    @alliance_types[card.awakening_element_type]    
+  end
+
+  def rarity(card) do
+    Atom.to_string(@element[card.rarity]) |> String.upcase()
+  end
+
+  def element(card) do
+    Atom.to_string(@element[rem(card.element, 10) * 10]) |> String.upcase()
   end
 
   @doc false

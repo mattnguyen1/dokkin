@@ -104,7 +104,17 @@ body {
 
   .card-full-art {
     margin-bottom: 25px;
-    margin-left: 20px; 
+    margin-left: 20px;
+
+    .card-rarity,
+    .card-element {
+      height: 45px;
+      opacity: .8;
+    }
+
+    .card-element {
+      right: 0;
+    }
   }
 
   .card-page-info {
