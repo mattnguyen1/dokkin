@@ -246,7 +246,7 @@ defmodule Dokkin.API.CardService do
     join: ls in LeaderSkill, on: c.leader_skill_id == ls.id,
     join: a in AwakeningRoutes, on: a.card_id == c.id,
     join: cs in CardSpecials, on: c.id == cs.card_id,
-    join: s in Specials, on: c.id == cs.card_id and s.id == cs.special_id,
+    left_join: s in Specials, on: c.id == cs.card_id and s.id == cs.special_id,
     left_join: p in PassiveSkillSet, on: c.passive_skill_set_id == p.id,
     left_join: link1 in LinkSkills, on: c.link_skill1_id == link1.id,
     left_join: link2 in LinkSkills, on: c.link_skill2_id == link2.id,
@@ -261,7 +261,8 @@ defmodule Dokkin.API.CardService do
     left_join: cat4 in Categories, on: c.card_category4_id == cat4.id,
     left_join: cat5 in Categories, on: c.card_category5_id == cat5.id,
     left_join: cat6 in Categories, on: c.card_category6_id == cat6.id,
-    where: a.type != "CardAwakeningRoute::Dokkan"
+    where: a.type != "CardAwakeningRoute::Dokkan",
+    where: a.type != "CardAwakeningRoute::Optimal"
   end
 
   @spec join_minimal(Ecto.Queryable.t) :: Ecto.Queryable.t
