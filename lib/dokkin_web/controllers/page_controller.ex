@@ -45,7 +45,7 @@ defmodule DokkinWeb.PageController do
     card_id = get_id_as_card_id(card_id)
     passive_text = if passive_description do passive_description else "-" end
     title = leader_skill <> " " <> card.name <> " | DBZ Dokkan Battle"
-    element_rarity_text = rarity <> ", " <> alliance <> " " <> element <> "."
+    element_rarity_text = "[" <> rarity <> "] [" <> alliance <> " " <> element <> "] \n"
 
     conn
     |> assign(:title, title)
