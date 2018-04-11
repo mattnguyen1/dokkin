@@ -4,7 +4,8 @@ import { Link, Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
 import SearchPage from 'dokkin/js/search-page'
 import CardPage from 'dokkin/js/card-page'
 import NavBar from 'dokkin/js/nav-bar'
-require('dokkin/css/app.scss')
+import 'dokkin/css/app.scss'
+import 'babel-polyfill'
 
 const App = () => (
     <BrowserRouter>

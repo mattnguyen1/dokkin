@@ -10,6 +10,7 @@
   "author": "Matt Nguyen",
   "license": "ISC",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "fetch": "^1.1.0",
     "immutable": "^3.8.2",
     "prop-types": "^15.6.1",
