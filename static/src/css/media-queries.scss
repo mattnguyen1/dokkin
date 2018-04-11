@@ -1,4 +1,13 @@
 $tablet-width: 768px;
+$card-page-flexbox-width: 815px;
+
+@media screen and (max-width: $card-page-flexbox-width) {
+  .app-container {
+    .card-page-content {
+      height: 100%;
+    }
+  }
+}
 
 @media screen and (max-width: $tablet-width) {
   .app-container {
