@@ -1,0 +1,37 @@
+$tablet-width: 768px;
+
+@media screen and (max-width: $tablet-width) {
+  .app-container {
+    .nav-bar {
+      .nav-bar-left {
+        width: 100%;
+
+        .logo-link {
+          margin-left: 5px;
+        }
+
+        .search {
+          width: calc(100% - 111px);          
+          input {
+            margin: 10px 0 10px 10px;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .card-page {
+    .card-page-content {
+      margin-left: -20px;
+    
+      .card-full-art {
+        margin-left: 20px;
+      }
+  
+      .card-page-info {
+        margin-left: 20px;
+      }
+    }
+  }
+}
