@@ -6,6 +6,7 @@ defmodule Dokkin.API.SearchService do
   use GenServer
   use Dokkin.Constants
   alias Dokkin.API.CardService
+  alias Dokkin.Card
   alias Dokkin.Repo
 
   @search_timeout 5000
@@ -125,16 +126,21 @@ defmodule Dokkin.API.SearchService do
     cat5: cat5,
     cat6: cat6
   }) do
-    rarity = Atom.to_string(@rarity[card.rarity])
-    alliance = @alliance_types[card.awakening_element_type]
-    type = Atom.to_string(@element[rem(card.element,10)])
+    rarity = Card.rarity(card)
+    alliance = Card.alliance(card)
+    type = Card.element(card)
     links = Enum.reject([link1, link2, link3, link4, link5, link6, link7], &is_nil/1)
+    |> Enum.join(" ")
+    |> normalize()
     categories = Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1)
+    |> Enum.join(" ")
+    |> normalize()
+    all_strings = [alliance, type, rarity, normalize(leader_skill), normalize(card.name), links, categories]
+    |> Enum.join(" ")
+    |> String.downcase()
     %{
       id: card.id,
-      name: Enum.join(
-        [alliance, type, rarity, normalize(leader_skill), normalize(card.name),
-         normalize(Enum.join(links, " ")), normalize(Enum.join(categories, " "))], " "),
+      name: all_strings,
       links: links,
       categories: categories,
       alliance: alliance,
