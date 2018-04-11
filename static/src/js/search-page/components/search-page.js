@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import queryString from 'query-string'
+// import queryString from 'query-string'
 
 import Card from 'dokkin/js/card/components/card'
 import CardGrid from 'dokkin/js/card/card-grid-container'
@@ -25,7 +25,11 @@ class SearchPage extends Component {
 
   updateCardGrid(props) {
     const { pathname, search } = props.location;
-    const queryParams = queryString.parse(search);
+    const queryParams = {};
+    search.substring(1).split("&").forEach(param => {
+      const [key, value] = param.split("=");
+      queryParams[key] = value;
+    });
     let searchQuery = queryParams.q || DEFAULT_SEARCH_QUERY;
 
     this.props.fetchCards(searchQuery);
