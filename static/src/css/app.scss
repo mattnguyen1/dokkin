@@ -24,15 +24,6 @@ $nav-bar-height: 48px;
   outline: none;
 }
 
-html,
-body,
-#root,
-.app-container,
-.page,
-.card-page-content {
-  height: 100%;
-}
-
 body {
   background-color: $grey;
   color: $offwhite;
