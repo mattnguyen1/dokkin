@@ -1,23 +1,26 @@
 import React from 'react'
-import { Link, Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
+// import { Link, Route, Switch, BrowserRouter, Redirect } from 'react-router-dom'
 
-import SearchPage from 'dokkin/js/search-page'
-import CardPage from 'dokkin/js/card-page'
-import NavBar from 'dokkin/js/nav-bar'
+// import SearchPage from 'dokkin/js/search-page'
+// import CardPage from 'dokkin/js/card-page'
+// import NavBar from 'dokkin/js/nav-bar'
 import 'dokkin/css/app.scss'
 import 'babel-polyfill'
 
 const App = () => (
+  <div style={ {fontSize: "50px"} }>
+    TEST
+  </div>
     // <BrowserRouter>
-      // <div className="app-container">
-        <NavBar/>
-        // <Switch>
-        //   {/* <Route exact path="/" component={SearchPage}/> */}
-        //   {/* <Route path="/search" component={SearchPage}/> */}
-        //   {/* <Route path="/card/:cardSlug" component={CardPage}/> */}
-        //   {/* <Redirect to="/"/> */}
-        // {/* </Switch> */}
-      // </div>
+    //   <div className="app-container">
+    //     <NavBar/>
+    //     <Switch>
+    //       <Route exact path="/" component={SearchPage}/>
+    //       <Route path="/search" component={SearchPage}/>
+    //       <Route path="/card/:cardSlug" component={CardPage}/>
+    //       <Redirect to="/"/>
+    //     </Switch>
+    //   </div>
     // </BrowserRouter>
 );
 export default App;
