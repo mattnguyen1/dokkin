@@ -82,6 +82,15 @@ defmodule Dokkin.API.CardService do
     cache_get_all()
   end
 
+  @doc """
+  Gets the dokkan awakening of the given card id
+  """
+  @spec get_next_dokkan(String.t) :: Card.t
+
+  def get_next_dokkan(id) do
+    
+  end
+
   @spec cache_get(String.t) :: list
   defp cache_get(name) do
     Repo.fetch_cards(name, &do_get/1, 1)
