@@ -83,7 +83,6 @@ defmodule DokkinWeb.PageController do
     |> String.downcase()
     |> String.replace("#", "")
     |> String.replace("&", "")
-    |> IO.inspect
     |> String.replace(~r/ +/, "-")
   end
 end
