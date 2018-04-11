@@ -11,12 +11,12 @@ const App = () => (
     <BrowserRouter>
       <div className="app-container">
         <NavBar/>
-        <Switch>
+        {/* <Switch> */}
           <Route exact path="/" component={SearchPage}/>
           <Route path="/search" component={SearchPage}/>
           <Route path="/card/:cardSlug" component={CardPage}/>
-          <Redirect to="/"/>
-        </Switch>
+          {/* <Redirect to="/"/> */}
+        {/* </Switch> */}
       </div>
     </BrowserRouter>
 );
