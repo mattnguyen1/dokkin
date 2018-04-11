@@ -8,16 +8,16 @@ import 'dokkin/css/app.scss'
 import 'babel-polyfill'
 
 const App = () => (
-    <BrowserRouter>
-      <div className="app-container">
+    // <BrowserRouter>
+      // <div className="app-container">
         <NavBar/>
-        {/* <Switch> */}
-          <Route exact path="/" component={SearchPage}/>
-          <Route path="/search" component={SearchPage}/>
-          <Route path="/card/:cardSlug" component={CardPage}/>
-          {/* <Redirect to="/"/> */}
-        {/* </Switch> */}
-      </div>
-    </BrowserRouter>
+        // <Switch>
+        //   {/* <Route exact path="/" component={SearchPage}/> */}
+        //   {/* <Route path="/search" component={SearchPage}/> */}
+        //   {/* <Route path="/card/:cardSlug" component={CardPage}/> */}
+        //   {/* <Redirect to="/"/> */}
+        // {/* </Switch> */}
+      // </div>
+    // </BrowserRouter>
 );
 export default App;

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {withRouter} from 'react-router-dom'
+// import {withRouter} from 'react-router-dom'
 
 class SearchInput extends Component {
 
@@ -10,7 +10,7 @@ class SearchInput extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    this.props.history.push("/search?q=" + this.props.input);
+    // this.props.history.push("/search?q=" + this.props.input);
   }
 
   render() {
@@ -34,4 +34,4 @@ SearchInput.propTypes = {
   fetchCards: PropTypes.func,
 }
 
-export default withRouter(SearchInput);
+export default SearchInput;
