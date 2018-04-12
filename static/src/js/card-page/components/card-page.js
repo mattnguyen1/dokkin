@@ -75,7 +75,10 @@ class CardPage extends Component {
                     <img className="right-arrow" src="https://static.dokk.in/ui/com_ui_arrow_01_right.png"/>
                   </div>
                 }
-                <Card {...card}/>
+                {
+                  (card.prev_dokkan || card.next_dokkan) &&
+                  <Card {...card}/>
+                }
                 {
                   card.next_dokkan &&
                   <div className="card-awaken-container">
