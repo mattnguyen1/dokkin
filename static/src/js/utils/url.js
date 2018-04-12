@@ -117,3 +117,12 @@ export function getSlugFromName(id, name) {
 export function getUrlFriendlyString(str) {
   return str.replace(/[^a-zA-Z0-9-_\(\)~ ]/g, '');
 }
+
+export function getMappedQueryParams(paramStr) {
+  const queryParams = {};
+  paramStr.substring(1).split("&").forEach(param => {
+    const [key, value] = param.split("=");
+    queryParams[key] = value;
+  });
+  return queryParams;
+}
