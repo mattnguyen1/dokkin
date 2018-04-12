@@ -12,7 +12,8 @@ defmodule DokkinWeb.API.CardController do
   def show(conn, %{"id" => id}) do
     render conn, "show.json", %{
       card: CardService.get(%{id: id}),
-      next_dokkan: CardService.get_next_dokkan(id)
+      next_dokkan: CardService.get_next_dokkan(id),
+      prev_dokkan: CardService.get_prev_dokkan(id)
     }
   end
 end

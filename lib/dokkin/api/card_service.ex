@@ -81,7 +81,9 @@ defmodule Dokkin.API.CardService do
   @spec get_all() :: list
 
   def get_all() do
-    cache_get_all()
+    Benchmark.measure("Dokkin.API.CardService.get_all()", fn ->
+      cache_get_all()
+    end)
   end
 
   @doc """
@@ -90,8 +92,27 @@ defmodule Dokkin.API.CardService do
   @spec get_next_dokkan(String.t) :: Card.t
 
   def get_next_dokkan(id) do
-    cache_get_next_dokkan(id)
+    Benchmark.measure("Dokkin.API.CardService.get_next_dokkan(id)", fn ->
+      cache_get_next_dokkan(id)
+      |> List.first()
+    end)
   end
+
+  @doc """
+  Gets the pre-dokkaned card of the given card id
+  """
+  @spec get_prev_dokkan(String.t) :: Card.t
+
+  def get_prev_dokkan(id) do
+    Benchmark.measure("Dokkin.API.CardService.get_prev_dokkan(id)", fn ->
+      cache_get_prev_dokkan(id)
+      |> List.first()
+    end)
+  end
+
+  ####################
+  ### Cache Client ###
+  ####################
 
   @spec cache_get(String.t) :: list
   defp cache_get(name) do
@@ -108,9 +129,14 @@ defmodule Dokkin.API.CardService do
     Repo.fetch_cards("minimal-", id, &do_get_minimal/1, 1)
   end
 
-  @spec cache_get_next_dokkan(String.t) :: Card.t
+  @spec cache_get_next_dokkan(String.t) :: list
   defp cache_get_next_dokkan(id) do
     Repo.fetch_cards("next-dokkan-", id, &do_get_next_dokkan/1, 1)
+  end
+
+  @spec cache_get_prev_dokkan(String.t) :: list
+  defp cache_get_prev_dokkan(id) do
+    Repo.fetch_cards("prev-dokkan-", id, &do_get_prev_dokkan/1, 1)
   end
 
   @spec cache_get_all() :: list
@@ -119,7 +145,13 @@ defmodule Dokkin.API.CardService do
   end
 
   @spec cache_get_base_id(String.t) :: integer
-  defp cache_get_base_id(id) do
+  defp cache_get_base_id(id) when is_binary(id) do
+    Repo.fetch_cards("base-id-", id, &get_base_id/1, 1)
+  end
+
+  @spec cache_get_base_id(integer) :: integer
+  defp cache_get_base_id(id) when is_integer(id) do
+    id = Integer.to_string(id)
     Repo.fetch_cards("base-id-", id, &get_base_id/1, 1)
   end
 
@@ -166,9 +198,9 @@ defmodule Dokkin.API.CardService do
     do_get([id])
   end
 
-  @spec do_get_next_dokkan(String.t) :: Card.t
+  @spec do_get_next_dokkan(String.t) :: list
   defp do_get_next_dokkan(id) do
-    # Ensure the id is dokkanable
+    # Ensure the id is dokkanable and not z-awakenable
     id = id 
     |> String.to_integer()
     |> (&(Kernel.trunc(&1 / 10) * 10 + 1)).()
@@ -176,12 +208,22 @@ defmodule Dokkin.API.CardService do
     query_next_dokkan(id)
     |> Repo.all()
     |> List.first()
+    # If there is no next dokkan, then this will just get cards that
+    # have a :nil id, which there are none of, so it will return []
     |> do_get_minimal()
+  end
+
+  @spec do_get_prev_dokkan(String.t) :: list
+  defp do_get_prev_dokkan(id) do
+    query_prev_dokkan(id)
+    |> Repo.all()
     |> List.first()
+    |> cache_get_base_id()
+    |> do_get_minimal()
   end
 
   @spec get_base_id(String.t) :: String.t
-  defp get_base_id(id) do
+  defp get_base_id(id) when is_binary(id) do
     query_base_id(id)
     |> Repo.all()
     |> List.first()
@@ -230,6 +272,14 @@ defmodule Dokkin.API.CardService do
     from a in AwakeningRoutes,
     select: a.awaked_card_id,
     where: a.card_id == ^id,
+    where: a.type == "CardAwakeningRoute::Dokkan"
+  end
+
+  @spec query_prev_dokkan(integer) :: Ecto.Queryable.t
+  defp query_prev_dokkan(id) do
+    from a in AwakeningRoutes,
+    select: a.card_id,
+    where: a.awaked_card_id == ^id,
     where: a.type == "CardAwakeningRoute::Dokkan"
   end
 
