@@ -69,7 +69,9 @@ defmodule Dokkin.API.CardService do
 
   def get_minimal(id) when is_binary(id) do
     Benchmark.measure("Dokkin.API.CardService.get_minimal(id)", fn ->
-      List.first(cache_get_minimal(id))
+      cache_get_base_id(id)
+      |> cache_get_minimal()
+      |> List.first()
     end)
   end
 
@@ -88,7 +90,7 @@ defmodule Dokkin.API.CardService do
   @spec get_next_dokkan(String.t) :: Card.t
 
   def get_next_dokkan(id) do
-    
+    cache_get_next_dokkan(id)
   end
 
   @spec cache_get(String.t) :: list
@@ -106,9 +108,19 @@ defmodule Dokkin.API.CardService do
     Repo.fetch_cards("minimal-", id, &do_get_minimal/1, 1)
   end
 
+  @spec cache_get_next_dokkan(String.t) :: Card.t
+  defp cache_get_next_dokkan(id) do
+    Repo.fetch_cards("next-dokkan-", id, &do_get_next_dokkan/1, 1)
+  end
+
   @spec cache_get_all() :: list
   defp cache_get_all() do
     Repo.fetch_cards("all_cards", &do_get_all/0)
+  end
+
+  @spec cache_get_base_id(String.t) :: integer
+  defp cache_get_base_id(id) do
+    Repo.fetch_cards("base-id-", id, &get_base_id/1, 1)
   end
 
   ###############
@@ -154,8 +166,33 @@ defmodule Dokkin.API.CardService do
     do_get([id])
   end
 
+  @spec do_get_next_dokkan(String.t) :: Card.t
+  defp do_get_next_dokkan(id) do
+    # Ensure the id is dokkanable
+    id = id 
+    |> String.to_integer()
+    |> (&(Kernel.trunc(&1 / 10) * 10 + 1)).()
+
+    query_next_dokkan(id)
+    |> Repo.all()
+    |> List.first()
+    |> do_get_minimal()
+    |> List.first()
+  end
+
+  @spec get_base_id(String.t) :: String.t
+  defp get_base_id(id) do
+    query_base_id(id)
+    |> Repo.all()
+    |> List.first()
+    |> do_get_base_id(id)
+  end
+
+  defp do_get_base_id(:nil, id) do id end
+  defp do_get_base_id(base_id, _) do Integer.to_string(base_id) end
+
   @spec do_get_all() :: list
-  def do_get_all() do
+  defp do_get_all() do
     Card
     |> query_detailed()
     |> order_by_atk()
@@ -173,11 +210,27 @@ defmodule Dokkin.API.CardService do
   end
 
   @spec query_minimal_by_id(Ecto.Queryable.t, integer) :: Ecto.Queryable.t
-  def query_minimal_by_id(query, id) do
+  defp query_minimal_by_id(query, id) do
     query
     |> join_minimal()
     |> by_ids([id])
     |> select_minimal()
+  end
+
+  @spec query_base_id(String.t) :: Ecto.Queryable.t
+  defp query_base_id(id) do
+    from a in AwakeningRoutes,
+    select: a.card_id,
+    where: a.awaked_card_id == ^id,
+    where: a.type == "CardAwakeningRoute::Zet"
+  end
+
+  @spec query_next_dokkan(integer) :: Ecto.Queryable.t
+  defp query_next_dokkan(id) do
+    from a in AwakeningRoutes,
+    select: a.awaked_card_id,
+    where: a.card_id == ^id,
+    where: a.type == "CardAwakeningRoute::Dokkan"
   end
 
   @spec query_detailed(Ecto.Queryable.t) :: Ecto.Queryable.t
