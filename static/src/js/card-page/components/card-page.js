@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
 import Card from 'dokkin/js/card/components/card'
@@ -55,13 +55,36 @@ class CardPage extends Component {
         {
           card &&
           <div className="card-page-content">
-            <div className="card-full-art">
-              <img className="card-char-bg" src={getCharacterBGUrl(card.id)}/>
-              <img className="card-char-art" src={getCharacterImageUrl(card.id)}/>
-              <img className="card-char-effect" src={getCharacterEffectUrl(card.id)}/>
-              <div className="card-overlay">
-                <img className="card-rarity" src={getLargeRarityIconUrl(card.rarity_string)}/>
-                <img className="card-element" src={getElementIconUrl(card.element)}/>
+            <div className="card-char-pane">
+              <div className="card-full-art">
+                <img className="card-char-bg" src={getCharacterBGUrl(card.id)}/>
+                <img className="card-char-art" src={getCharacterImageUrl(card.id)}/>
+                <img className="card-char-effect" src={getCharacterEffectUrl(card.id)}/>
+                <div className="card-overlay">
+                  <img className="card-rarity" src={getLargeRarityIconUrl(card.rarity_string)}/>
+                  <img className="card-element" src={getElementIconUrl(card.element)}/>
+                </div>
+              </div>
+              <div className="card-awaken-info">
+                {
+                  card.prev_dokkan &&
+                  <div className="card-awaken-container">
+                    <Link to={card.prev_dokkan.url}>
+                      <Card {...card.prev_dokkan}/>
+                    </Link>
+                    <img className="right-arrow" src="https://static.dokk.in/ui/com_ui_arrow_01_right.png"/>
+                  </div>
+                }
+                <Card {...card}/>
+                {
+                  card.next_dokkan &&
+                  <div className="card-awaken-container">
+                    <img className="right-arrow" src="https://static.dokk.in/ui/com_ui_arrow_01_right.png"/>
+                    <Link to={card.next_dokkan.url}>
+                      <Card {...card.next_dokkan}/>
+                    </Link>
+                  </div>
+                }
               </div>
             </div>
             <div className="card-page-info card-row-details">

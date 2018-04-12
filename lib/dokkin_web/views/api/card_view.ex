@@ -34,7 +34,7 @@ defmodule DokkinWeb.API.CardView do
       cat5: cat5,
       cat6: cat6
     } = card_response} = response) do
-    %{
+    Map.merge(%{
       id: card.id,
       name: card.name,
       alliance_type: @alliance_types[card.awakening_element_type],
@@ -49,9 +49,28 @@ defmodule DokkinWeb.API.CardView do
       passive_description: passive_description,
       links: Enum.reject([link1, link2, link3, link4, link5, link6, link7], &is_nil/1),
       categories: Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1),
-      url: APIHelpers.card_url(card_response),
-      next_dokkan: Map.get(response, :next_dokkan, :nil),
-      prev_dokkan: Map.get(response, :prev_dokkan, :nil)
+      url: APIHelpers.card_url(card_response)
+    }, %{
+      next_dokkan: get_minimal_view(Map.get(response, :next_dokkan, :nil)),
+      prev_dokkan: get_minimal_view(Map.get(response, :prev_dokkan, :nil))
+    })
+  end
+
+  defp get_minimal_view(%{
+    card: card,
+    leader_skill: leader_skill
+  } = card_response) do
+    %{
+      id: card.id,
+      name: card.name,
+      alliance_type: @alliance_types[card.awakening_element_type],
+      rarity: card.rarity,
+      rarity_string: @rarity[card.rarity],
+      element: card.element,
+      element_string: @element[rem(card.element, 10)],
+      leader_skill: leader_skill,
+      url: APIHelpers.card_url(card_response)
     }
   end
+  defp get_minimal_view(:nil) do :nil end
 end

@@ -111,23 +111,44 @@ body {
   background-color: $dark-grey;
   height: 100vh;
 
-  .card-full-art {
-    margin-bottom: 25px;
-    margin-left: 40px;
-
-    .card-rarity,
-    .card-element {
-      height: 45px;
-      opacity: .8;
+  .card-char-pane {
+    .card-full-art {
+      margin-bottom: 25px;
+      margin-left: 40px;
+  
+      .card-rarity,
+      .card-element {
+        height: 45px;
+        opacity: .8;
+      }
+  
+      .card-element {
+        right: 0;
+      }
     }
 
-    .card-element {
-      right: 0;
+    .card-awaken-info {
+      display: flex;
+      justify-content: center;
+      margin-left: 40px;
+
+      .card-awaken-container {
+        display: flex;
+        align-items: center;
+
+        .card {
+          filter: grayscale(80%);
+        }
+
+        .right-arrow {
+          height: 25px;
+        }
+      }
     }
   }
 
   .card-page-info {
-    max-width: 400px;
+    width: 400px;
     padding: 0 10px 10px 10px;
     margin-left: 20px;
     font-size: $font-small;

@@ -5,7 +5,7 @@ defmodule Dokkin.APIHelpers do
 
   @spec card_url(map) :: String.t
   def card_url(card_response) do
-    "https://dokk.in/card/" <> card_slug(card_response)
+    "/card/" <> card_slug(card_response)
   end
 
   @spec card_slug(map) :: String.t
