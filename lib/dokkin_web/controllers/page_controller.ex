@@ -21,8 +21,7 @@ defmodule DokkinWeb.PageController do
     url = DokkinWeb.Router.Helpers.url(conn) <> conn.request_path
     conn
     |> assign(:title, "dokk.in | DBZ Dokkan Battle")
-    |> assign(:og_title, "dokk.in")
-    |> assign(:og_description, "Search for any DBZ Dokkan cards")
+    |> assign(:og_description, "Find all your Dokkan information in one place.")
     |> assign(:og_image, "https://static.dokk.in/thumb/card_1008880_thumb.png")
     |> assign(:og_url, url)
   end

@@ -6,12 +6,13 @@ import CardGrid from 'dokkin/js/card/card-grid-container'
 import { getMappedQueryParams } from 'dokkin/js/utils/url'
 
 const DEFAULT_SEARCH_QUERY = '';
+const DEFAULT_SITE_TITLE = 'dokk.in | DBZ Dokkan Battle';
 
 class SearchPage extends Component {
 
   componentWillMount() {
     this.updateCardGrid(this.props);
-    document.title = "dokk.in";
+    document.title = DEFAULT_SITE_TITLE;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -19,7 +20,7 @@ class SearchPage extends Component {
     if (pathname !== nextProps.location.pathname ||
         search !== nextProps.location.search) {
       this.updateCardGrid(nextProps);
-      document.title = "dokk.in";
+      document.title = DEFAULT_SITE_TITLE;
     }
   }
 

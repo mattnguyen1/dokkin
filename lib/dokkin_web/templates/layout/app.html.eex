@@ -5,11 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="<%= @og_description %>">
-    <meta name="google-site-verification" content="Li_R4YCLGDWFbCT0ZEUhX97MFZpylb2QhYCu4KfHZdk" />
     <meta property="og:site" content="dokk.in"/>
     <meta property="og:type" content="website"/>
     <meta property="og:description" content="<%= @og_description %>" />
-    <meta property="og:title" content="<%= @og_title %>"/>
+    <meta property="og:title" content="<%= @title %>"/>
     <meta property="og:image" content="<%= @og_image %>"/>
     <meta property="og:url" content="<%= @og_url %>"/>
 
@@ -29,33 +28,5 @@
     <% else %>
       <script src="http://localhost:8080/bundle.js"></script>
     <% end %>
-      <script>
-      window.onerror = function (message, url, lineNo, colNo, error) {
-
-        console.log(arguments);
-
-        let container = document.createElement('div');
-
-        container.style.color = 'red';
-        container.style.position = 'fixed';
-        container.style.background = '#eee';
-        container.style.padding = '2em';
-        container.style.top = '1em';
-        container.style.left = '1em';
-
-        let msg = document.createElement('pre');
-        msg.innerText = [
-            'Message: ' + message,
-            'URL: ' + url,
-            'Line: ' + lineNo,
-            'Column: ' + colNo,
-            'Stack: ' + (error && error.stack)
-        ].join('\n');
-
-        container.appendChild(msg);
-
-        document.body.appendChild(container);
-    };
-    </script>
   </body>
 </html>
