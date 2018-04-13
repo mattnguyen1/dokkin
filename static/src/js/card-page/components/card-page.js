@@ -66,19 +66,22 @@ class CardPage extends Component {
                 </div>
               </div>
               <div className="card-awaken-info">
+                <div className="card-awaken-arrow-box">
                 {
                   card.prev_dokkan &&
-                  <div className="card-awaken-container">
-                    <Link to={card.prev_dokkan.url}>
-                      <Card {...card.prev_dokkan}/>
-                    </Link>
-                    <img className="right-arrow" src="https://static.dokk.in/ui/com_ui_arrow_01_right.png"/>
-                  </div>
+                    <div className="card-awaken-container">
+                      <Link to={card.prev_dokkan.url}>
+                        <Card {...card.prev_dokkan}/>
+                      </Link>
+                      <img className="right-arrow" src="https://static.dokk.in/ui/com_ui_arrow_01_right.png"/>
+                    </div>
                 }
+                </div>
                 {
                   (card.prev_dokkan || card.next_dokkan) &&
                   <Card {...card}/>
                 }
+                <div className="card-awaken-arrow-box">
                 {
                   card.next_dokkan &&
                   <div className="card-awaken-container">
@@ -88,6 +91,7 @@ class CardPage extends Component {
                     </Link>
                   </div>
                 }
+                </div>
               </div>
             </div>
             <div className="card-page-info card-row-details">

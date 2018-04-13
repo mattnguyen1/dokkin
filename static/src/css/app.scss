@@ -132,6 +132,10 @@ body {
       justify-content: center;
       margin-left: 40px;
 
+      .card-awaken-arrow-box {
+        min-width: 131.25px;
+      }
+
       .card-awaken-container {
         display: flex;
         align-items: center;
