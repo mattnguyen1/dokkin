@@ -194,12 +194,33 @@ body {
   width: 375px;
   position: relative;
 
+  >img {
+    transition: opacity .2s ease-in-out, transform .3s ease-in-out;
+  }
+
   .card-char-bg,
   .card-char-effect {
-    opacity: .4;
+    opacity: 0;
     // This is so that any image interaction
     // will always happen on the character
     pointer-events: none;
+
+    &.loaded {
+      opacity: .4;
+    }
+  }
+
+  .card-char-effect {
+    transition-delay: .5s;
+  }
+
+  .card-char-art {
+    opacity: 0;
+    margin-top: -10px;
+    &.loaded {
+      opacity: 1;
+      transform: translateY(10px);
+    }
   }
 
   img {

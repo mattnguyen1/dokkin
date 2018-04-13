@@ -39,6 +39,10 @@ class CardPage extends Component {
     return card.leader_skill + " " + name + " | DBZ Dokkan Battle";
   }
 
+  _handleImageLoad = (event) => {
+    event.target.className += " loaded";
+  }
+
   updateCard(props) {
     const { params } = props.match;
     const cardId = params.cardSlug.split(/-(.+)/)[0];
@@ -57,9 +61,9 @@ class CardPage extends Component {
           <div className="card-page-content">
             <div className="card-char-pane">
               <div className="card-full-art">
-                <img className="card-char-bg" src={getCharacterBGUrl(card.id)}/>
-                <img className="card-char-art" src={getCharacterImageUrl(card.id)}/>
-                <img className="card-char-effect" src={getCharacterEffectUrl(card.id)}/>
+                <img onLoad={this._handleImageLoad} className="card-char-bg" src={getCharacterBGUrl(card.id)}/>
+                <img onLoad={this._handleImageLoad} className="card-char-art" src={getCharacterImageUrl(card.id)}/>
+                <img onLoad={this._handleImageLoad} className="card-char-effect" src={getCharacterEffectUrl(card.id)}/>
                 <div className="card-overlay">
                   <img className="card-rarity" src={getLargeRarityIconUrl(card.rarity_string)}/>
                   <img className="card-element" src={getElementIconUrl(card.element)}/>
