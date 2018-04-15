@@ -5,6 +5,29 @@ $card-page-flexbox-width: 815px;
   .app-container {
     .card-page-content {
       height: 100%;
+      margin: 0;
+
+      .card-char-pane {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .card-full-art {
+          margin-left: 0;
+          height: 400px;
+          width: 300px;
+        }
+
+        .card-awaken-info {
+          margin-left: 0;
+          margin-bottom: 20px;
+          width: 100%
+        }
+      }
+
+      .card-page-info {
+        width: 100%;
+      }
     }
   }
 }
@@ -30,17 +53,11 @@ $card-page-flexbox-width: 815px;
     }
   }
 
-  .card-page {
-    .card-page-content {
-      margin-left: -20px;
-    
-      .card-full-art {
-        margin-left: 20px;
-      }
-  
-      .card-page-info {
-        margin-left: 20px;
-      }
+  @media screen and (-webkit-min-device-pixel-ratio:0) { 
+    select,
+    textarea,
+    input {
+      font-size: 16px !important;
     }
   }
 }
