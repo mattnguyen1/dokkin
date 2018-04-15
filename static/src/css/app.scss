@@ -20,6 +20,9 @@ $font-subheading: 22px;
 // Heights & Widths
 $nav-bar-height: 48px;
 
+// Transitions
+$fade-in-transition: opacity .2s ease-in-out, transform .3s ease-in-out;
+
 *:focus {
   outline: none;
 }
@@ -195,7 +198,7 @@ body {
   position: relative;
 
   >img {
-    transition: opacity .2s ease-in-out, transform .3s ease-in-out;
+    transition: $fade-in-transition;
   }
 
   .card-char-bg,
@@ -277,9 +280,17 @@ body {
 .card {
   height: auto;
 
-  .card-character { 
+  .card-character {
+    transition: $fade-in-transition;
     width: 100px;
+    opacity: 0;
+    margin-top: -3px;
+    &.loaded {
+      opacity: 1;
+      transform: translateY(3px);
+    }
   }
+
   .card-frame {
     width: 100px;
     height: 100px;

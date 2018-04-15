@@ -6,6 +6,10 @@ import {
   getElementIconUrl, getFallbackThumbnailUrl
 } from 'dokkin/js/utils/url'
 
+const _handleImageLoad = (event) => {
+  event.target.className += " loaded";
+}
+
 const Card = ({id, name, element, rarity, rarity_string, leader_skill}) => {
   const cardStyle = {
     backgroundImage: `url(${getThumbnailBGUrl(element, rarity)})`
@@ -17,6 +21,7 @@ const Card = ({id, name, element, rarity, rarity_string, leader_skill}) => {
         <div className="card-background">
           <img className="card-character" src={getThumbnailUrl(id)}
             onError={(e)=>{e.target.src=getFallbackThumbnailUrl()}}
+            onLoad={_handleImageLoad}
           />
         </div>
         <div className="card-foreground">
