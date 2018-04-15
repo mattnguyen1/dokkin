@@ -10,6 +10,7 @@ class SearchInput extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
+    this._searchInput.blur();
     this.props.history.push("/search?q=" + this.props.input);
   }
 
@@ -18,7 +19,7 @@ class SearchInput extends Component {
     return (
       <div className="search">
         <form action="" onSubmit={this.onSubmit}>
-          <input type="search" placeholder="Search (example: str ssb vegito)" 
+          <input ref={el => this._searchInput = el} type="search" placeholder="Search (example: str ssb vegito)" 
             value={input}
             onChange={this.onInputChange} 
           />
