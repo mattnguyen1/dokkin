@@ -21,12 +21,19 @@ defmodule DokkinWeb.API.CardView do
       super_attack_description: super_attack_description,
       passive_description: passive_description,
       link1: link1,
+      link1_description: link1_description,
       link2: link2,
+      link2_description: link2_description,
       link3: link3,
+      link3_description: link3_description,
       link4: link4,
+      link4_description: link4_description,
       link5: link5,
+      link5_description: link5_description,
       link6: link6,
+      link6_description: link6_description,
       link7: link7,
+      link7_description: link7_description,
       cat1: cat1,
       cat2: cat2,
       cat3: cat3,
@@ -48,6 +55,8 @@ defmodule DokkinWeb.API.CardView do
       super_attack_description: super_attack_description,
       passive_description: passive_description,
       links: Enum.reject([link1, link2, link3, link4, link5, link6, link7], &is_nil/1),
+      link_descriptions: Enum.reject([link1_description, link2_description, link3_description,
+        link4_description, link5_description, link6_description, link7_description], &is_nil/1),
       categories: Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1),
       url: APIHelpers.card_url(card_response)
     }, %{
@@ -73,4 +82,7 @@ defmodule DokkinWeb.API.CardView do
     }
   end
   defp get_minimal_view(:nil) do :nil end
+
+  defp is_link_nil(%{name: :nil}) do false end
+  defp is_link_nil(_) do true end
 end

@@ -2,6 +2,18 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import TetherComponent from 'react-tether'
 
+export const TOP_CENTER = 'top center';
+export const TOP_LEFT = 'top left';
+export const TOP_RIGHT = 'top right';
+
+export const BOTTOM_CENTER = 'bottom center';
+export const BOTTOM_LEFT = 'bottom left';
+export const BOTTOM_RIGHT = 'bottom right';
+
+export const MIDDLE_CENTER = 'middle center';
+export const MIDDLE_LEFT = 'middle left';
+export const MIDDLE_RIGHT = 'middle right';
+
 class Tooltip extends Component {
 
   constructor(props) {
@@ -26,7 +38,7 @@ class Tooltip extends Component {
   render() {
     return (
       <TetherComponent
-        attachment="top center"
+        attachment={this.props.attachment}
         constraints={[{
           to: 'scrollParent',
           attachment: 'together'
@@ -38,9 +50,15 @@ class Tooltip extends Component {
         >
           {this.props.children}
         </div>
-        <div className="tooltip">
-          {this.state.isOpen && this.props.tooltipContent}
-        </div>
+        { 
+          this.state.isOpen &&
+          <div className={`tooltip ${this.props.attachment}`}
+            onMouseEnter={this.onMouseEnter}
+            onMouseLeave={this.onMouseLeave}
+          >
+            {this.props.tooltipContent}
+          </div>
+        }
       </TetherComponent>
     )
   }

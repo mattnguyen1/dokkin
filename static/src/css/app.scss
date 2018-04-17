@@ -2,6 +2,7 @@
 @import 'media-queries';
 
 // Colors
+$black: #222;
 $grey: #36393F;
 $light-grey: #484B51;
 $dark-grey: #2F3136;
@@ -186,6 +187,15 @@ body {
     .card-info-category {
       height: 46px;
     }
+
+    .card-page-links {
+      li {
+        margin-bottom: 5px;
+        >div {
+          display: inline-block;
+        }
+      }
+    }
   }
 }
 
@@ -323,5 +333,63 @@ body {
     span {
       display: block;
     }
+  }
+}
+
+.tooltip {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: $black;
+  color: $offwhite;
+  font-size: $font-small;
+
+  &.middle.left {
+    margin-left: 8px;
+  }
+
+  &.middle.right {
+    margin-right: 8px;
+  }
+}
+
+.tooltip {
+  &:after {
+    content: " ";
+    position: absolute;
+    border-style: solid;
+  }
+
+  &.center.top:after {
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-color: transparent transparent $black transparent;
+  }
+
+  &.center.bottom:after {
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-color: $black transparent transparent transparent;
+  }
+
+  &.middle.left:after {
+    top: 50%;
+    right: 100%;
+    margin-right: -8px;
+    margin-top: -5px;
+    border-width: 5px;
+    border-color: transparent $black transparent transparent;
+  }
+
+  &.middle.right:after {
+    top: 50%;
+    left: 100%;
+    margin-left: -8px;
+    margin-top: -5px;
+    border-width: 5px;
+    border-color: transparent transparent transparent $black;
   }
 }

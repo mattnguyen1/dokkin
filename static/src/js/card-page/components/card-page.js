@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet'
 import Card from 'dokkin/js/card/components/card'
 import { getCharacterImageUrl, getCharacterBGUrl,getCharacterEffectUrl,
   getLargeRarityIconUrl, getElementIconUrl } from 'dokkin/js/utils/url'
+import Tooltip, { MIDDLE_LEFT } from 'dokkin/js/common/tooltip'
 
 class CardPage extends Component {
 
@@ -126,9 +127,14 @@ class CardPage extends Component {
                   <img src="https://static.dokk.in/label/com_label_link_skill_99.png" title="Link Skill"/>
                   <ul>
                     {
-                      card.links.map((link) =>
+                      card.links.map((link, index) =>
                         <li key={link}>
-                          {link}
+                          <Tooltip
+                            attachment={MIDDLE_LEFT}
+                            tooltipContent={<span>{card.link_descriptions[index]}</span>}
+                          >
+                            {link}
+                          </Tooltip>
                         </li>
                       )
                     }
