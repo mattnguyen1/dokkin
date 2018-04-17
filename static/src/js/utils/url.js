@@ -126,3 +126,11 @@ export function getMappedQueryParams(paramStr) {
   });
   return queryParams;
 }
+
+export function getQueryParamString(params) {
+  let queryParamList = [];
+  Object.keys(params).forEach(param => {
+    queryParamList.push(`${param}=${params[param]}`)
+  });
+  return "?" + queryParamList.join("&");
+}

@@ -2,11 +2,15 @@ import {
   FETCH_CARDS_SUCCESS, FETCH_CARDS_LOADING, FETCH_CARDS_ERROR,
   FETCH_CARD_SUCCESS, FETCH_CARD_LOADING, FETCH_CARD_ERROR
 } from 'dokkin/js/card/card-action-types'
+import { getQueryParamString } from 'dokkin/js/utils/url';
 
-export function fetchCards(query) {
+export function fetchCards(params) {
+  console.log(params)
+  const queryParamString = getQueryParamString(params);
+  console.log(queryParamString)
   return (dispatch) => {
-    dispatch(fetchCardsLoading(query));
-    fetch(`/api/cards?search_q=${query}`)
+    dispatch(fetchCardsLoading(queryParamString));
+    fetch(`/api/cards${queryParamString}`)
       .then((response) => response.json())
       .then((responseBody) => {
         dispatch(fetchCardsSuccess(responseBody.cards));

@@ -133,7 +133,7 @@ class CardPage extends Component {
                             attachment={MIDDLE_LEFT}
                             tooltipContent={<span>{card.link_descriptions[index]}</span>}
                           >
-                            <Link to={`/search?q="${link}"`}>{link}</Link>
+                            <Link to={`/search?links=${link}`}>{link}</Link>
                           </Tooltip>
                         </li>
                       )

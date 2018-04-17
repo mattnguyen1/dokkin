@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateSearchInput: (input) => dispatch(updateSearchInput(input)),
-  fetchCards: (name) => dispatch(fetchCards(name))  
+  fetchCards: (params) => dispatch(fetchCards(params))  
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchInput)

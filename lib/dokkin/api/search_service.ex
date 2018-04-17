@@ -51,19 +51,19 @@ defmodule Dokkin.API.SearchService do
   Searches the set of all cards based on the query from the SearchService genserver process
   """
   @spec search(map) :: list
-  def search(%{"search_q" => search_q} = params) do
+  def search(%{"q" => query} = params) do
     Benchmark.measure("Dokkin.API.SearchService.search()", fn ->
       limit = if Map.has_key?(params, "limit") do String.to_integer(params["limit"]) else @default_limit end
       offset = if Map.has_key?(params, "offset") do String.to_integer(params["offset"]) else @default_offset end
-      Repo.fetch_search(search_q, limit, offset, &do_search/3)
+      Repo.fetch_search(params, limit, offset, &do_search/3)
     end)
   end
 
   @spec do_search(String.t, integer, integer) :: list
-  defp do_search(query, limit, offset) do
+  defp do_search(params, limit, offset) do
     :poolboy.transaction(
       :search_pool,
-      fn(pid) -> GenServer.call(pid, {:search, query, limit, offset}) end,
+      fn(pid) -> GenServer.call(pid, {:search, params, limit, offset}) end,
       @search_timeout
     )
   end
@@ -76,10 +76,14 @@ defmodule Dokkin.API.SearchService do
     {:ok, create_index()}
   end
 
-  def handle_call({:search, query, limit, offset}, _from, state) do
+  def handle_call({:search, %{"q" => query} = params, limit, offset}, _from, state) do
     query = normalize(query)
     results = Benchmark.measure("Dokkin.API.SearchService.handle_call(:search)::filter", fn -> 
-      Enum.filter(state, fn(card) -> contains_all?(query, card.name) end)
+      Enum.filter(state, fn(card) -> 
+        query
+        |> contains_all?(card.name)
+        |> maybe_contains_links?(card, params)
+      end)
     end)
     total = length(results)
     marker = if total - offset - limit > 0 do offset + limit else -1 end
@@ -93,6 +97,13 @@ defmodule Dokkin.API.SearchService do
     |> CardService.get()
     |> (&({:reply, {&1, total, marker}, state})).()
   end
+
+  defp maybe_contains_links?(true, card, %{"links" => links}) do
+    params_links = MapSet.new(Enum.map(String.split(links, ","), &normalize/1))
+    card_links = MapSet.new(Enum.map(card.links, &normalize/1))
+    MapSet.subset?(params_links, card_links)
+  end
+  defp maybe_contains_links?(prev_check, card, params) do prev_check end
 
   def handle_call(request, from, state) do
     super(request, from, state)
@@ -130,12 +141,10 @@ defmodule Dokkin.API.SearchService do
     alliance = Card.alliance(card)
     type = Card.element(card)
     links = Enum.reject([link1, link2, link3, link4, link5, link6, link7], &is_nil/1)
-    |> Enum.join(" ")
-    |> normalize()
+    |> Enum.map(&normalize/1)
     categories = Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1)
-    |> Enum.join(" ")
-    |> normalize()
-    all_strings = [alliance, type, rarity, normalize(leader_skill), normalize(card.name), links, categories]
+    |> Enum.map(&normalize/1)
+    all_strings = [alliance, type, rarity, normalize(leader_skill), normalize(card.name), Enum.join(links, " "), Enum.join(categories, " ")]
     |> Enum.join(" ")
     |> String.downcase()
     %{

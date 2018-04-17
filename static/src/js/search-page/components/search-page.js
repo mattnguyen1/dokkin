@@ -29,7 +29,10 @@ class SearchPage extends Component {
     const queryParams = getMappedQueryParams(search);
     let searchQuery = queryParams.q || DEFAULT_SEARCH_QUERY;
 
-    this.props.fetchCards(searchQuery);
+    this.props.fetchCards({
+      q: searchQuery,
+      ...queryParams
+    });
   }
 
   render() {
