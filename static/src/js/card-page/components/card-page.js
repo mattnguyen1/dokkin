@@ -149,7 +149,7 @@ class CardPage extends Component {
                   {
                     card.categories.map((category) =>
                       <li key={category}>
-                        {category}
+                        <Link to={`/search?categories=${category}`}>{category}</Link>
                       </li>
                     )
                   }

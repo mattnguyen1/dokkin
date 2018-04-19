@@ -83,6 +83,7 @@ defmodule Dokkin.API.SearchService do
         query
         |> contains_all?(card.name)
         |> maybe_contains_links?(card, params)
+        |> maybe_contains_categories?(card, params)
       end)
     end)
     total = length(results)
@@ -98,12 +99,21 @@ defmodule Dokkin.API.SearchService do
     |> (&({:reply, {&1, total, marker}, state})).()
   end
 
+  @spec maybe_contains_links?(boolean, map,  map) :: boolean
   defp maybe_contains_links?(true, card, %{"links" => links}) do
     params_links = MapSet.new(Enum.map(String.split(links, ","), &normalize/1))
     card_links = MapSet.new(Enum.map(card.links, &normalize/1))
     MapSet.subset?(params_links, card_links)
   end
   defp maybe_contains_links?(prev_check, card, params) do prev_check end
+
+  @spec maybe_contains_categories?(boolean, map,  map) :: boolean
+  defp maybe_contains_categories?(true, card, %{"categories" => categories}) do
+    params_categories = MapSet.new(Enum.map(String.split(categories, ","), &normalize/1))
+    card_categories = MapSet.new(Enum.map(card.categories, &normalize/1))
+    MapSet.subset?(params_categories, card_categories)
+  end
+  defp maybe_contains_categories?(prev_check, card, params) do prev_check end
 
   def handle_call(request, from, state) do
     super(request, from, state)
