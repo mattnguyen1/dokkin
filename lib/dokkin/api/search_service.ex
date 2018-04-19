@@ -161,8 +161,9 @@ defmodule Dokkin.API.SearchService do
   @spec normalize(String.t) :: String.t
   defp normalize(text) do
     text
-    |> WordSmith.remove_accents
-    |> String.downcase
+    |> WordSmith.remove_accents()
+    |> String.downcase()
+    |> String.replace("\'", "")
     |> String.split(" ")
     |> Enum.map_join(" ", fn(token) -> 
       token_alias = @aliases[token]
