@@ -13,7 +13,7 @@ function cardsList(state = {}, action) {
       };
 
     case FETCH_CARDS_LOADING:
-      const didParamsChange = state.queryParams !== action.query
+      const didParamsChange = state.query !== action.query
       return {
         ...state,        
         query: action.query,
