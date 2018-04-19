@@ -4,7 +4,7 @@ import CardGrid from 'dokkin/js/card/components/card-grid'
 import { fetchCards } from 'dokkin/js/card/card-action'
 
 const mapStateToProps = (state) => ({
-  cardsList: state.cardReducer.cardsList
+  cardsList: state.cardReducer.cardsList.cards
 });
 
 export default connect(mapStateToProps)(CardGrid)

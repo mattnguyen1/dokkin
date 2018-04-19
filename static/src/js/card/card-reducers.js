@@ -4,13 +4,27 @@ import {
   FETCH_CARD_SUCCESS, FETCH_CARD_LOADING, FETCH_CARD_ERROR
 } from './card-action-types'
 
-function cardsList(state = [], action) {
+function cardsList(state = {}, action) {
   switch (action.type) {
     case FETCH_CARDS_SUCCESS:
-      return action.cardsList;
+      return {
+        ...state,
+        cards: action.cardsList
+      };
+
+    case FETCH_CARDS_LOADING:
+      const didParamsChange = state.queryParams !== action.query
+      return {
+        ...state,        
+        query: action.query,
+        cards: didParamsChange ? [] : state.cards
+      };
     
     case FETCH_CARDS_ERROR:
-      return [];
+      return {
+        ...state,
+        cards: [],
+      };
     
     default:
       return state;
