@@ -10,23 +10,26 @@ defmodule Dokkin.API.SearchService do
   alias Dokkin.Repo
 
   @search_timeout 5000
+  # TODO: Find a way for ss to resolve a search that can pick up both super saiyan and ss separately (OR operator)
   @aliases %{
-    "ssj" => "super saiyan",
-    "ss2" => "super saiyan 2",
-    "ssj2" => "super saiyan 2",
-    "ss3" => "super saiyan 3",
-    "ssj3" => "super saiyan 3",
-    "ss4" => "super saiyan 4",
-    "ssj4" => "super saiyan 4",
-    "ssb" => "super saiyan god ss",
-    "vb" => "super saiyan god ss vegito",
-    "buuhan" => "majin buu (ultimate gohan)",
-    "agf" => "angel golden frieza",
-    "blue" => "super saiyan god ss",
-    "sv" => "super vegito",
+    "ss" => "\"super saiyan\"",
+    "ssj" => "\"super saiyan\"",
+    "ss2" => "\"super saiyan 2\"",
+    "ssj2" => "\"super saiyan 2\"",
+    "ss3" => "\"super saiyan 3\"",
+    "ssj3" => "\"super saiyan 3\"",
+    "ss4" => "\"super saiyan 4\"",
+    "ssj4" => "\"super saiyan 4\"",
+    "ssb" => "\"super saiyan god ss\"",
+    "vb" => "\"super saiyan god ss vegito\"",
+    "buuhan" => "\"majin buu (ultimate gohan)\"",
+    "agf" => "\"angel golden frieza\"",
+    "blue" => "\"super saiyan god ss\"",
+    "sv" => "\"super vegito\"",
     "bojack" => "boujack",
+    "cooler" => "coora"
   }
-  @token_blacklist ["ss", "agl", "str", "teq", "int", "phy", "r", "n", "1", "2", "3", "4"]
+  @token_blacklist ["agl", "str", "teq", "int", "phy", "r", "n", "1", "2", "3", "4"]
   @split_regex ~r/[ ]+(?=([^"]*"[^"]*")*[^"]*$)/
   @default_limit 100
   @default_offset 0

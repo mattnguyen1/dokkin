@@ -5,9 +5,7 @@ import {
 import { getQueryParamString } from 'dokkin/js/utils/url';
 
 export function fetchCards(params) {
-  console.log(params)
   const queryParamString = getQueryParamString(params);
-  console.log(queryParamString)
   return (dispatch) => {
     dispatch(fetchCardsLoading(queryParamString));
     fetch(`/api/cards${queryParamString}`)
