@@ -382,7 +382,7 @@ defmodule Dokkin.API.CardService do
     left_join: cat6 in Categories, on: c.card_category6_id == cat6.id,
     where: is_nil(a.type) or a.type != "CardAwakeningRoute::Dokkan",
     where: is_nil(a.type) or a.type != "CardAwakeningRoute::Optimal",
-    where: (c.rarity >= 3 and fragment("? % 2", c.id) == 1) or (c.rarity < 3 and fragment("? % 2", c.id) == 0),
+    where: (c.rarity >= 4 and fragment("? % 2", c.id) == 1) or (c.rarity < 4 and fragment("? % 2", c.id) == 0),
     where: c.id < 4000000
   end
 
