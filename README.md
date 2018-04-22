@@ -31,4 +31,5 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 ## In Progress
 
 - Quick search: auto complete in the search input similar to the autocomplete results in twitch
+  - This should also include links and categories as possible results
 
