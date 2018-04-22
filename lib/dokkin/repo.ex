@@ -101,7 +101,6 @@ defmodule Dokkin.Repo do
   defp fetch(params, limit, offset, cache, fetch_fn) when is_map(params) do
     cache_slug = map_to_slug(params) <> "-" <> Integer.to_string(limit) <> "-" <> Integer.to_string(offset)
     |> String.downcase()
-    |> IO.inspect
     Cachex.fetch(cache, cache_slug, fn(some_slug) ->
       fetch_fn.(params, limit, offset)
     end)

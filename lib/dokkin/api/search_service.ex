@@ -80,7 +80,7 @@ defmodule Dokkin.API.SearchService do
   end
 
   def handle_call({:search, %{"q" => query} = params, limit, offset}, _from, state) do
-    query = normalize(query)
+    query = normalize_query(query)
     results = Benchmark.measure("Dokkin.API.SearchService.handle_call(:search)::filter", fn -> 
       Enum.filter(state, fn(card) -> 
         query
@@ -174,10 +174,14 @@ defmodule Dokkin.API.SearchService do
   @spec normalize(String.t) :: String.t
   defp normalize(text) do
     text
-    |> WordSmith.remove_accents()
-    |> String.downcase()
-    |> String.replace("\'", "")
-    |> String.split(" ")
+    |> normalize_split_string()
+    |> Enum.join(" ")
+  end
+
+  @spec normalize_query(String.t) :: String.t
+  defp normalize_query(text) do
+    text
+    |> normalize_split_string()
     |> Enum.map_join(" ", fn(token) -> 
       token_alias = @aliases[token]
       if (token_alias) do
@@ -186,6 +190,15 @@ defmodule Dokkin.API.SearchService do
         token
       end
     end)
+  end
+
+  @spec normalize_split_string(String.t) :: String.t
+  defp normalize_split_string(text) do
+    text
+    |> WordSmith.remove_accents()
+    |> String.downcase()
+    |> String.replace("\'", "")
+    |> String.split(" ")
   end
 
   @spec contains_all?(String.t, String.t) :: boolean
