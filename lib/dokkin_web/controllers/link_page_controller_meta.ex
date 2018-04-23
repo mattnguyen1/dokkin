@@ -14,7 +14,7 @@ defmodule DokkinWeb.Meta.LinkPageController do
     } = LinkService.get(link_id)
 
     title = link_name <> " | Links | DBZ Dokkan Battle"
-    description = "Effect " <> link_description <> "\nResults for cards with the \"" <> link_name <> "\" passive."
+    description = "Effect " <> link_description <> "\nCards with the \"" <> link_name <> "\" link."
     correct_slug = APIHelpers.normalize_slug(link_id <> "-" <> link_name)
 
     conn
