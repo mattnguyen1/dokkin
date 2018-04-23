@@ -105,7 +105,9 @@ defmodule Dokkin.API.SearchService do
   @spec maybe_contains_links?(boolean, map,  map) :: boolean
   defp maybe_contains_links?(true, card, %{"links" => links}) do
     params_links = MapSet.new(Enum.map(String.split(links, ","), &normalize/1))
-    card_links = MapSet.new(Enum.map(card.links, &normalize/1))
+    card_links = card.links
+    |> Enum.map(&normalize/1)
+    |> MapSet.new()
     MapSet.subset?(params_links, card_links)
   end
   defp maybe_contains_links?(prev_check, card, params) do prev_check end
@@ -153,7 +155,9 @@ defmodule Dokkin.API.SearchService do
     rarity = Card.rarity(card)
     alliance = Card.alliance(card)
     type = Card.element(card)
-    links = Enum.reject([link1, link2, link3, link4, link5, link6, link7], &is_nil/1)
+    links = [link1, link2, link3, link4, link5, link6, link7]
+    |> get_link_names()
+    |> Enum.reject(&is_nil/1)
     |> Enum.map(&normalize/1)
     categories = Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1)
     |> Enum.map(&normalize/1)
@@ -223,5 +227,13 @@ defmodule Dokkin.API.SearchService do
   @spec remove_quotes(String.t) :: String.t
   defp remove_quotes(text) do
     String.replace(text, "\"", "")
+  end
+
+  @spec get_link_names(list) :: list
+  defp get_link_names(links) do
+    links
+    |> Enum.map(fn(link) ->
+      link.name
+    end)
   end
 end

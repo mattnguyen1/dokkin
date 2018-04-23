@@ -19,6 +19,8 @@ defmodule Dokkin.APIHelpers do
     text
     |> WordSmith.remove_accents()
     |> String.downcase()
-    |> String.replace(" ", "-")
+    |> String.replace("#", "")
+    |> String.replace("&", "")
+    |> String.replace(~r/ +/, "-")
   end
 end

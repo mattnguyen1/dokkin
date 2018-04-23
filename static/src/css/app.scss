@@ -399,3 +399,23 @@ a {
     border-color: transparent transparent transparent $black;
   }
 }
+
+.link-page-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  justify-content: center;
+  justify-items: center;
+  text-align: center;
+
+  .link-page-name {
+    font-size: $font-heading;
+    font-weight: bold;
+  }
+
+  .link-page-description {
+    font-size: $font-subheading;
+    color: $light-blue;
+  }
+}

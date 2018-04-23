@@ -17,6 +17,7 @@ defmodule DokkinWeb.Router do
     pipe_through :api
 
     resources "/cards", CardController
+    resources "/links", LinkController
   end
 
   scope "/", DokkinWeb do

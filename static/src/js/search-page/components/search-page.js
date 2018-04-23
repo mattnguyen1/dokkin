@@ -6,7 +6,7 @@ import CardGrid from 'dokkin/js/card/card-grid-container'
 import { getMappedQueryParams } from 'dokkin/js/utils/url'
 
 const DEFAULT_SEARCH_QUERY = '';
-const DEFAULT_SITE_TITLE = 'dokk.in | DBZ Dokkan Battle';
+const DEFAULT_SITE_TITLE = 'dokkin | DBZ Dokkan Battle';
 
 class SearchPage extends Component {
 

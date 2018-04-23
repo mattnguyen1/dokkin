@@ -325,20 +325,41 @@ defmodule Dokkin.API.CardService do
       super_attack: [s.name],
       super_attack_description: [s.description],
       passive_description: p.description,
-      link1: link1.name,
-      link1_description: link1.description,
-      link2: link2.name,
-      link2_description: link2.description,
-      link3: link3.name,
-      link3_description: link3.description,
-      link4: link4.name,
-      link4_description: link4.description,
-      link5: link5.name,
-      link5_description: link5.description,
-      link6: link6.name,
-      link6_description: link6.description,
-      link7: link7.name,
-      link7_description: link7.description,
+      link1: %{
+        id: link1.id,
+        name: link1.name,
+        description: link1.description
+      },
+      link2: %{
+        id: link2.id,
+        name: link2.name,
+        description: link2.description
+      },
+      link3: %{
+        id: link3.id,
+        name: link3.name,
+        description: link3.description
+      },
+      link4: %{
+        id: link4.id,
+        name: link4.name,
+        description: link4.description
+      },
+      link5: %{
+        id: link5.id,
+        name: link5.name,
+        description: link5.description
+      },
+      link6: %{
+        id: link6.id,
+        name: link6.name,
+        description: link6.description
+      },
+      link7: %{
+        id: link7.id,
+        name: link7.name,
+        description: link7.description
+      },
       cat1: cat1.name,
       cat2: cat2.name,
       cat3: cat3.name,
@@ -424,5 +445,14 @@ defmodule Dokkin.API.CardService do
     else
       [card | card_list]
     end
+  end
+
+  @spec get_link_map(map) :: map
+  defp get_link_map(%{id: id, name: name, description: description}) do
+    %{
+      id: id,
+      name: name,
+      description: description
+    }
   end
 end

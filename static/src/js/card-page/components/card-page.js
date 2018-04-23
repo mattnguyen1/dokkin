@@ -128,12 +128,12 @@ class CardPage extends Component {
                   <ul>
                     {
                       card.links.map((link, index) =>
-                        <li key={link}>
+                        <li key={link.id}>
                           <Tooltip
                             attachment={MIDDLE_LEFT}
-                            tooltipContent={<span>{card.link_descriptions[index]}</span>}
+                            tooltipContent={<span>{link.description}</span>}
                           >
-                            <Link to={`/search?links=${link}`}>{link}</Link>
+                            <Link to={`/link/${link.slug}`}>{link.name}</Link>
                           </Tooltip>
                         </li>
                       )
