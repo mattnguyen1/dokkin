@@ -99,6 +99,10 @@ export function getCharacterImageUrl(id) {
   return DOKKIN_S3_BASE_URL + CARD_URL_PATH + getCharacterImagePath(id);
 }
 
+export function getFallbackCharacterBGUrl() {
+  return DOKKIN_S3_BASE_URL + CARD_URL_PATH + '/0000000/card_0000000_bg.png';
+}
+
 export function getCharacterBGUrl(id) {
   return DOKKIN_S3_BASE_URL + CARD_URL_PATH + getCharacterBGImagePath(id);
 }

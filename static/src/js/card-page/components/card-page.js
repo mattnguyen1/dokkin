@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 
 import Card from 'dokkin/js/card/components/card'
 import { getCharacterImageUrl, getCharacterBGUrl,getCharacterEffectUrl,
-  getLargeRarityIconUrl, getElementIconUrl } from 'dokkin/js/utils/url'
+  getLargeRarityIconUrl, getElementIconUrl, getFallbackCharacterBGUrl } from 'dokkin/js/utils/url'
 import Tooltip, { MIDDLE_LEFT } from 'dokkin/js/common/tooltip'
 
 class CardPage extends Component {
@@ -44,6 +44,11 @@ class CardPage extends Component {
     event.target.className += " loaded";
   }
 
+  _handleImageError = (event) => {
+    event.target.src = getFallbackCharacterBGUrl()
+    event.target.className += " loaded";
+  }
+
   updateCard(props) {
     const { params } = props.match;
     const cardId = params.cardSlug.split(/-(.+)/)[0];
@@ -63,9 +68,22 @@ class CardPage extends Component {
           <div className="card-page-content">
             <div className="card-char-pane">
               <div className="card-full-art">
-                <img onLoad={this._handleImageLoad} className="card-char-bg" src={getCharacterBGUrl(resourceId)}/>
-                <img onLoad={this._handleImageLoad} className="card-char-art" src={getCharacterImageUrl(resourceId)}/>
-                <img onLoad={this._handleImageLoad} className="card-char-effect" src={getCharacterEffectUrl(resourceId)}/>
+                <img
+                  onLoad={this._handleImageLoad}
+                  onError={this._handleImageError}
+                  className="card-char-bg"
+                  src={getCharacterBGUrl(resourceId)}
+                />
+                <img
+                  onLoad={this._handleImageLoad}
+                  className="card-char-art"
+                  src={getCharacterImageUrl(resourceId)}
+                />
+                <img
+                  onLoad={this._handleImageLoad}
+                  className="card-char-effect"
+                  src={getCharacterEffectUrl(resourceId)}
+                />
                 <div className="card-overlay">
                   <img className="card-rarity" src={getLargeRarityIconUrl(card.rarity_string)}/>
                   <img className="card-element" src={getElementIconUrl(card.element)}/>
