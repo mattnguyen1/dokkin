@@ -37,6 +37,7 @@ defmodule DokkinWeb.API.CardView do
     Map.merge(%{
       id: card.id,
       name: card.name,
+      resource_id: card.resource_id,
       alliance_type: @alliance_types[card.awakening_element_type],
       rarity: card.rarity,
       rarity_string: @rarity[card.rarity],

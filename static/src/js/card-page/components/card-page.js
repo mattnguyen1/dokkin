@@ -55,6 +55,7 @@ class CardPage extends Component {
     const { params } = this.props.match;
     const cardId = params.cardSlug.split(/-(.+)/)[0];
     const card = cardCache[cardId];
+    const resourceId = (card && card.resource_id) || cardId;
     return (
       <div className="page card-page">
         {
@@ -62,9 +63,9 @@ class CardPage extends Component {
           <div className="card-page-content">
             <div className="card-char-pane">
               <div className="card-full-art">
-                <img onLoad={this._handleImageLoad} className="card-char-bg" src={getCharacterBGUrl(card.id)}/>
-                <img onLoad={this._handleImageLoad} className="card-char-art" src={getCharacterImageUrl(card.id)}/>
-                <img onLoad={this._handleImageLoad} className="card-char-effect" src={getCharacterEffectUrl(card.id)}/>
+                <img onLoad={this._handleImageLoad} className="card-char-bg" src={getCharacterBGUrl(resourceId)}/>
+                <img onLoad={this._handleImageLoad} className="card-char-art" src={getCharacterImageUrl(resourceId)}/>
+                <img onLoad={this._handleImageLoad} className="card-char-effect" src={getCharacterEffectUrl(resourceId)}/>
                 <div className="card-overlay">
                   <img className="card-rarity" src={getLargeRarityIconUrl(card.rarity_string)}/>
                   <img className="card-element" src={getElementIconUrl(card.element)}/>

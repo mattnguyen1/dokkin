@@ -10,16 +10,17 @@ const _handleImageLoad = (event) => {
   event.target.className += " loaded";
 }
 
-const Card = ({id, name, element, rarity, rarity_string, leader_skill}) => {
+const Card = ({id, name, element, rarity, rarity_string, leader_skill, resource_id}) => {
   const cardStyle = {
     backgroundImage: `url(${getThumbnailBGUrl(element, rarity)})`
   }
+  const resourceId = resource_id || id;
   
   return (
     <div className="card" data-type-id={id} title={leader_skill + " " + name}>
       <div className="card-frame" style={cardStyle}>
         <div className="card-background">
-          <img className="card-character" src={getThumbnailUrl(id)}
+          <img className="card-character" src={getThumbnailUrl(resourceId)}
             onError={(e)=>{e.target.src=getFallbackThumbnailUrl()}}
             onLoad={_handleImageLoad}
           />
