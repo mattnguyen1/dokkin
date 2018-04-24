@@ -1,21 +1,20 @@
-defmodule DokkinWeb.Meta.LinkPageController do
+defmodule DokkinWeb.Meta.CategoryPageController do
   use DokkinWeb, :controller
 
   alias Dokkin.APIHelpers
-  alias Dokkin.API.LinkService
+  alias Dokkin.API.CategoryService
   alias Dokkin.Card
 
   def assign_meta_and_render(conn, slug) do
     url = DokkinWeb.Router.Helpers.url(conn) <> conn.request_path
-    [link_id | _] = String.split(slug, "-")
+    [category_id | _] = String.split(slug, "-")
     %{
-      name: link_name,
-      description: link_description
-    } = LinkService.get(link_id)
+      name: category_name
+    } = CategoryService.get(category_id)
 
-    title = link_name <> " | Links | DBZ Dokkan Battle"
-    description = "Effect: " <> link_description <> "\nCards with the \"" <> link_name <> "\" link."
-    correct_slug = APIHelpers.normalize_slug(link_id <> "-" <> link_name)
+    title = category_name <> " | Categories | DBZ Dokkan Battle"
+    description = "Cards in the \"" <> category_name <> "\" category."
+    correct_slug = APIHelpers.normalize_slug(category_id <> "-" <> category_name)
 
     conn
     |> assign(:title, title)
@@ -32,7 +31,7 @@ defmodule DokkinWeb.Meta.LinkPageController do
       |> render("index.html")
     else
       conn
-      |> redirect(to: "/link/" <> correct_slug)
+      |> redirect(to: "/category/" <> correct_slug)
     end
   end
 end

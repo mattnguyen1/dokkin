@@ -400,7 +400,8 @@ a {
   }
 }
 
-.link-page-header {
+.link-page-header,
+.category-page-header {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -409,7 +410,8 @@ a {
   justify-items: center;
   text-align: center;
 
-  .link-page-name {
+  .link-page-name,
+  .category-page-name {
     font-size: $font-heading;
     font-weight: bold;
   }

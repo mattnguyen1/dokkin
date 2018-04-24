@@ -48,7 +48,7 @@ defmodule DokkinWeb.API.CardView do
       super_attack_description: super_attack_description,
       passive_description: passive_description,
       links: get_links([link1, link2, link3, link4, link5, link6, link7]),
-      categories: Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1),
+      categories: get_categories([cat1, cat2, cat3, cat4, cat5, cat6]),
       url: APIHelpers.card_url(card_response)
     }, %{
       next_dokkan: get_minimal_view(Map.get(response, :next_dokkan, :nil)),
@@ -80,12 +80,20 @@ defmodule DokkinWeb.API.CardView do
 
   defp get_links(links) do
     links
-    |> Enum.reject(&is_link_nil/1)
+    |> Enum.reject(&is_map_name_nil/1)
     |> Enum.map(fn link ->
       Map.put(link, :slug, APIHelpers.normalize_slug(Integer.to_string(link.id) <> "-" <> link.name))
     end)
   end
 
-  defp is_link_nil(%{name: :nil}) do true end
-  defp is_link_nil(_) do false end
+  defp get_categories(categories) do
+    categories
+    |> Enum.reject(&is_map_name_nil/1)
+    |> Enum.map(fn category ->
+      Map.put(category, :slug, APIHelpers.normalize_slug(Integer.to_string(category.id) <> "-" <> category.name))
+    end)
+  end
+
+  defp is_map_name_nil(%{name: :nil}) do true end
+  defp is_map_name_nil(_) do false end
 end

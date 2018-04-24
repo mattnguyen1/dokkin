@@ -18,6 +18,7 @@ defmodule DokkinWeb.Router do
 
     resources "/cards", CardController
     resources "/links", LinkController
+    resources "/categories", CategoryController
   end
 
   scope "/", DokkinWeb do

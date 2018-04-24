@@ -127,7 +127,7 @@ class CardPage extends Component {
                   <img src="https://static.dokk.in/label/com_label_link_skill_99.png" title="Link Skill"/>
                   <ul>
                     {
-                      card.links.map((link, index) =>
+                      card.links.map((link) =>
                         <li key={link.id}>
                           <Tooltip
                             attachment={MIDDLE_LEFT}
@@ -148,8 +148,8 @@ class CardPage extends Component {
                   <ul>
                   {
                     card.categories.map((category) =>
-                      <li key={category}>
-                        <Link to={`/search?categories=${category}`}>{category}</Link>
+                      <li key={category.id}>
+                        <Link to={`/category/${category.slug}`}>{category.name}</Link>
                       </li>
                     )
                   }

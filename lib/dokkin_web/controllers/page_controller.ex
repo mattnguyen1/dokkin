@@ -5,6 +5,7 @@ defmodule DokkinWeb.PageController do
   alias Dokkin.API.CardService
   alias DokkinWeb.Meta.CardPageController
   alias DokkinWeb.Meta.LinkPageController
+  alias DokkinWeb.Meta.CategoryPageController
   alias Dokkin.Card
 
   # Card page controller route
@@ -16,6 +17,11 @@ defmodule DokkinWeb.PageController do
   def index(conn, %{"path" => ["link", link_slug]}) do
     conn
     |> LinkPageController.assign_meta_and_render(link_slug)
+  end
+
+  def index(conn, %{"path" => ["category", category_slug]}) do
+    conn
+    |> CategoryPageController.assign_meta_and_render(category_slug)
   end
 
   def index(conn, _params) do

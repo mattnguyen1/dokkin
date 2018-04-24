@@ -360,12 +360,30 @@ defmodule Dokkin.API.CardService do
         name: link7.name,
         description: link7.description
       },
-      cat1: cat1.name,
-      cat2: cat2.name,
-      cat3: cat3.name,
-      cat4: cat4.name,
-      cat5: cat5.name,
-      cat6: cat6.name
+      cat1: %{
+        id: cat1.id,
+        name: cat1.name
+      },
+      cat2: %{
+        id: cat2.id,
+        name: cat2.name
+      },
+      cat3: %{
+        id: cat3.id,
+        name: cat3.name
+      },
+      cat4: %{
+        id: cat4.id,
+        name: cat4.name
+      },
+      cat5: %{
+        id: cat5.id,
+        name: cat5.name
+      },
+      cat6: %{
+        id: cat6.id,
+        name: cat6.name
+      }
     }
   end
 

@@ -4,6 +4,7 @@ import {
   FETCH_CARD_SUCCESS, FETCH_CARD_LOADING, FETCH_CARD_ERROR
 } from './card-action-types'
 import { FETCH_LINK_LOADING } from 'dokkin/js/link-page/link-action-types'
+import { FETCH_CATEGORY_LOADING } from 'dokkin/js/category-page/category-action-types'
 
 function cardsList(state = {}, action) {
   switch (action.type) {
@@ -33,6 +34,14 @@ function cardsList(state = {}, action) {
         ...state,        
         linkId: action.id,
         cards: didLinkParamsChange ? [] : state.cards
+      };
+
+    case FETCH_CATEGORY_LOADING:
+      const didCategoryParamsChange = state.categoryId !== action.id;
+      return {
+        ...state,        
+        categoryId: action.id,
+        cards: didCategoryParamsChange ? [] : state.cards
       };
     
     default:

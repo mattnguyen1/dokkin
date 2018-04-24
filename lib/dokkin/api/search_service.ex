@@ -159,7 +159,9 @@ defmodule Dokkin.API.SearchService do
     |> get_link_names()
     |> Enum.reject(&is_nil/1)
     |> Enum.map(&normalize/1)
-    categories = Enum.reject([cat1, cat2, cat3, cat4, cat5, cat6], &is_nil/1)
+    categories = [cat1, cat2, cat3, cat4, cat5, cat6]
+    |> get_category_names()
+    |> Enum.reject(&is_nil/1)
     |> Enum.map(&normalize/1)
     all_strings = [alliance, type, rarity, normalize(leader_skill), normalize(card.name), Enum.join(links, " "), Enum.join(categories, " ")]
     |> Enum.join(" ")
@@ -234,6 +236,14 @@ defmodule Dokkin.API.SearchService do
     links
     |> Enum.map(fn(link) ->
       link.name
+    end)
+  end
+
+  @spec get_category_names(list) :: list
+  defp get_category_names(categories) do
+    categories
+    |> Enum.map(fn(category) ->
+      category.name
     end)
   end
 end
