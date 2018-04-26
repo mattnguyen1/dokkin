@@ -40,7 +40,8 @@ class CardGrid extends Component {
           pageStart={1}
           loadMore={this._loadCards}
           hasMore={canLoadMore}
-          loader={this._renderLoaders(10)}
+          loader={this._renderLoaders(5)}
+          className="infinite-card-grid"
       >
         {
           (!cardsList.length && isLoading) ?

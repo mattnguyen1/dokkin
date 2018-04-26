@@ -51,6 +51,29 @@ $card-page-flexbox-width: 815px;
         }
       }
     }
+
+    .card-row {
+      &.loader {
+      
+        .card-row-title-loader {
+          width: 150px;
+        }
+      
+        .card-row-loader-text {
+          &.first {
+            width: 200px;
+          }
+      
+          &.second {
+            width: 100px;
+          }
+      
+          &.third {
+            width: 125px;
+          }
+        }
+      }
+    }
   }
 
   @media screen and (-webkit-min-device-pixel-ratio:0) { 
