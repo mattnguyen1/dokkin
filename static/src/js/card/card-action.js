@@ -4,14 +4,18 @@ import {
 } from 'dokkin/js/card/card-action-types'
 import { getQueryParamString } from 'dokkin/js/utils/url';
 
+const DEFAULT_LIMIT = 50;
+
 export function fetchCards(params) {
-  const queryParamString = getQueryParamString(params);
+  const queryParams = Object.assign({}, params);
+  queryParams.limit = DEFAULT_LIMIT;
+  const queryParamString = getQueryParamString(queryParams);
   return (dispatch) => {
-    dispatch(fetchCardsLoading(queryParamString));
+    dispatch(fetchCardsLoading(queryParams));
     fetch(`/api/cards${queryParamString}`)
       .then((response) => response.json())
       .then((responseBody) => {
-        dispatch(fetchCardsSuccess(responseBody.cards));
+        dispatch(fetchCardsSuccess(responseBody));
       })
       .catch((error) => {
         dispatch(fetchCardsError(error))
@@ -33,17 +37,17 @@ export function fetchCard(id) {
   }
 }
 
-export function fetchCardsSuccess(cardsList) {
+export function fetchCardsSuccess(response) {
   return {
     type: FETCH_CARDS_SUCCESS,
-    cardsList
+    response
   }
 }
 
-export function fetchCardsLoading(query) {
+export function fetchCardsLoading(params) {
   return {
     type: FETCH_CARDS_LOADING,
-    query
+    params
   }
 }
 

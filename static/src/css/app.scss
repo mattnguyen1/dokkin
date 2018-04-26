@@ -43,6 +43,18 @@ a {
   text-decoration: none;
 }
 
+@keyframes pulse {
+  0% {
+      background-color: rgba(100, 100, 100, 0.1)
+  }
+  50% {
+      background-color: rgba(100, 100, 100, 0.3)
+  }
+  100% {
+      background-color: rgba(100, 100, 100, 0.1)
+  }
+}
+
 .page {
   display: flex;
   flex-direction: column;
@@ -275,6 +287,47 @@ a {
   .card-row-title {
     font-size: $font-small;
     color: $light-blue;
+  }
+
+  &.loader {
+    .card-row-thumb-loader {
+      margin: 0 auto;
+      height: 90px;
+      width: 90px;
+      margin-left: 10px;
+      margin-top: 5px;
+      background-color: $grey;
+      border-radius: 5px;
+      // animation: pulse 1s infinite ease-in-out;
+    }
+  
+    .card-row-title-loader {
+      height: 20px;
+      width: 175px;
+      background-color: $grey;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      // animation: pulse 1s infinite ease-in-out;
+    }
+  
+    .card-row-loader-text {
+      background-color: $grey;
+      height: 15px;
+      margin-bottom: 7px;
+      // animation: pulse 1s infinite ease-in-out;
+  
+      &.first {
+        width: 350px;
+      }
+  
+      &.second {
+        width: 200px;
+      }
+  
+      &.third {
+        width: 250px;
+      }
+    }
   }
 }
 

@@ -5,27 +5,42 @@ import {
 } from './card-action-types'
 import { FETCH_LINK_LOADING } from 'dokkin/js/link-page/link-action-types'
 import { FETCH_CATEGORY_LOADING } from 'dokkin/js/category-page/category-action-types'
+import { getQueryParamString } from 'dokkin/js/utils/url';
 
 function cardsList(state = {}, action) {
   switch (action.type) {
     case FETCH_CARDS_SUCCESS:
+      const shouldConcat = state.params.offset > 0;
       return {
         ...state,
-        cards: action.cardsList
+        cards: shouldConcat ? state.cards.concat(action.response.cards) : action.response.cards,
+        marker: action.response.marker,
+        totalCards: action.response.total_results,
+        canLoadMore: action.response.marker >= 0,
+        isLoading: false
       };
 
     case FETCH_CARDS_LOADING:
-      const didParamsChange = state.query !== action.query;
+      
+      const didParamsChange = 
+        (!state.params && action.params) ||
+        (state.params.q !== action.params.q) ||
+        (state.params.links !== action.params.links) ||
+        (state.params.categories !== action.params.categories);
       return {
         ...state,        
         query: action.query,
-        cards: didParamsChange ? [] : state.cards
+        cards: didParamsChange ? [] : state.cards,
+        params: action.params,
+        canLoadMore: false,
+        isLoading: true
       };
     
     case FETCH_CARDS_ERROR:
       return {
         ...state,
         cards: [],
+        isLoading: false
       };
 
     case FETCH_LINK_LOADING:
@@ -33,7 +48,8 @@ function cardsList(state = {}, action) {
       return {
         ...state,        
         linkId: action.id,
-        cards: didLinkParamsChange ? [] : state.cards
+        cards: didLinkParamsChange ? [] : state.cards,
+        canLoadMore: false
       };
 
     case FETCH_CATEGORY_LOADING:
@@ -41,7 +57,8 @@ function cardsList(state = {}, action) {
       return {
         ...state,        
         categoryId: action.id,
-        cards: didCategoryParamsChange ? [] : state.cards
+        cards: didCategoryParamsChange ? [] : state.cards,
+        canLoadMore: false        
       };
     
     default:
