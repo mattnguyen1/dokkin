@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
 import Card from 'dokkin/js/card/components/card'
 import CardGrid from 'dokkin/js/card/card-grid-container'
@@ -39,6 +40,9 @@ class SearchPage extends Component {
     return (
       <div className="page search-page">
         <CardGrid />
+        <Helmet>
+          <meta name="robots" content="noindex"/>
+        </Helmet>
       </div>
     )
   }
