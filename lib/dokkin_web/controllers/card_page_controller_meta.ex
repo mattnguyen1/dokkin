@@ -22,13 +22,13 @@ defmodule DokkinWeb.Meta.CardPageController do
     correct_slug = APIHelpers.normalize_slug(Integer.to_string(card.id) <> "-" <> full_name)
     img_card_id = get_id_as_card_id(card_id)
     passive_text = if passive_description do passive_description else "-" end
-    title = leader_skill <> " " <> card.name <> " | DBZ Dokkan Battle"
-    element_rarity_text = "[" <> rarity <> "] [" <> alliance <> " " <> element <> "] \n"
+    title = full_name <> " | DBZ Dokkan Battle"
+    char_element_rarity_text = "[" <> rarity <> "] [" <> alliance <> " " <> element <> "] " <> full_name <> "\n"
 
     conn
     |> assign(:title, title)
     |> assign(:og_title, title)
-    |> assign(:og_description, element_rarity_text <> "Leader Skill: " <> leader_skill_description <> "\nPassive: " <> passive_text)
+    |> assign(:og_description, char_element_rarity_text <> "Leader Skill: " <> leader_skill_description <> ".\nPassive: " <> passive_text <> ".")
     |> assign(:og_image, "https://static.dokk.in/thumb/card_" <> img_card_id <> "_thumb.png")
     |> assign(:og_url, url)
     |> maybe_redirect(slug, correct_slug)
