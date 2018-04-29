@@ -31,6 +31,7 @@ defmodule DokkinWeb.Meta.CardPageController do
     |> assign(:og_description, char_element_rarity_text <> "Leader Skill: " <> leader_skill_description <> ".\nPassive: " <> passive_text <> ".")
     |> assign(:og_image, "https://static.dokk.in/thumb/card_" <> img_card_id <> "_thumb.png")
     |> assign(:og_url, url)
+    |> assign(:keywords, "dokkin,dokk.in,dokkan battle,dbz,links," <> rarity <> "," <> element <> "," <> alliance <> "," <> full_name)
     |> maybe_redirect(slug, correct_slug)
   end
 

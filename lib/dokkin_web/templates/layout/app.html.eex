@@ -11,6 +11,7 @@
     <meta property="og:title" content="<%= @title %>"/>
     <meta property="og:image" content="<%= @og_image %>"/>
     <meta property="og:url" content="<%= @og_url %>"/>
+    <meta property="keywords" content="<%= @keywords %>"/>
 
     <title><%= @title %></title>
     <%= if Mix.env == :prod do %>

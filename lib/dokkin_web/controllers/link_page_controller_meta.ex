@@ -23,6 +23,7 @@ defmodule DokkinWeb.Meta.LinkPageController do
     |> assign(:og_description, description)
     |> assign(:og_image, "https://static.dokk.in/thumb/card_1008880_thumb.png")
     |> assign(:og_url, url)
+    |> assign(:keywords, "dokkin,dokk.in,dokkan battle,dbz,links," <> link_name)
     |> maybe_redirect(slug, correct_slug)
   end
 

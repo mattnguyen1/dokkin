@@ -37,5 +37,6 @@ defmodule DokkinWeb.PageController do
     |> assign(:og_description, "Find all your Dokkan information in one place.")
     |> assign(:og_image, "https://static.dokk.in/thumb/card_1008880_thumb.png")
     |> assign(:og_url, url)
+    |> assign(:keywords, "dokkin,dokk.in,dokkan battle,dbz")
   end
 end
