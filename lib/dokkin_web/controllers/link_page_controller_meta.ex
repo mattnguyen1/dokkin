@@ -13,7 +13,7 @@ defmodule DokkinWeb.Meta.LinkPageController do
       description: link_description
     } = LinkService.get(link_id)
 
-    title = link_name <> " | Links | DBZ Dokkan Battle"
+    title = link_name <> " | Links | DBZ Dokkan Battle | dokkin"
     description = "Effect: " <> link_description <> "\nCards with the \"" <> link_name <> "\" link."
     correct_slug = APIHelpers.normalize_slug(link_id <> "-" <> link_name)
 

@@ -3,8 +3,9 @@ import { withRouter, Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
 import Card from 'dokkin/js/card/components/card'
-import { getCharacterImageUrl, getCharacterBGUrl,getCharacterEffectUrl,
+import { getCharacterImageUrl, getCharacterBGUrl,getCharacterEffectUrl, getThumbnailUrl,
   getLargeRarityIconUrl, getElementIconUrl, getFallbackCharacterBGUrl } from 'dokkin/js/utils/url'
+import { doesStringContainJapaneseCharacters } from 'dokkin/js/utils/string-utils'
 import Tooltip, { MIDDLE_LEFT } from 'dokkin/js/common/tooltip'
 
 class CardPage extends Component {
@@ -37,7 +38,14 @@ class CardPage extends Component {
 
   _getPageTitle(card) {
     const name = card.name.replace("#", "");
-    return card.leader_skill + " " + name + " | DBZ Dokkan Battle";
+    return card.leader_skill + " " + name + " | DBZ Dokkan Battle | dokkin";
+  }
+
+  _getPageDescription(card) {
+    const charTypeString = `[${card.rarity_string.toUpperCase()}][${card.alliance_type} ${card.element_string.toUpperCase()}]`;
+    const charString = `${charTypeString} ${card.leader_skill} ${card.name}\n`;
+    const descriptionString = `Leader Skill: ${card.leader_skill_description}\nPassive: ${card.passive_description}`;
+    return charString + descriptionString;
   }
 
   _handleImageLoad = (event) => {
@@ -61,6 +69,7 @@ class CardPage extends Component {
     const cardId = params.cardSlug.split(/-(.+)/)[0];
     const card = cardCache[cardId];
     const resourceId = (card && card.resource_id) || cardId;
+
     return (
       <div className="page card-page">
         {
@@ -120,8 +129,8 @@ class CardPage extends Component {
             </div>
             <div className="card-page-info card-row-details">
               <div className="card-page-name">
-                <div className="card-page-title">{card.leader_skill}</div>
-                <div className="card-page-base-name">{card.name}</div>
+                <h1 className="card-page-title">{card.leader_skill}</h1>
+                <h2 className="card-page-base-name">{card.name}</h2>
                 <hr/>
               </div>
               <div className="card-row-detail-item">
@@ -179,10 +188,14 @@ class CardPage extends Component {
             <Helmet>
               <meta property="og:site" content="dokk.in"/>
               <meta property="og:type" content="website"/>
-              <meta property="og:card" content={"Leader Skill: " + card.leader_skill_description + "\n" + "Passive: " + card.passive_description} />
-              <meta property="og:title" content={card.leader_skill + " " + card.name}/>
-              <meta property="og:image" content={getCharacterImageUrl(card.id)}/>
+              <meta property="og:description" content={this._getPageDescription(card)} />
+              <meta property="og:title" content={this._getPageTitle(card)}/>
+              <meta property="og:image" content={getThumbnailUrl(card.id)}/>
               <meta property="og:url" content={document.location}/>
+              {
+                doesStringContainJapaneseCharacters(card.leader_skill_description) &&
+                <meta name="robots" content="noindex"/>
+              }
             </Helmet>
           </div>
         }

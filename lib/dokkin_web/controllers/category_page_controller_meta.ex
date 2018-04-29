@@ -12,8 +12,8 @@ defmodule DokkinWeb.Meta.CategoryPageController do
       name: category_name
     } = CategoryService.get(category_id)
 
-    title = category_name <> " | Categories | DBZ Dokkan Battle"
-    description = "Cards in the \"" <> category_name <> "\" category."
+    title = category_name <> " | Categories | DBZ Dokkan Battle | dokkin"
+    description = "All available cards in the \"" <> category_name <> "\" category."
     correct_slug = APIHelpers.normalize_slug(category_id <> "-" <> category_name)
 
     conn

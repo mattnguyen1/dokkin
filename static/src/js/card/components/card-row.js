@@ -9,7 +9,7 @@ import Card from 'dokkin/js/card/components/card'
 const CardRow = (props) => {
   
   let fullName = props.leader_skill + " " + props.name;
-  const cardUrl = "/card/" + getSlugFromName(props.id, fullName);
+  const cardUrl = props.url;
 
   return (
     <li className="card-row" data-type-id={props.id}>

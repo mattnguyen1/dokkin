@@ -35,7 +35,7 @@ class LinkPage extends Component {
 
   _getPageTitle(link) {
     const name = link.name.replace("#", "");
-    return `${name} | Links | DBZ Dokkan Battle`;
+    return `${name} | Links | DBZ Dokkan Battle | dokkin`;
   }
 
   updateCardGrid(props) {
@@ -54,8 +54,8 @@ class LinkPage extends Component {
         {
           link &&
           <div className="link-page-header">
-              <div className="link-page-name">{link.name}</div>
-              <div className="link-page-description">{link.description}</div>
+              <h1 className="link-page-name">{link.name}</h1>
+              <h2 className="link-page-description">{link.description}</h2>
           </div>
         }
         <CardGrid />

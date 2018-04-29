@@ -22,7 +22,7 @@ defmodule DokkinWeb.Meta.CardPageController do
     correct_slug = APIHelpers.normalize_slug(Integer.to_string(card.id) <> "-" <> full_name)
     img_card_id = get_id_as_card_id(card_id)
     passive_text = if passive_description do passive_description else "-" end
-    title = full_name <> " | DBZ Dokkan Battle"
+    title = full_name <> " | DBZ Dokkan Battle | dokkin"
     char_element_rarity_text = "[" <> rarity <> "] [" <> alliance <> " " <> element <> "] " <> full_name <> "\n"
 
     conn

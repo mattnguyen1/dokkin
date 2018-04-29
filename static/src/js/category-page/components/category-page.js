@@ -35,7 +35,7 @@ class CategoryPage extends Component {
 
   _getPageTitle(category) {
     const name = category.name.replace("#", "");
-    return `${name} | Categories | DBZ Dokkan Battle`;
+    return `${name} | Categories | DBZ Dokkan Battle | dokkin`;
   }
 
   updateCardGrid(props) {
@@ -54,7 +54,7 @@ class CategoryPage extends Component {
         {
           category &&
           <div className="category-page-header">
-              <div className="category-page-name">{category.name}</div>
+              <h1 className="category-page-name">{category.name}</h1>
           </div>
         }
         <CardGrid />
