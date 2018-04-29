@@ -125,8 +125,10 @@ export function getUrlFriendlyString(str) {
 export function getMappedQueryParams(paramStr) {
   const queryParams = {};
   paramStr.substring(1).split("&").forEach(param => {
-    const [key, value] = param.split("=");
-    queryParams[key] = value;
+    if (param) {
+      const [key, value] = param.split("=");
+      queryParams[key] = value;
+    }
   });
   return queryParams;
 }

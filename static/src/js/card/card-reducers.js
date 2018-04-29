@@ -75,6 +75,18 @@ function cardCache(state = {}, action) {
         [action.card.id]: action.card
       };
 
+    case FETCH_CARDS_SUCCESS:
+      const cardResponseMap = {};
+      action.response.cards.forEach((card) => {
+        if (!state[card.id]) {
+          cardResponseMap[card.id] = card;
+        }
+      });
+      return {
+        ...state,
+        ...cardResponseMap,
+      }
+
     case FETCH_CARD_ERROR:
       return {};
 
