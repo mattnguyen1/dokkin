@@ -1,7 +1,8 @@
-import { combineReducers } from 'redux'
-import { 
-  FETCH_CATEGORY_SUCCESS, FETCH_CATEGORY_LOADING, FETCH_CATEGORY_ERROR
-} from './category-action-types'
+import { combineReducers } from "redux";
+import {
+  FETCH_CATEGORY_SUCCESS,
+  FETCH_CATEGORY_ERROR
+} from "./category-action-types";
 
 function categoryCache(state = {}, action) {
   switch (action.type) {
@@ -21,5 +22,5 @@ function categoryCache(state = {}, action) {
 }
 
 export default combineReducers({
-  categoryCache: categoryCache
+  categoryCache
 });

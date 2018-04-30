@@ -1,11 +1,15 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-
-import Card from 'dokkin/js/card/components/card'
-import CardGrid from 'dokkin/js/card/card-grid-container'
-import { getMappedQueryParams } from 'dokkin/js/utils/url'
+/* global document */
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
+import ReactRouterPropTypes from "react-router-prop-types";
+import CardGrid from "dokkin/js/card/card-grid-container";
 
 class CategoryPage extends Component {
+  static getPageTitle(category) {
+    const name = category.name.replace("#", "");
+    return `${name} | Categories | DBZ Dokkan Battle | dokkin`;
+  }
 
   componentWillMount() {
     this.updateCardGrid(this.props);
@@ -21,25 +25,22 @@ class CategoryPage extends Component {
     const category = categoryCache[categoryId];
     const nextCategory = nextCategoryCache[categoryId];
 
-    if (pathname !== nextProps.location.pathname ||
-        search !== nextProps.location.search) {
+    if (
+      pathname !== nextProps.location.pathname ||
+      search !== nextProps.location.search
+    ) {
       this.updateCardGrid(nextProps);
       if (category) {
-        document.title = this._getPageTitle(category);
+        document.title = CategoryPage.getPageTitle(category);
       }
     }
     if (!category && nextCategory) {
-      document.title = this._getPageTitle(nextCategory);
+      document.title = CategoryPage.getPageTitle(nextCategory);
     }
   }
 
-  _getPageTitle(category) {
-    const name = category.name.replace("#", "");
-    return `${name} | Categories | DBZ Dokkan Battle | dokkin`;
-  }
-
   updateCardGrid(props) {
-    const { params } = this.props.match;
+    const { params } = props.match;
     const categoryId = params.categorySlug.split(/-(.+)/)[0];
     this.props.fetchCategoryAndCards(categoryId);
   }
@@ -51,16 +52,26 @@ class CategoryPage extends Component {
     const category = categoryCache[categoryId];
     return (
       <div className="page category-page">
-        {
-          category &&
+        {category && (
           <div className="category-page-header">
-              <h1 className="category-page-name">{category.name}</h1>
+            <h1 className="category-page-name">{category.name}</h1>
           </div>
-        }
+        )}
         <CardGrid />
       </div>
-    )
+    );
   }
 }
 
-export default CategoryPage;
+CategoryPage.propTypes = {
+  location: ReactRouterPropTypes.location.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
+  categoryCache: PropTypes.objectOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired
+    })
+  ).isRequired,
+  fetchCategoryAndCards: PropTypes.func.isRequired
+};
+
+export default withRouter(CategoryPage);

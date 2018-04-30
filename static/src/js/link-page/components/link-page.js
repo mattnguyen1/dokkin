@@ -1,11 +1,15 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-
-import Card from 'dokkin/js/card/components/card'
-import CardGrid from 'dokkin/js/card/card-grid-container'
-import { getMappedQueryParams } from 'dokkin/js/utils/url'
+/* global document */
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
+import ReactRouterPropTypes from "react-router-prop-types";
+import CardGrid from "dokkin/js/card/card-grid-container";
 
 class LinkPage extends Component {
+  static getPageTitle(link) {
+    const name = link.name.replace("#", "");
+    return `${name} | Links | DBZ Dokkan Battle | dokkin`;
+  }
 
   componentWillMount() {
     this.updateCardGrid(this.props);
@@ -21,25 +25,21 @@ class LinkPage extends Component {
     const link = linkCache[linkId];
     const nextLink = nextLinkCache[linkId];
 
-    if (pathname !== nextProps.location.pathname ||
-        search !== nextProps.location.search) {
+    if (
+      pathname !== nextProps.location.pathname ||
+      search !== nextProps.location.search
+    ) {
       this.updateCardGrid(nextProps);
       if (link) {
-        document.title = this._getPageTitle(link);
+        document.title = LinkPage.getPageTitle(link);
       }
     }
     if (!link && nextLink) {
-      document.title = this._getPageTitle(nextLink);
+      document.title = LinkPage.getPageTitle(nextLink);
     }
   }
-
-  _getPageTitle(link) {
-    const name = link.name.replace("#", "");
-    return `${name} | Links | DBZ Dokkan Battle | dokkin`;
-  }
-
   updateCardGrid(props) {
-    const { params } = this.props.match;
+    const { params } = props.match;
     const linkId = params.linkSlug.split(/-(.+)/)[0];
     this.props.fetchLinkAndCards(linkId);
   }
@@ -51,17 +51,28 @@ class LinkPage extends Component {
     const link = linkCache[linkId];
     return (
       <div className="page link-page">
-        {
-          link &&
+        {link && (
           <div className="link-page-header">
-              <h1 className="link-page-name">{link.name}</h1>
-              <h2 className="link-page-description">{link.description}</h2>
+            <h1 className="link-page-name">{link.name}</h1>
+            <h2 className="link-page-description">{link.description}</h2>
           </div>
-        }
+        )}
         <CardGrid />
       </div>
-    )
+    );
   }
 }
 
-export default LinkPage;
+LinkPage.propTypes = {
+  location: ReactRouterPropTypes.location.isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
+  linkCache: PropTypes.objectOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired
+    })
+  ).isRequired,
+  fetchLinkAndCards: PropTypes.func.isRequired
+};
+
+export default withRouter(LinkPage);

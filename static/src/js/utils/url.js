@@ -7,12 +7,12 @@
 // Constants
 // ------------------------------------------------------------------------------
 
-const DOKKIN_S3_BASE_URL = 'https://static.dokk.in';
-const THUMBNAIL_URL_PATH = '/thumb';
-const THUMBNAIL_BG_URL_PATH = '/thumb_bg';
-const RARITY_ICON_URL_PATH = '/rarity';
-const ELEMENT_ICON_URL_PATH = '/element';
-const CARD_URL_PATH = '/card';
+const DOKKIN_S3_BASE_URL = "https://static.dokk.in";
+const THUMBNAIL_URL_PATH = "/thumb";
+const THUMBNAIL_BG_URL_PATH = "/thumb_bg";
+const RARITY_ICON_URL_PATH = "/rarity";
+const ELEMENT_ICON_URL_PATH = "/element";
+const CARD_URL_PATH = "/card";
 
 // ------------------------------------------------------------------------------
 // Private
@@ -20,12 +20,12 @@ const CARD_URL_PATH = '/card';
 
 /**
  * Returns the num as a string padded in the front with zeroes
- * @param {int} num 
- * @param {int} digits 
+ * @param {int} num
+ * @param {int} digits
  * @returns {string}
  */
 function padZeroes(num, digits) {
-  num = num + '';
+  num += "";
   return num.padStart(digits, 0);
 }
 
@@ -37,14 +37,10 @@ function getThumbnailPath(cardId) {
 
 function getThumbnailBGPath(element, rarity) {
   // Take into account that alliances add 10/20 to the elements
-  element = element % 10;
+  element %= 10;
   element = padZeroes(element, 2);
   rarity = padZeroes(rarity, 2);
   return `/cha_base_${element}_${rarity}.png`;
-}
-
-function getRarityIconPath(rarityStr) {
-  return `/cha_rare_sm_${rarityStr}.png`;
 }
 
 function getElementIconPath(element) {
@@ -73,26 +69,34 @@ function getCharacterEffectImagePath(id) {
 
 export function getThumbnailUrl(cardId) {
   return DOKKIN_S3_BASE_URL + THUMBNAIL_URL_PATH + getThumbnailPath(cardId);
-};
+}
 
 export function getFallbackThumbnailUrl() {
-  return DOKKIN_S3_BASE_URL + THUMBNAIL_URL_PATH + '/card_0000000_thumb.png';
-};
+  return `${DOKKIN_S3_BASE_URL + THUMBNAIL_URL_PATH}/card_0000000_thumb.png`;
+}
 
 export function getThumbnailBGUrl(element, rarity) {
-  return DOKKIN_S3_BASE_URL + THUMBNAIL_BG_URL_PATH + getThumbnailBGPath(element, rarity);
+  return (
+    DOKKIN_S3_BASE_URL +
+    THUMBNAIL_BG_URL_PATH +
+    getThumbnailBGPath(element, rarity)
+  );
 }
 
 export function getRarityIconUrl(rarityStr) {
-  return DOKKIN_S3_BASE_URL + RARITY_ICON_URL_PATH + `/cha_rare_sm_${rarityStr}.png`;
+  return `${DOKKIN_S3_BASE_URL +
+    RARITY_ICON_URL_PATH}/cha_rare_sm_${rarityStr}.png`;
 }
 
 export function getLargeRarityIconUrl(rarityStr) {
-  return DOKKIN_S3_BASE_URL + RARITY_ICON_URL_PATH + `/cha_rare_${rarityStr}.png`;
+  return `${DOKKIN_S3_BASE_URL +
+    RARITY_ICON_URL_PATH}/cha_rare_${rarityStr}.png`;
 }
 
 export function getElementIconUrl(element) {
-  return DOKKIN_S3_BASE_URL + ELEMENT_ICON_URL_PATH + getElementIconPath(element);
+  return (
+    DOKKIN_S3_BASE_URL + ELEMENT_ICON_URL_PATH + getElementIconPath(element)
+  );
 }
 
 export function getCharacterImageUrl(id) {
@@ -100,7 +104,7 @@ export function getCharacterImageUrl(id) {
 }
 
 export function getFallbackCharacterBGUrl() {
-  return DOKKIN_S3_BASE_URL + CARD_URL_PATH + '/0000000/card_0000000_bg.png';
+  return `${DOKKIN_S3_BASE_URL + CARD_URL_PATH}/0000000/card_0000000_bg.png`;
 }
 
 export function getCharacterBGUrl(id) {
@@ -111,32 +115,38 @@ export function getCharacterEffectUrl(id) {
   return DOKKIN_S3_BASE_URL + CARD_URL_PATH + getCharacterEffectImagePath(id);
 }
 
-export function getSlugFromName(id, name) {
-  name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-  name = getUrlFriendlyString(name);
-  name = name.split(/ +/).join("-").toLowerCase();
-  return `${id}-${name}`;
+export function getUrlFriendlyString(str) {
+  return str.replace(/[^a-zA-Z0-9-_()~ ]/g, "");
 }
 
-export function getUrlFriendlyString(str) {
-  return str.replace(/[^a-zA-Z0-9-_\(\)~ ]/g, '');
+export function getSlugFromName(id, name) {
+  name = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  name = getUrlFriendlyString(name);
+  name = name
+    .split(/ +/)
+    .join("-")
+    .toLowerCase();
+  return `${id}-${name}`;
 }
 
 export function getMappedQueryParams(paramStr) {
   const queryParams = {};
-  paramStr.substring(1).split("&").forEach(param => {
-    if (param) {
-      const [key, value] = param.split("=");
-      queryParams[key] = value;
-    }
-  });
+  paramStr
+    .substring(1)
+    .split("&")
+    .forEach(param => {
+      if (param) {
+        const [key, value] = param.split("=");
+        queryParams[key] = value;
+      }
+    });
   return queryParams;
 }
 
 export function getQueryParamString(params) {
-  let queryParamList = [];
+  const queryParamList = [];
   Object.keys(params).forEach(param => {
-    queryParamList.push(`${param}=${params[param]}`)
+    queryParamList.push(`${param}=${params[param]}`);
   });
-  return "?" + queryParamList.join("&");
+  return `?${queryParamList.join("&")}`;
 }

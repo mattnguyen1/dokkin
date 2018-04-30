@@ -1,9 +1,8 @@
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
+import CardGrid from "dokkin/js/card/components/card-grid";
+import { fetchCards } from "dokkin/js/card/card-action";
 
-import CardGrid from 'dokkin/js/card/components/card-grid'
-import { fetchCards } from 'dokkin/js/card/card-action'
-
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   cardsList: state.cardReducer.cardsList.cards,
   marker: state.cardReducer.cardsList.marker,
   canLoadMore: state.cardReducer.cardsList.canLoadMore,
@@ -11,8 +10,8 @@ const mapStateToProps = (state) => ({
   isLoading: state.cardReducer.cardsList.isLoading
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchCards: (params) => dispatch(fetchCards(params))  
+const mapDispatchToProps = dispatch => ({
+  fetchCards: params => dispatch(fetchCards(params))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardGrid)
+export default connect(mapStateToProps, mapDispatchToProps)(CardGrid);

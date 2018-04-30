@@ -1,11 +1,13 @@
-import { combineReducers } from 'redux'
-import { 
-  FETCH_CARDS_SUCCESS, FETCH_CARDS_LOADING, FETCH_CARDS_ERROR,
-  FETCH_CARD_SUCCESS, FETCH_CARD_LOADING, FETCH_CARD_ERROR
-} from './card-action-types'
-import { FETCH_LINK_LOADING } from 'dokkin/js/link-page/link-action-types'
-import { FETCH_CATEGORY_LOADING } from 'dokkin/js/category-page/category-action-types'
-import { getQueryParamString } from 'dokkin/js/utils/url';
+import { combineReducers } from "redux";
+import {
+  FETCH_CARDS_SUCCESS,
+  FETCH_CARDS_LOADING,
+  FETCH_CARDS_ERROR,
+  FETCH_CARD_SUCCESS,
+  FETCH_CARD_ERROR
+} from "dokkin/js/card/card-action-types";
+import { FETCH_LINK_LOADING } from "dokkin/js/link-page/link-action-types";
+import { FETCH_CATEGORY_LOADING } from "dokkin/js/category-page/category-action-types";
 
 function cardsList(state = {}, action) {
   switch (action.type) {
@@ -13,7 +15,9 @@ function cardsList(state = {}, action) {
       const shouldConcat = state.params.offset > 0;
       return {
         ...state,
-        cards: shouldConcat ? state.cards.concat(action.response.cards) : action.response.cards,
+        cards: shouldConcat
+          ? state.cards.concat(action.response.cards)
+          : action.response.cards,
         marker: action.response.marker,
         totalCards: action.response.total_results,
         canLoadMore: action.response.marker >= 0,
@@ -21,21 +25,20 @@ function cardsList(state = {}, action) {
       };
 
     case FETCH_CARDS_LOADING:
-      
-      const didParamsChange = 
+      const didParamsChange =
         (!state.params && action.params) ||
-        (state.params.q !== action.params.q) ||
-        (state.params.links !== action.params.links) ||
-        (state.params.categories !== action.params.categories);
+        state.params.q !== action.params.q ||
+        state.params.links !== action.params.links ||
+        state.params.categories !== action.params.categories;
       return {
-        ...state,        
+        ...state,
         query: action.query,
         cards: didParamsChange ? [] : state.cards,
         params: action.params,
         canLoadMore: false,
         isLoading: true
       };
-    
+
     case FETCH_CARDS_ERROR:
       return {
         ...state,
@@ -46,7 +49,7 @@ function cardsList(state = {}, action) {
     case FETCH_LINK_LOADING:
       const didLinkParamsChange = state.linkId !== action.id;
       return {
-        ...state,        
+        ...state,
         linkId: action.id,
         cards: didLinkParamsChange ? [] : state.cards,
         canLoadMore: false
@@ -55,12 +58,12 @@ function cardsList(state = {}, action) {
     case FETCH_CATEGORY_LOADING:
       const didCategoryParamsChange = state.categoryId !== action.id;
       return {
-        ...state,        
+        ...state,
         categoryId: action.id,
         cards: didCategoryParamsChange ? [] : state.cards,
-        canLoadMore: false        
+        canLoadMore: false
       };
-    
+
     default:
       return state;
   }
@@ -77,15 +80,15 @@ function cardCache(state = {}, action) {
 
     case FETCH_CARDS_SUCCESS:
       const cardResponseMap = {};
-      action.response.cards.forEach((card) => {
+      action.response.cards.forEach(card => {
         if (!state[card.id]) {
           cardResponseMap[card.id] = card;
         }
       });
       return {
         ...state,
-        ...cardResponseMap,
-      }
+        ...cardResponseMap
+      };
 
     case FETCH_CARD_ERROR:
       return {};
@@ -96,6 +99,6 @@ function cardCache(state = {}, action) {
 }
 
 export default combineReducers({
-  cardsList: cardsList,
-  cardCache: cardCache
+  cardsList,
+  cardCache
 });

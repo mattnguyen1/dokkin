@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
+/* global document */
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import ReactRouterPropTypes from "react-router-prop-types";
+import PropTypes from "prop-types";
+import CardGrid from "dokkin/js/card/card-grid-container";
+import { getMappedQueryParams } from "dokkin/js/utils/url";
 
-import Card from 'dokkin/js/card/components/card'
-import CardGrid from 'dokkin/js/card/card-grid-container'
-import { getMappedQueryParams } from 'dokkin/js/utils/url'
-
-const DEFAULT_SEARCH_QUERY = '';
-const DEFAULT_SITE_TITLE = 'dokkin | DBZ Dokkan Battle';
+const DEFAULT_SEARCH_QUERY = "";
+const DEFAULT_SITE_TITLE = "dokkin | DBZ Dokkan Battle";
 
 class SearchPage extends Component {
-
   componentWillMount() {
     this.updateCardGrid(this.props);
     document.title = DEFAULT_SITE_TITLE;
@@ -18,17 +18,19 @@ class SearchPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { pathname, search } = this.props.location;
-    if (pathname !== nextProps.location.pathname ||
-        search !== nextProps.location.search) {
+    if (
+      pathname !== nextProps.location.pathname ||
+      search !== nextProps.location.search
+    ) {
       this.updateCardGrid(nextProps);
       document.title = DEFAULT_SITE_TITLE;
     }
   }
 
   updateCardGrid(props) {
-    const { pathname, search } = props.location;
+    const { search } = props.location;
     const queryParams = getMappedQueryParams(search);
-    let searchQuery = queryParams.q || DEFAULT_SEARCH_QUERY;
+    const searchQuery = queryParams.q || DEFAULT_SEARCH_QUERY;
 
     this.props.fetchCards({
       q: searchQuery,
@@ -41,11 +43,16 @@ class SearchPage extends Component {
       <div className="page search-page">
         <CardGrid />
         <Helmet>
-          <meta name="robots" content="noindex"/>
+          <meta name="robots" content="noindex" />
         </Helmet>
       </div>
-    )
+    );
   }
 }
 
-export default SearchPage;
+SearchPage.propTypes = {
+  fetchCards: PropTypes.func.isRequired,
+  location: ReactRouterPropTypes.location.isRequired
+};
+
+export default withRouter(SearchPage);

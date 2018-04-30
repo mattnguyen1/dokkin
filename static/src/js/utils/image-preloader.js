@@ -3,23 +3,26 @@
  * @author mattnguyen1
  */
 
-import { 
-  getThumbnailBGUrl, getElementIconUrl, getRarityIconUrl, getLargeRarityIconUrl 
-} from 'dokkin/js/utils/url'
+/* global Image */
+
+import {
+  getThumbnailBGUrl,
+  getElementIconUrl,
+  getRarityIconUrl,
+  getLargeRarityIconUrl
+} from "dokkin/js/utils/url";
 
 const NUM_RARITIES = 6;
 const NUM_ELEMENTS = 5;
-const RARITIES = ['n', 'r', 'sr', 'ssr', 'ur', 'lr']
-
-const images = [];
+const RARITIES = ["n", "r", "sr", "ssr", "ur", "lr"];
 
 // ------------------------------------------------------------------------------
 // Public
 // ------------------------------------------------------------------------------
 
-export function preload() {
+export default function preload() {
   // Load all possible thumbnail BG types
-  for (let rarity = 0; rarity <  NUM_RARITIES; rarity++) {
+  for (let rarity = 0; rarity < NUM_RARITIES; rarity++) {
     for (let element = 0; element < NUM_ELEMENTS; element++) {
       const image = new Image();
       image.src = getThumbnailBGUrl(element, rarity);

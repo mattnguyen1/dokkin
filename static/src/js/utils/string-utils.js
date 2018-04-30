@@ -13,6 +13,8 @@ const JAPANESE_CHAR_REGEX = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff
 // Public
 // ------------------------------------------------------------------------------
 
+/* eslint-disable import/prefer-default-export */
 export function doesStringContainJapaneseCharacters(str) {
   return !!str.match(JAPANESE_CHAR_REGEX);
-};
+}
+/* eslint-enable import/prefer-default-export */

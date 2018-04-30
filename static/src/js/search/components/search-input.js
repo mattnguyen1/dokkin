@@ -1,38 +1,43 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {withRouter} from 'react-router-dom'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
+import ReactRouterPropTypes from "react-router-prop-types";
 
 class SearchInput extends Component {
-
-  onInputChange = (event) => {
+  onInputChange = event => {
     this.props.updateSearchInput(event.target.value);
-  }
+  };
 
-  onSubmit = (event) => {
+  onSubmit = event => {
     event.preventDefault();
-    this._searchInput.blur();
-    this.props.history.push("/search?q=" + this.props.input);
-  }
+    this.searchInput.blur();
+    this.props.history.push(`/search?q=${this.props.input}`);
+  };
 
   render() {
-    const { input, updateSearchInput } = this.props;
+    const { input } = this.props;
     return (
       <div className="search">
         <form action="" onSubmit={this.onSubmit}>
-          <input ref={el => this._searchInput = el} type="search" placeholder="Search (example: str ssb vegito)" 
+          <input
+            ref={el => {
+              this.searchInput = el;
+            }}
+            type="search"
+            placeholder="Search (example: str ssb vegito)"
             value={input}
-            onChange={this.onInputChange} 
+            onChange={this.onInputChange}
           />
         </form>
       </div>
-    )
+    );
   }
 }
 
 SearchInput.propTypes = {
-  input: PropTypes.string,
-  updateSearchInput: PropTypes.func,
-  fetchCards: PropTypes.func,
-}
+  input: PropTypes.string.isRequired,
+  updateSearchInput: PropTypes.func.isRequired,
+  history: ReactRouterPropTypes.history.isRequired
+};
 
 export default withRouter(SearchInput);

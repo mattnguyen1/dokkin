@@ -1,7 +1,5 @@
-import { combineReducers } from 'redux'
-import { 
-  FETCH_LINK_SUCCESS, FETCH_LINK_LOADING, FETCH_LINK_ERROR
-} from './link-action-types'
+import { combineReducers } from "redux";
+import { FETCH_LINK_SUCCESS, FETCH_LINK_ERROR } from "./link-action-types";
 
 function linkCache(state = {}, action) {
   switch (action.type) {
@@ -21,5 +19,5 @@ function linkCache(state = {}, action) {
 }
 
 export default combineReducers({
-  linkCache: linkCache
+  linkCache
 });

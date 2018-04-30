@@ -1,14 +1,39 @@
-import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
-
-import Card from 'dokkin/js/card/components/card'
-import { getCharacterImageUrl, getCharacterBGUrl,getCharacterEffectUrl, getThumbnailUrl,
-  getLargeRarityIconUrl, getElementIconUrl, getFallbackCharacterBGUrl } from 'dokkin/js/utils/url'
-import { doesStringContainJapaneseCharacters } from 'dokkin/js/utils/string-utils'
-import Tooltip, { MIDDLE_LEFT } from 'dokkin/js/common/tooltip'
+/* global document */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { withRouter, Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import ReactRouterPropTypes from "react-router-prop-types";
+import Card from "dokkin/js/card/components/card";
+import {
+  getCharacterImageUrl,
+  getCharacterBGUrl,
+  getCharacterEffectUrl,
+  getThumbnailUrl,
+  getLargeRarityIconUrl,
+  getElementIconUrl,
+  getFallbackCharacterBGUrl
+} from "dokkin/js/utils/url";
+import { doesStringContainJapaneseCharacters } from "dokkin/js/utils/string-utils";
+import Tooltip, { MIDDLE_LEFT } from "dokkin/js/common/tooltip";
 
 class CardPage extends Component {
+  static getPageTitle(card) {
+    const name = card.name.replace("#", "");
+    return `${card.leader_skill} ${name} | DBZ Dokkan Battle | dokkin`;
+  }
+
+  static getPageDescription(card) {
+    const charTypeString = `[${card.rarity_string.toUpperCase()}][${
+      card.alliance_type
+    } ${card.element_string.toUpperCase()}]`;
+    const charString = `${charTypeString} ${card.leader_skill} ${card.name}\n`;
+    const descriptionString = `Leader Skill: ${
+      card.leader_skill_description
+    }\nPassive: ${card.passive_description}`;
+    return charString + descriptionString;
+  }
 
   componentWillMount() {
     this.updateCard(this.props);
@@ -24,38 +49,28 @@ class CardPage extends Component {
     const card = cardCache[cardId];
     const nextCard = nextCardCache[cardId];
 
-    if (pathname !== nextProps.location.pathname ||
-        search !== nextProps.location.search) {
-      this.updateCard(nextProps)
+    if (
+      pathname !== nextProps.location.pathname ||
+      search !== nextProps.location.search
+    ) {
+      this.updateCard(nextProps);
       if (card) {
-        document.title = this._getPageTitle(card);
+        document.title = CardPage.getPageTitle(card);
       }
     }
     if (!card && nextCard) {
-      document.title = this._getPageTitle(nextCard);
+      document.title = CardPage.getPageTitle(nextCard);
     }
   }
 
-  _getPageTitle(card) {
-    const name = card.name.replace("#", "");
-    return card.leader_skill + " " + name + " | DBZ Dokkan Battle | dokkin";
-  }
-
-  _getPageDescription(card) {
-    const charTypeString = `[${card.rarity_string.toUpperCase()}][${card.alliance_type} ${card.element_string.toUpperCase()}]`;
-    const charString = `${charTypeString} ${card.leader_skill} ${card.name}\n`;
-    const descriptionString = `Leader Skill: ${card.leader_skill_description}\nPassive: ${card.passive_description}`;
-    return charString + descriptionString;
-  }
-
-  _handleImageLoad = (event) => {
+  handleImageLoad = event => {
     event.target.className += " loaded";
-  }
+  };
 
-  _handleImageError = (event) => {
-    event.target.src = getFallbackCharacterBGUrl()
+  handleImageError = event => {
+    event.target.src = getFallbackCharacterBGUrl();
     event.target.className += " loaded";
-  }
+  };
 
   updateCard(props) {
     const { params } = props.match;
@@ -72,58 +87,71 @@ class CardPage extends Component {
 
     return (
       <div className="page card-page">
-        {
-          card &&
+        {card && (
           <div className="card-page-content">
             <div className="card-char-pane">
               <div className="card-full-art">
                 <img
-                  onLoad={this._handleImageLoad}
-                  onError={this._handleImageError}
+                  onLoad={this.handleImageLoad}
+                  onError={this.handleImageError}
                   className="card-char-bg"
                   src={getCharacterBGUrl(resourceId)}
+                  alt={`Background for ${card.name}`}
                 />
                 <img
-                  onLoad={this._handleImageLoad}
+                  onLoad={this.handleImageLoad}
                   className="card-char-art"
                   src={getCharacterImageUrl(resourceId)}
+                  alt={`${card.leader_skill} ${card.name}`}
                 />
                 <img
-                  onLoad={this._handleImageLoad}
+                  onLoad={this.handleImageLoad}
                   className="card-char-effect"
                   src={getCharacterEffectUrl(resourceId)}
+                  alt={`Effect for ${card.name}`}
                 />
                 <div className="card-overlay">
-                  <img className="card-rarity" src={getLargeRarityIconUrl(card.rarity_string)}/>
-                  <img className="card-element" src={getElementIconUrl(card.element)}/>
+                  <img
+                    className="card-rarity"
+                    src={getLargeRarityIconUrl(card.rarity_string)}
+                    alt={card.rarity_string}
+                  />
+                  <img
+                    className="card-element"
+                    src={getElementIconUrl(card.element)}
+                    alt={card.element_string}
+                  />
                 </div>
               </div>
               <div className="card-awaken-info">
                 <div className="card-awaken-arrow-box">
-                {
-                  card.prev_dokkan &&
+                  {card.prev_dokkan && (
                     <div className="card-awaken-container">
                       <Link to={card.prev_dokkan.url}>
-                        <Card {...card.prev_dokkan}/>
+                        <Card {...card.prev_dokkan} />
                       </Link>
-                      <img className="right-arrow" src="https://static.dokk.in/ui/com_ui_arrow_01_right.png"/>
+                      <img
+                        className="right-arrow"
+                        src="https://static.dokk.in/ui/com_ui_arrow_01_right.png"
+                        alt="right arrow"
+                      />
                     </div>
-                }
+                  )}
                 </div>
-                {
-                  (card.prev_dokkan || card.next_dokkan) &&
-                  <Card {...card}/>
-                }
+                {(card.prev_dokkan || card.next_dokkan) && <Card {...card} />}
                 <div className="card-awaken-arrow-box">
-                {
-                  card.next_dokkan &&
-                  <div className="card-awaken-container">
-                    <img className="right-arrow" src="https://static.dokk.in/ui/com_ui_arrow_01_right.png"/>
-                    <Link to={card.next_dokkan.url}>
-                      <Card {...card.next_dokkan}/>
-                    </Link>
-                  </div>
-                }
+                  {card.next_dokkan && (
+                    <div className="card-awaken-container">
+                      <img
+                        className="right-arrow"
+                        src="https://static.dokk.in/ui/com_ui_arrow_01_right.png"
+                        alt="right arrow"
+                      />
+                      <Link to={card.next_dokkan.url}>
+                        <Card {...card.next_dokkan} />
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -131,77 +159,110 @@ class CardPage extends Component {
               <div className="card-page-name">
                 <h1 className="card-page-title">{card.leader_skill}</h1>
                 <h2 className="card-page-base-name">{card.name}</h2>
-                <hr/>
+                <hr />
               </div>
               <div className="card-row-detail-item">
-                <img src="https://static.dokk.in/label/com_label_leader_skill_03.png" title="Leader Skill"/>
+                <img
+                  src="https://static.dokk.in/label/com_label_leader_skill_03.png"
+                  title="Leader Skill"
+                  alt="Leader Skill"
+                />
                 <div>{card.leader_skill_description}</div>
               </div>
               <div className="card-row-detail-item">
-                <img src="https://static.dokk.in/label/com_label_passive_skill_02.png" title="Passive Skill"/>
+                <img
+                  src="https://static.dokk.in/label/com_label_passive_skill_02.png"
+                  title="Passive Skill"
+                  alt="Passive Skill"
+                />
                 <div>{card.passive_description}</div>
               </div>
               <div className="card-row-detail-item">
-                <img src="https://static.dokk.in/label/com_label_sp_atk.png" title="Super ATK"/>
+                <img
+                  src="https://static.dokk.in/label/com_label_sp_atk.png"
+                  title="Super ATK"
+                  alt="Super ATK"
+                />
                 <div>
-                {
-                  card.super_attack_description.map((description) => <div key={description}>{description}</div>)
-                }
+                  {card.super_attack_description.map(description => (
+                    <div key={description}>{description}</div>
+                  ))}
                 </div>
               </div>
-              {
-                card.links &&
+              {card.links && (
                 <div className="card-row-detail-item card-page-links">
-                  <img src="https://static.dokk.in/label/com_label_link_skill_99.png" title="Link Skill"/>
+                  <img
+                    src="https://static.dokk.in/label/com_label_link_skill_99.png"
+                    title="Link Skill"
+                    alt="Link Skill"
+                  />
                   <ul>
-                    {
-                      card.links.map((link) =>
-                        <li key={link.id}>
-                          <Tooltip
-                            attachment={MIDDLE_LEFT}
-                            tooltipContent={<span>{link.description}</span>}
-                          >
-                            <Link to={`/link/${link.slug}`}>{link.name}</Link>
-                          </Tooltip>
-                        </li>
-                      )
-                    }
-                  </ul>
-                </div>
-              }
-              {
-                card.categories &&
-                <div className="card-row-detail-item card-page-categories">
-                  <img className="card-info-category" src="https://static.dokk.in/label/com_label_category_99.png" title="Category"/>
-                  <ul>
-                  {
-                    card.categories.map((category) =>
-                      <li key={category.id}>
-                        <Link to={`/category/${category.slug}`}>{category.name}</Link>
+                    {card.links.map(link => (
+                      <li key={link.id}>
+                        <Tooltip
+                          attachment={MIDDLE_LEFT}
+                          tooltipContent={<span>{link.description}</span>}
+                        >
+                          <Link to={`/link/${link.slug}`}>{link.name}</Link>
+                        </Tooltip>
                       </li>
-                    )
-                  }
+                    ))}
                   </ul>
                 </div>
-              }
+              )}
+              {card.categories && (
+                <div className="card-row-detail-item card-page-categories">
+                  <img
+                    className="card-info-category"
+                    src="https://static.dokk.in/label/com_label_category_99.png"
+                    title="Category"
+                    alt="Category"
+                  />
+                  <ul>
+                    {card.categories.map(category => (
+                      <li key={category.id}>
+                        <Link to={`/category/${category.slug}`}>
+                          {category.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
             <Helmet>
-              <meta property="og:site" content="dokk.in"/>
-              <meta property="og:type" content="website"/>
-              <meta property="og:description" content={this._getPageDescription(card)} />
-              <meta property="og:title" content={this._getPageTitle(card)}/>
-              <meta property="og:image" content={getThumbnailUrl(card.id)}/>
-              <meta property="og:url" content={document.location}/>
-              {
-                doesStringContainJapaneseCharacters(card.leader_skill_description) &&
-                <meta name="robots" content="noindex"/>
-              }
+              <meta property="og:site" content="dokk.in" />
+              <meta property="og:type" content="website" />
+              <meta
+                property="og:description"
+                content={CardPage.getPageDescription(card)}
+              />
+              <meta property="og:title" content={CardPage.getPageTitle(card)} />
+              <meta property="og:image" content={getThumbnailUrl(card.id)} />
+              <meta property="og:url" content={document.location} />
+              {doesStringContainJapaneseCharacters(
+                card.leader_skill_description
+              ) && <meta name="robots" content="noindex" />}
             </Helmet>
           </div>
-        }
+        )}
       </div>
     );
   }
 }
 
-export default CardPage;
+CardPage.propTypes = {
+  cardCache: PropTypes.objectOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      element: PropTypes.number.isRequired,
+      rarity_string: PropTypes.string.isRequired,
+      element_string: PropTypes.string.isRequired
+    })
+  ).isRequired,
+  match: ReactRouterPropTypes.match.isRequired,
+  location: ReactRouterPropTypes.location.isRequired,
+  fetchCard: PropTypes.func.isRequired
+};
+
+export default withRouter(CardPage);
