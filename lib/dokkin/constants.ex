@@ -28,6 +28,24 @@ defmodule Dokkin.Constants do
         4 => :ur,
         5 => :lr
       }
+      @keyword_aliases %{
+        "coora" => ["cooler"],
+        "super saiyan 2" => ["ss2", "ssj2"],
+        "super saiyan 3" => ["ss3", "ssj3"],
+        "super saiyan 4" => ["ss4", "ssj4"],
+        "super saiyan god ss" => ["ssb", "blue"],
+        "super saiyan god ss vegito" => ["vb", "vegito blue"],
+        "majin buu (ultimate gohan)" => ["buuhan"],
+        "golden frieza (angel)" => ["agf"],
+        "super vegito" => ["sv"],
+        "boujack" => ["bojack"]
+      }
+      # This isn't an extensive list, just some common ones
+      @name_extras [
+        "super saiyan god ss",
+        "full powered", 
+        "(galactic warrior)",
+      ]
     end
   end
 end

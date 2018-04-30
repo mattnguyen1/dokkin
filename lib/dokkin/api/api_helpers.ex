@@ -2,6 +2,7 @@ defmodule Dokkin.APIHelpers do
   @moduledoc """
   Helpers for interacting with the API
   """
+  use Dokkin.Constants
 
   @spec card_url(map) :: String.t
   def card_url(card_response) do
@@ -21,5 +22,22 @@ defmodule Dokkin.APIHelpers do
     |> String.downcase()
     |> String.replace(~r/[#&\[\]]/, "")
     |> String.replace(~r/ +/, "-")
+  end
+
+  @spec get_base_element(integer) :: String.t
+  def get_base_element(element) do
+    IO.inspect(element)
+    IO.inspect(rem(2, 10))
+    Atom.to_string(@element[rem(element, 10)])
+  end
+
+  @spec get_base_name(String.t) :: String.t
+  def get_base_name(name) do
+    regex_matches = Enum.join(@name_extras, "|")
+
+    name
+    |> String.downcase()
+    |> String.replace(~r/#{regex_matches}/, "")
+    |> String.trim()
   end
 end

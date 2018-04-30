@@ -1,5 +1,6 @@
 defmodule DokkinWeb.Meta.CardPageController do
   use DokkinWeb, :controller
+  use Dokkin.Constants
 
   alias Dokkin.APIHelpers
   alias Dokkin.API.CardService
@@ -31,7 +32,9 @@ defmodule DokkinWeb.Meta.CardPageController do
     |> assign(:og_description, char_element_rarity_text <> "Leader Skill: " <> leader_skill_description <> ".\nPassive: " <> passive_text <> ".")
     |> assign(:og_image, "https://static.dokk.in/thumb/card_" <> img_card_id <> "_thumb.png")
     |> assign(:og_url, url)
-    |> assign(:keywords, "dokkin,dokk.in,dokkan battle,dbz,links," <> rarity <> "," <> element <> "," <> alliance <> "," <> full_name)
+    |> assign(:keywords, "dokkin,dokkan battle,dbz,"
+      <> rarity <> "," <> element <> "," <> full_name
+      <> "," <> get_unique_keywords(card))
     |> maybe_redirect(slug, correct_slug)
   end
 
@@ -53,5 +56,27 @@ defmodule DokkinWeb.Meta.CardPageController do
     |> Kernel.trunc()
     |> (&(&1 * 10)).()
     |> Integer.to_string()
+  end
+
+  defp get_unique_keywords(card) do
+    []
+    |> get_common_card_keyword(card)
+    |> get_alt_name_keywords(card)
+    |> Enum.join(",")
+  end
+
+  defp get_common_card_keyword(keywords, %{rarity: 5} = card) do
+    ["lr " <> APIHelpers.get_base_name(card.name) | keywords]
+  end
+  defp get_common_card_keyword(keywords, card) do
+    [APIHelpers.get_base_element(card.element) <> " " <> APIHelpers.get_base_name(card.name) | keywords]
+  end
+
+  defp get_alt_name_keywords(keywords, card) do
+    if Map.has_key?(@keyword_aliases, String.downcase(card.name)) do
+      keywords ++ @keyword_aliases[String.downcase(card.name)]
+    else
+      keywords
+    end
   end
 end
