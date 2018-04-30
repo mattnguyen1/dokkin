@@ -6,6 +6,7 @@ import CardPage from 'dokkin/js/card-page'
 import LinkPage from 'dokkin/js/link-page'
 import CategoryPage from 'dokkin/js/category-page'
 import NavBar from 'dokkin/js/nav-bar'
+import GoogleAnalytics from 'dokkin/js/common/google-analytics'
 import 'dokkin/css/app.scss'
 import 'babel-polyfill'
 
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/category/:categorySlug" component={CategoryPage}/>
           <Redirect to="/"/>
         </Switch>
+        <GoogleAnalytics/>
       </div>
     </BrowserRouter>
 );
