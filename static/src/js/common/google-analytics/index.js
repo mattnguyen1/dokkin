@@ -7,7 +7,10 @@ class GoogleAnalytics extends Component {
   componentWillUpdate({ location, history }) {
     const { gtag } = window;
 
-    if (location.pathname === this.props.location.pathname) {
+    if (
+      location.pathname === this.props.location.pathname &&
+      location.search === this.props.location.search
+    ) {
       // don't log identical link clicks (nav links likely)
       return;
     }
