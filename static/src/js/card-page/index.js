@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import CardPage from "dokkin/js/card-page/components/card-page";
-import { fetchCard } from "dokkin/js/card/card-action";
+import { fetchCard } from "dokkin/js/common/card/card-action";
 
 const mapStateToProps = state => ({
   cardCache: state.cardReducer.cardCache

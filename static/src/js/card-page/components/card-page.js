@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { withRouter, Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import ReactRouterPropTypes from "react-router-prop-types";
-import Card from "dokkin/js/card/components/card";
+import Card from "dokkin/js/common/card/components/card";
 import {
   getCharacterImageUrl,
   getCharacterBGUrl,

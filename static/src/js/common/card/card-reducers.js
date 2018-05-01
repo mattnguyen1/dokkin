@@ -5,7 +5,7 @@ import {
   FETCH_CARDS_ERROR,
   FETCH_CARD_SUCCESS,
   FETCH_CARD_ERROR
-} from "dokkin/js/card/card-action-types";
+} from "dokkin/js/common/card/card-action-types";
 import { FETCH_LINK_LOADING } from "dokkin/js/link-page/link-action-types";
 import { FETCH_CATEGORY_LOADING } from "dokkin/js/category-page/category-action-types";
 

@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import Card from "dokkin/js/card/components/card";
+import Card from "dokkin/js/common/card/components/card";
 
 const CardRow = props => {
   const cardUrl = props.url;

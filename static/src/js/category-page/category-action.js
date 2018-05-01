@@ -4,7 +4,7 @@ import {
   FETCH_CATEGORY_LOADING,
   FETCH_CATEGORY_ERROR
 } from "dokkin/js/category-page/category-action-types";
-import { fetchCards } from "dokkin/js/card/card-action";
+import { fetchCards } from "dokkin/js/common/card/card-action";
 
 export function fetchCategorySuccess(category) {
   return {

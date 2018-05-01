@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { fetchCards } from "dokkin/js/card/card-action";
+import { fetchCards } from "dokkin/js/common/card/card-action";
 import SearchPage from "dokkin/js/search-page/components/search-page";
 
 const mapDispatchToProps = dispatch => ({

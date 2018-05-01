@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import ReactRouterPropTypes from "react-router-prop-types";
-import CardGrid from "dokkin/js/card/card-grid-container";
+import CardGrid from "dokkin/js/common/card/card-grid-container";
 
 class CategoryPage extends Component {
   static getPageTitle(category) {

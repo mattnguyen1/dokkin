@@ -6,7 +6,7 @@ import {
   FETCH_CARD_SUCCESS,
   FETCH_CARD_LOADING,
   FETCH_CARD_ERROR
-} from "dokkin/js/card/card-action-types";
+} from "dokkin/js/common/card/card-action-types";
 import { getQueryParamString } from "dokkin/js/utils/url";
 
 const DEFAULT_LIMIT = 50;

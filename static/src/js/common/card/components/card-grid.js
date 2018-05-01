@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroller";
-import CardRowLoader from "dokkin/js/card/components/card-row-loader";
-import CardRow from "dokkin/js/card/components/card-row";
+import CardRowLoader from "dokkin/js/common/card/components/card-row-loader";
+import CardRow from "dokkin/js/common/card/components/card-row";
 
 class CardGrid extends Component {
   static renderLoaders(numLoaders) {

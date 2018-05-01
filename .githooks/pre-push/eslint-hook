@@ -17,11 +17,13 @@ printf "Starting ESLint on changed files:\n\n $CHANGED_FILES\n"]
 if [ "$DO_LINT" ]
 then
 	printf "$DO_LINT\n"
-	read -p "ESLint failed, do you want to push anyway? (y/n)" -n 1 -r
-	if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+	printf "ESLint failed, do you want to push anyway? (y/n)\n"
+	read shouldPushAnyway </dev/tty
+
+	if [[ ! $shouldPushAnyway =~ ^[Yy]$ ]]; then
 			[[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
 	fi
 else
-	printf "\t\033[32mESLint passed.\e[0m\n"
+	printf "\033[32mESLint passed.\e[0m\n"
 	exit 0
 fi

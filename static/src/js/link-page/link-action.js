@@ -4,7 +4,7 @@ import {
   FETCH_LINK_LOADING,
   FETCH_LINK_ERROR
 } from "dokkin/js/link-page/link-action-types";
-import { fetchCards } from "dokkin/js/card/card-action";
+import { fetchCards } from "dokkin/js/common/card/card-action";
 
 export function fetchLinkSuccess(link) {
   return {

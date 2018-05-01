@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import ReactRouterPropTypes from "react-router-prop-types";
 import PropTypes from "prop-types";
-import CardGrid from "dokkin/js/card/card-grid-container";
+import CardGrid from "dokkin/js/common/card/card-grid-container";
 import { getMappedQueryParams } from "dokkin/js/utils/url";
 
 const DEFAULT_SEARCH_QUERY = "";
