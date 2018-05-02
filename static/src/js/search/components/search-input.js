@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import ReactRouterPropTypes from "react-router-prop-types";
+import SelectorDropdown from "dokkin/js/common/selector-dropdown/index";
 
 class SearchInput extends Component {
   onInputChange = event => {
@@ -10,7 +11,6 @@ class SearchInput extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    this.searchInput.blur();
     this.props.history.push(`/search?q=${this.props.input}`);
   };
 
@@ -18,17 +18,16 @@ class SearchInput extends Component {
     const { input } = this.props;
     return (
       <div className="search">
-        <form action="" onSubmit={this.onSubmit}>
-          <input
-            ref={el => {
-              this.searchInput = el;
-            }}
-            type="search"
-            placeholder="Search (example: str ssb vegito)"
-            value={input}
-            onChange={this.onInputChange}
-          />
-        </form>
+        <SelectorDropdown
+          inputRef={el => {
+            this.searchInput = el;
+          }}
+          type="search"
+          placeholder="Search (example: str ssb vegito)"
+          value={input}
+          onChange={this.onInputChange}
+          onEnterKeyDown={this.onSubmit}
+        />
       </div>
     );
   }

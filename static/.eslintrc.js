@@ -27,6 +27,7 @@ module.exports = {
     "react/no-typos": 0,
     "import/order": ["error", { "newlines-between": "never" }],
     "no-restricted-globals": 0,
-    "no-case-declarations": 0
+    "no-case-declarations": 0,
+    "jsx-a11y/click-events-have-key-events"
   }
 };
