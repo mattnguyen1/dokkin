@@ -1,19 +1,22 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-const SearchItem = ({ imageUrl, text, value, onClick }) => {
+class SearchItem extends Component {
   handleClick = () => {
     const { onClick } = this.props;
     onClick(value);
   };
 
-  return (
-    <div role="link" className="search-item" onClick={this.handleClick}>
-      {imageUrl && <img src={imageUrl} alt={`Search result for ${text}`} />}
-      <div>{text}</div>
-    </div>
-  );
-};
+  render() {
+    const { imageUrl, text, value } = this.props;
+    return (
+      <div role="link" className="search-item" onClick={this.handleClick}>
+        {imageUrl && <img src={imageUrl} alt={`Search result for ${text}`} />}
+        <div>{text}</div>
+      </div>
+    );
+  }
+}
 
 /* eslint-disable react/forbid-prop-types */
 SearchItem.propTypes = {

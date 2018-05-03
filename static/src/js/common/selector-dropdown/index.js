@@ -25,7 +25,6 @@ class SelectorDropdown extends Component {
     const { onEscapeKeyDown, onEnterKeyDown } = this.props;
     switch (event.key) {
       case "Escape":
-        this.hide();
         onEscapeKeyDown(event);
         break;
       case "Enter":
@@ -78,7 +77,7 @@ SelectorDropdown.propTypes = {
 
 SelectorDropdown.defaultProps = {
   onEscapeKeyDown: () => {},
-  onEntereyDown: () => {},
+  onEnterKeyDown: () => {},
   inputRef: () => {},
   children: null
 };

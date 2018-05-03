@@ -28,6 +28,6 @@ module.exports = {
     "import/order": ["error", { "newlines-between": "never" }],
     "no-restricted-globals": 0,
     "no-case-declarations": 0,
-    "jsx-a11y/click-events-have-key-events"
+    "jsx-a11y/click-events-have-key-events": 0
   }
 };
