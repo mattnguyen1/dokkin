@@ -24,10 +24,15 @@ class SearchInput extends Component {
     }
   };
 
-  onSubmit = event => {
-    const { history, input } = this.props;
+  onSubmit = (event, selectedItemIndex) => {
+    const { history, input, quickSearchResults } = this.props;
     event.preventDefault();
-    history.push(`/search?q=${input}`);
+
+    if (selectedItemIndex >= 0) {
+      history.push(quickSearchResults[selectedItemIndex].url);
+    } else {
+      history.push(`/search?q=${input}`);
+    }
   };
 
   render() {

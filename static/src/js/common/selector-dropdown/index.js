@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import scrollIntoView from "scroll-into-view-if-needed";
 
 class SelectorDropdown extends Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class SelectorDropdown extends Component {
       shouldMenuBeVisible: false,
       selectedItemIndex: -1
     };
+    this.itemRefs = {};
   }
 
   getSelectedItemClass(index) {
@@ -23,8 +25,20 @@ class SelectorDropdown extends Component {
 
   hide() {
     this.setState({
-      shouldMenuBeVisible: false
+      shouldMenuBeVisible: false,
+      selectedItemIndex: -1
     });
+  }
+
+  scrollItemIntoView(index) {
+    const { children } = this.props;
+    if (children && index >= 0) {
+      scrollIntoView(this.itemRefs[index], {
+        scrollMode: "if-needed",
+        block: "nearest",
+        inline: "nearest"
+      });
+    }
   }
 
   handleInputKeyDown = event => {
@@ -40,13 +54,17 @@ class SelectorDropdown extends Component {
         this.hide();
         break;
       case "ArrowDown":
+        const nextItemIndex = Math.min(selectedItemIndex + 1, numItems - 1);
+        this.scrollItemIntoView(nextItemIndex);
         this.setState({
-          selectedItemIndex: Math.min(selectedItemIndex + 1, numItems - 1)
+          selectedItemIndex: nextItemIndex
         });
         break;
       case "ArrowUp":
+        const prevItemIndex = Math.max(selectedItemIndex - 1, 0);
+        this.scrollItemIntoView(prevItemIndex);
         this.setState({
-          selectedItemIndex: Math.max(selectedItemIndex - 1, 0)
+          selectedItemIndex: prevItemIndex
         });
         break;
       // no default
@@ -110,6 +128,9 @@ class SelectorDropdown extends Component {
             {children.map((node, index) => {
               return (
                 <li
+                  ref={el => {
+                    this.itemRefs[index] = el;
+                  }}
                   key={`dropdown-item-${index}`}
                   className={`dropdown-item ${this.getSelectedItemClass(
                     index
