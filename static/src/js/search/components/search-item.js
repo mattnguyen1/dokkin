@@ -2,15 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 class SearchItem extends Component {
-  handleClick = () => {
-    const { onClick } = this.props;
-    onClick(value);
-  };
-
   render() {
     const { imageUrl, text, value } = this.props;
     return (
-      <div role="link" className="search-item" onClick={this.handleClick}>
+      <div className="search-item">
         {imageUrl && <img src={imageUrl} alt={`Search result for ${text}`} />}
         <div>{text}</div>
       </div>
@@ -22,8 +17,7 @@ class SearchItem extends Component {
 SearchItem.propTypes = {
   imageUrl: PropTypes.string,
   text: PropTypes.string.isRequired,
-  value: PropTypes.any.isRequired,
-  onClick: PropTypes.func.isRequired
+  value: PropTypes.any.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 

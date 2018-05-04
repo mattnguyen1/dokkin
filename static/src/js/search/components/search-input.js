@@ -1,21 +1,33 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import ReactRouterPropTypes from "react-router-prop-types";
 import SelectorDropdown from "dokkin/js/common/selector-dropdown/index";
 import SearchItem from "./search-item";
+import _ from "lodash";
 
 class SearchInput extends Component {
+  constructor(props) {
+    super(props);
+    const { fetchQuickSearch } = props;
+    this.throttledFetchQuickSearch = _.throttle(fetchQuickSearch, 350, {
+      leading: true,
+      trailing: true
+    });
+  }
+
   onInputChange = event => {
-    this.props.updateSearchInput(event.target.value);
-    // if (event.target.value) {
-    //   this.props.fetchQuickSearch(event.target.value);
-    // }
+    const { updateSearchInput } = this.props;
+    updateSearchInput(event.target.value);
+    if (event.target.value) {
+      this.throttledFetchQuickSearch(event.target.value);
+    }
   };
 
   onSubmit = event => {
+    const { history, input } = this.props;
     event.preventDefault();
-    this.props.history.push(`/search?q=${this.props.input}`);
+    history.push(`/search?q=${input}`);
   };
 
   render() {
@@ -32,17 +44,17 @@ class SearchInput extends Component {
           onChange={this.onInputChange}
           onEnterKeyDown={this.onSubmit}
         >
-          {/* {quickSearchResults &&
+          {quickSearchResults &&
             quickSearchResults.map((result, index) => {
               return (
-                <SearchItem
-                  key={`quick-search-result-${index}`}
-                  text={`${result.leader_skill} ${result.name}`}
-                  value={`${result.id}`}
-                  onClick={() => {}}
-                />
+                <Link to={result.url} key={`quick-search-result-${index}`}>
+                  <SearchItem
+                    text={`${result.leader_skill} ${result.name}`}
+                    value={`${result.id}`}
+                  />
+                </Link>
               );
-            })} */}
+            })}
         </SelectorDropdown>
       </div>
     );

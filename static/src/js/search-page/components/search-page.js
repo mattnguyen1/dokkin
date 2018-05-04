@@ -22,6 +22,7 @@ class SearchPage extends Component {
       pathname !== nextProps.location.pathname ||
       search !== nextProps.location.search
     ) {
+      window.scrollTo(0, 0);
       this.updateCardGrid(nextProps);
       document.title = DEFAULT_SITE_TITLE;
     }
@@ -32,6 +33,7 @@ class SearchPage extends Component {
     const queryParams = getMappedQueryParams(search);
     const searchQuery = queryParams.q || DEFAULT_SEARCH_QUERY;
 
+    window.scrollTo(0, 0);
     this.props.fetchCards({
       q: searchQuery,
       ...queryParams

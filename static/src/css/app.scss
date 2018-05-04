@@ -105,8 +105,35 @@ h1, h2, h3, h4, h5, h6 {
       display: inline-block;
       .dropdown-menu {
         width: 400px;
+        max-height: 200px;
+        overflow-y: scroll;
         margin-left: 100px;
         margin-top: -5px;
+        background-color: $light-grey;
+        border-radius: 4px;
+
+        li {
+          list-style-type: none;
+        }
+
+        .dropdown-item {
+          width: 100%;
+          line-height: 30px;
+          padding-left: 10px;
+          padding-bottom: 3px;
+          padding-top: 3px;
+          box-sizing: border-box;
+          border-bottom: 1px solid $black;
+
+          &:hover,
+          &.selected {
+            background-color: #5d4817;
+          }
+        }
+
+        a:last-child .search-item {
+          border-bottom: none;
+        }
       }
       input {
         border: none;

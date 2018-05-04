@@ -35,7 +35,8 @@ export function fetchQuickSearchError(error) {
 }
 
 export function fetchQuickSearch(query) {
-  const queryParams = { q: query, limit: 10, offset: 0 };
+  const encodedQuery = encodeURIComponent(query);
+  const queryParams = { q: encodedQuery, limit: 10, offset: 0 };
   const queryParamString = getQueryParamString(queryParams);
   return dispatch => {
     dispatch(fetchQuickSearchLoading(queryParams));
