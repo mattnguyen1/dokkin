@@ -20,3 +20,17 @@
     opacity: .5;
   }
 }
+
+.close-icon {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  width: 30px;
+  margin-left: -30px;
+  top: 16px;
+  cursor: pointer;
+
+  svg {
+    fill: $offwhite;
+  }
+}

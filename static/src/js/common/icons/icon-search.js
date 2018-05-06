@@ -1,5 +1,4 @@
 import React from "react";
-import { POINT_CONVERSION_COMPRESSED } from "constants";
 
 const IconSearch = props => {
   return (

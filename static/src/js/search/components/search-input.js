@@ -22,11 +22,11 @@ class SearchInput extends Component {
     history.push(`/search?q=${input}`);
   };
 
-  onInputChange = event => {
+  onInputChange = input => {
     const { updateSearchInput } = this.props;
-    updateSearchInput(event.target.value);
-    if (event.target.value) {
-      this.throttledFetchQuickSearch(event.target.value);
+    updateSearchInput(input);
+    if (input) {
+      this.throttledFetchQuickSearch(input);
     }
   };
 
@@ -63,7 +63,6 @@ class SearchInput extends Component {
           inputRef={el => {
             this.searchInput = el;
           }}
-          type="search"
           placeholder="Search (example: str ssb vegito)"
           value={input}
           onChange={this.onInputChange}

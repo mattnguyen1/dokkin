@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import scrollIntoView from "scroll-into-view-if-needed";
+import IconClose from "dokkin/js/common/icons/icon-close";
 
 class SelectorDropdown extends Component {
   constructor(props) {
@@ -30,6 +31,12 @@ class SelectorDropdown extends Component {
     });
   }
 
+  clearInput = () => {
+    const { onChange } = this.props;
+    this.inputRef.value = "";
+    onChange("");
+  };
+
   scrollItemIntoView(index) {
     const { children } = this.props;
     if (children && index >= 0) {
@@ -48,6 +55,7 @@ class SelectorDropdown extends Component {
     switch (event.key) {
       case "Escape":
         onEscapeKeyDown(event);
+        this.clearInput();
         break;
       case "Enter":
         onEnterKeyDown(event, selectedItemIndex);
@@ -74,7 +82,7 @@ class SelectorDropdown extends Component {
   handleChange = event => {
     const { onChange } = this.props;
     if (onChange) {
-      onChange(event);
+      onChange(event.target.value);
     }
     if (event.target.value) {
       this.show();
@@ -104,6 +112,14 @@ class SelectorDropdown extends Component {
     return children && children.length > 0 && shouldMenuBeVisible;
   }
 
+  renderClearIcon() {
+    return (
+      <button onClick={this.clearInput} className="close-icon">
+        <IconClose width={14} height={14} />
+      </button>
+    );
+  }
+
   render() {
     const {
       inputRef,
@@ -112,6 +128,8 @@ class SelectorDropdown extends Component {
       onEnterKeyDown,
       onChange,
       SelectorCTARenderer,
+      clearable,
+      value,
       ...rest
     } = this.props;
     const { selectedItemIndex } = this.state;
@@ -119,13 +137,18 @@ class SelectorDropdown extends Component {
     return (
       <div onBlur={this.handleBlur}>
         <input
-          ref={inputRef}
+          ref={el => {
+            this.inputRef = el;
+            inputRef(el);
+          }}
           onKeyDown={this.handleInputKeyDown}
           onFocus={this.handleInputFocus}
           onChange={this.handleChange}
           className={inputClassName}
+          value={value}
           {...rest}
         />
+        {clearable && value && this.renderClearIcon()}
         {SelectorCTARenderer && (
           <SelectorCTARenderer
             onClick={() => {
@@ -163,7 +186,9 @@ SelectorDropdown.propTypes = {
   onEnterKeyDown: PropTypes.func,
   onChange: PropTypes.func,
   inputRef: PropTypes.func,
-  SelectorCTARenderer: PropTypes.func
+  SelectorCTARenderer: PropTypes.func,
+  clearable: PropTypes.bool,
+  value: PropTypes.string.isRequired
 };
 
 SelectorDropdown.defaultProps = {
@@ -172,7 +197,8 @@ SelectorDropdown.defaultProps = {
   onChange: () => {},
   inputRef: () => {},
   children: null,
-  SelectorCTARenderer: () => {}
+  SelectorCTARenderer: () => {},
+  clearable: true
 };
 
 export default SelectorDropdown;
