@@ -28,8 +28,8 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 - To build assets and place them in the folder that serves static content: `mix prod.build`
 - To build assets and run the app backgrounded as a daemon on port `4001`: `mix prod.start`
 
-## In Progress
+## TODO
 
-- Quick search: auto complete in the search input similar to the autocomplete results in twitch
-  - This should also include links and categories as possible results
-
+- 404 page
+- Stats and awakening medals on card page
+- Make quick search more of a title match than a full text search
