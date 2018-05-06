@@ -1,28 +1,7 @@
 // Imports
 @import 'media-queries';
-
-// Colors
-$black: #222;
-$grey: #36393F;
-$light-grey: #484B51;
-$dark-grey: #2F3136;
-$white: #fff;
-$light-blue: #93cddc;
-$offwhite: hsla(0,0%,100%,.7);
-
-// Fonts
-$font: "Helvetica Neue", "Helvetica", "sans-sarif";
-$font-small: 12px;
-$font-medium: 14px;
-$font-large: 16px;
-$font-heading: 26px;
-$font-subheading: 22px;
-
-// Heights & Widths
-$nav-bar-height: 48px;
-
-// Transitions
-$fade-in-transition: opacity .2s ease-in-out, transform .3s ease-in-out;
+@import 'icons';
+@import 'variables';
 
 *:focus {
   outline: none;
@@ -127,7 +106,7 @@ h1, h2, h3, h4, h5, h6 {
 
           &:hover,
           &.selected {
-            background-color: #5d4817;
+            background-color: $orange;
           }
         }
 
@@ -135,6 +114,7 @@ h1, h2, h3, h4, h5, h6 {
           border-bottom: none;
         }
       }
+
       input {
         border: none;
         border-radius: 4px;
@@ -151,6 +131,13 @@ h1, h2, h3, h4, h5, h6 {
         font-weight: 300;
         box-sizing: border-box;
         letter-spacing: .6px;
+
+        &.has-cta {
+          width: 370px;
+          max-width: calc(100% - 30px);
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
       }
     
       input:focus {

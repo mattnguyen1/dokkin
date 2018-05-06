@@ -111,9 +111,11 @@ class SelectorDropdown extends Component {
       onEscapeKeyDown,
       onEnterKeyDown,
       onChange,
+      SelectorCTARenderer,
       ...rest
     } = this.props;
     const { selectedItemIndex } = this.state;
+    const inputClassName = SelectorCTARenderer ? "has-cta" : "";
     return (
       <div onBlur={this.handleBlur}>
         <input
@@ -121,8 +123,16 @@ class SelectorDropdown extends Component {
           onKeyDown={this.handleInputKeyDown}
           onFocus={this.handleInputFocus}
           onChange={this.handleChange}
+          className={inputClassName}
           {...rest}
         />
+        {SelectorCTARenderer && (
+          <SelectorCTARenderer
+            onClick={() => {
+              this.hide();
+            }}
+          />
+        )}
         {this.isMenuVisible() && (
           <div className="dropdown-menu" onClick={this.handleMenuClick}>
             {children.map((node, index) => {
@@ -152,7 +162,8 @@ SelectorDropdown.propTypes = {
   onEscapeKeyDown: PropTypes.func,
   onEnterKeyDown: PropTypes.func,
   onChange: PropTypes.func,
-  inputRef: PropTypes.func
+  inputRef: PropTypes.func,
+  SelectorCTARenderer: PropTypes.func
 };
 
 SelectorDropdown.defaultProps = {
@@ -160,7 +171,8 @@ SelectorDropdown.defaultProps = {
   onEnterKeyDown: () => {},
   onChange: () => {},
   inputRef: () => {},
-  children: null
+  children: null,
+  SelectorCTARenderer: () => {}
 };
 
 export default SelectorDropdown;

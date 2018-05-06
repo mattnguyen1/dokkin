@@ -43,7 +43,14 @@ $card-page-flexbox-width: 815px;
         }
 
         .search {
-          width: calc(100% - 111px);          
+          width: calc(100% - 111px);
+          
+          .dropdown-menu {
+            position: absolute;
+            width: calc(100% - 20px);
+            margin-left: 10px;
+            left: 0;
+          }
           input {
             margin: 10px 0 10px 10px;
             width: 100%;

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withRouter, Link } from "react-router-dom";
 import ReactRouterPropTypes from "react-router-prop-types";
 import SelectorDropdown from "dokkin/js/common/selector-dropdown/index";
+import IconSearch from "dokkin/js/common/icons/icon-search";
 import SearchItem from "./search-item";
 import _ from "lodash";
 
@@ -15,6 +16,11 @@ class SearchInput extends Component {
       trailing: true
     });
   }
+
+  submitSearch = () => {
+    const { history, input } = this.props;
+    history.push(`/search?q=${input}`);
+  };
 
   onInputChange = event => {
     const { updateSearchInput } = this.props;
@@ -31,8 +37,22 @@ class SearchInput extends Component {
     if (selectedItemIndex >= 0) {
       history.push(quickSearchResults[selectedItemIndex].url);
     } else {
-      history.push(`/search?q=${input}`);
+      this.submitSearch();
     }
+  };
+
+  renderSearchIcon = ({ onClick }) => {
+    const searchClickHandler = () => {
+      if (onClick) {
+        onClick();
+      }
+      this.submitSearch();
+    };
+    return (
+      <button className="search-icon" onClick={searchClickHandler}>
+        <IconSearch width={14} height={14} />
+      </button>
+    );
   };
 
   render() {
@@ -48,6 +68,7 @@ class SearchInput extends Component {
           value={input}
           onChange={this.onInputChange}
           onEnterKeyDown={this.onSubmit}
+          SelectorCTARenderer={this.renderSearchIcon}
         >
           {quickSearchResults &&
             quickSearchResults.map((result, index) => {
