@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 
 class SearchItem extends Component {
   render() {
-    const { imageUrl, text, value } = this.props;
+    const { imageRenderer, imageProps, text, value } = this.props;
     return (
       <div className="search-item">
-        {imageUrl && <img src={imageUrl} alt={`Search result for ${text}`} />}
-        <div>{text}</div>
+        {imageRenderer && imageProps && imageRenderer(imageProps)}
+        <div className="search-item-text">{text}</div>
       </div>
     );
   }
@@ -15,14 +15,18 @@ class SearchItem extends Component {
 
 /* eslint-disable react/forbid-prop-types */
 SearchItem.propTypes = {
-  imageUrl: PropTypes.string,
+  imageRenderer: PropTypes.func,
+  imageProps: PropTypes.shape({
+    id: PropTypes.number
+  }),
   text: PropTypes.string.isRequired,
   value: PropTypes.any.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 
 SearchItem.defaultProps = {
-  imageUrl: ""
+  imageRenderer: null,
+  imageProps: { id: null }
 };
 
 export default SearchItem;

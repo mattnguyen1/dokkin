@@ -4,6 +4,7 @@ import { withRouter, Link } from "react-router-dom";
 import ReactRouterPropTypes from "react-router-prop-types";
 import SelectorDropdown from "dokkin/js/common/selector-dropdown/index";
 import IconSearch from "dokkin/js/common/icons/icon-search";
+import Card from "dokkin/js/common/card/components/card";
 import SearchItem from "./search-item";
 import _ from "lodash";
 
@@ -55,6 +56,10 @@ class SearchInput extends Component {
     );
   };
 
+  renderCard = props => {
+    return <Card {...props} className={"small search-item-image"} />;
+  };
+
   render() {
     const { input, quickSearchResults } = this.props;
     return (
@@ -74,6 +79,8 @@ class SearchInput extends Component {
               return (
                 <Link to={result.url} key={`quick-search-result-${index}`}>
                   <SearchItem
+                    imageRenderer={this.renderCard}
+                    imageProps={result}
                     text={`${result.leader_skill} ${result.name}`}
                     value={`${result.id}`}
                   />

@@ -20,7 +20,8 @@ const Card = ({
   rarity,
   rarity_string,
   leader_skill,
-  resource_id
+  resource_id,
+  className
 }) => {
   const cardStyle = {
     backgroundImage: `url(${getThumbnailBGUrl(element, rarity)})`
@@ -29,7 +30,7 @@ const Card = ({
   const fullName = `${leader_skill} ${name}`;
 
   return (
-    <div className="card" data-type-id={id} title={fullName}>
+    <div className={`card ${className}`} data-type-id={id} title={fullName}>
       <div className="card-frame" style={cardStyle}>
         <div className="card-background">
           <img
@@ -67,11 +68,13 @@ Card.propTypes = {
   rarity: PropTypes.number.isRequired,
   rarity_string: PropTypes.string.isRequired,
   leader_skill: PropTypes.string.isRequired,
-  resource_id: PropTypes.number
+  resource_id: PropTypes.number,
+  className: PropTypes.string
 };
 
 Card.defaultProps = {
-  resource_id: null
+  resource_id: null,
+  className: ""
 };
 
 export default Card;
