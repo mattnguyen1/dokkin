@@ -13,6 +13,13 @@ class SelectorDropdown extends Component {
     this.itemRefs = {};
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { value } = this.props;
+    if (prevProps.value !== value) {
+      this.setState({ selectedItemIndex: -1 });
+    }
+  }
+
   getSelectedItemClass(index) {
     const { selectedItemIndex } = this.state;
     return selectedItemIndex === index ? "selected" : "";
