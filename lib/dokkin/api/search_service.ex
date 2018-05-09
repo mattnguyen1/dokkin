@@ -88,6 +88,7 @@ defmodule Dokkin.API.SearchService do
         |> maybe_contains_links?(card, params)
         |> maybe_contains_categories?(card, params)
       end)
+      |> maybe_strict_filter(query, params)
     end)
     total = length(results)
     marker = if total - offset - limit > 0 do offset + limit else -1 end
@@ -119,6 +120,15 @@ defmodule Dokkin.API.SearchService do
     MapSet.subset?(params_categories, card_categories)
   end
   defp maybe_contains_categories?(prev_check, card, params) do prev_check end
+
+  @spec maybe_strict_filter(map, String.t, map) :: map
+  defp maybe_strict_filter(cards, query, %{"is_strict" => "1"}) do
+    Enum.filter(cards, fn(card) -> 
+      query
+      |> strict_contains_all?(card.card_name)
+    end)
+  end
+  defp maybe_strict_filter(cards, _, _) do cards end
 
   def handle_call(request, from, state) do
     super(request, from, state)
@@ -168,6 +178,7 @@ defmodule Dokkin.API.SearchService do
     |> String.downcase()
     %{
       id: card.id,
+      card_name: "#{normalize(leader_skill)} #{normalize(card.name)}",
       name: all_strings,
       links: links,
       categories: categories,
@@ -216,6 +227,22 @@ defmodule Dokkin.API.SearchService do
       String.contains?(text, normalize_contains_all_token(token))
     end)
   end
+
+  @spec strict_contains_all?(String.t, String.t) :: boolean
+  defp strict_contains_all?(query, text) do
+    query
+    |> String.split(@split_regex)
+    |> Enum.map(&remove_quotes/1)
+    |> Enum.map(&("(#{&1})"))
+    |> Enum.join(".*")
+    |> (&("\\b#{&1}")).()
+    |> Regex.compile()
+    |> get_regex()
+    |> Regex.match?(text)
+  end
+
+  defp get_regex({:ok, regex}) do regex end
+  defp get_regex(_) do ~r/.^/ end
 
   @spec normalize_contains_all_token(String.t) :: String.t
   defp normalize_contains_all_token(token) do
