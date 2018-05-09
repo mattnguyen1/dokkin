@@ -176,9 +176,12 @@ defmodule Dokkin.API.SearchService do
     all_strings = [alliance, type, rarity, normalize(leader_skill), normalize(card.name), Enum.join(links, " "), Enum.join(categories, " ")]
     |> Enum.join(" ")
     |> String.downcase()
+    quick_search_name = [type, rarity, normalize(leader_skill), normalize(card.name)]
+    |> Enum.join(" ")
+    |> String.downcase()
     %{
       id: card.id,
-      card_name: "#{normalize(leader_skill)} #{normalize(card.name)}",
+      card_name: quick_search_name,
       name: all_strings,
       links: links,
       categories: categories,
