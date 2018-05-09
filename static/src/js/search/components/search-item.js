@@ -1,13 +1,21 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Highlighter from "react-highlight-words";
 
 class SearchItem extends Component {
   render() {
-    const { imageRenderer, imageProps, text, value } = this.props;
+    const { imageRenderer, imageProps, text, value, searchQuery } = this.props;
     return (
       <div className="search-item">
         {imageRenderer && imageProps && imageRenderer(imageProps)}
-        <div className="search-item-text">{text}</div>
+        <div className="search-item-text">
+          <Highlighter
+            highlightClassName="search-key-word"
+            searchWords={searchQuery.split(" ")}
+            autoescape
+            textToHighlight={text}
+          />
+        </div>
       </div>
     );
   }

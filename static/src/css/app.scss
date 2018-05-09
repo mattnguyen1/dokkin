@@ -115,6 +115,12 @@ h1, h2, h3, h4, h5, h6 {
             .search-item-image {
               margin-right: 10px;
             }
+
+            mark.search-key-word {
+              background-color: transparent;
+              font-weight: 400;
+              color: white;
+            }
   
             .search-item-text {
               width: 295px;

@@ -83,6 +83,7 @@ class SearchInput extends Component {
                     imageProps={result}
                     text={`${result.leader_skill} ${result.name}`}
                     value={`${result.id}`}
+                    searchQuery={input}
                   />
                 </Link>
               );
