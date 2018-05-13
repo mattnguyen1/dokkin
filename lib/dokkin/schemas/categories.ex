@@ -5,7 +5,7 @@ defmodule Dokkin.Categories do
 
   schema "card_categories" do
     field :name, :string
-    # field :open_at, :naive_datetime
+    field :open_at, SQLiteDateTime
   end
 
   @doc false

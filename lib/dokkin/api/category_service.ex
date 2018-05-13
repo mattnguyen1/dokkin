@@ -56,8 +56,8 @@ defmodule Dokkin.API.CategoryService do
   @spec do_get_available() :: String.t
   defp do_get_available() do
     Categories
-    |> before_datetime(DateTime.utc())
     |> Repo.all()
+    |> filter_available()
   end
 
   #####################
@@ -83,4 +83,15 @@ defmodule Dokkin.API.CategoryService do
     }
   end
 
+  ######################
+  ### Result Helpers ###
+  ######################
+
+  defp filter_available(results) do
+    Enum.filter(results, &is_available/1)
+  end
+
+  defp is_available(result) do
+    result.open_at < NaiveDateTime.utc_now()
+  end
 end
