@@ -38,7 +38,8 @@ defmodule Dokkin.Constants do
         "majin buu (ultimate gohan)" => ["buuhan"],
         "golden frieza (angel)" => ["agf"],
         "super vegito" => ["sv"],
-        "boujack" => ["bojack"]
+        "boujack" => ["bojack"],
+        "goku (ultra instinct -sign-)" => ["ui goku"]
       }
       # This isn't an extensive list, just some common ones
       @name_extras [

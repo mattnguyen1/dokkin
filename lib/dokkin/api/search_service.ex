@@ -27,9 +27,11 @@ defmodule Dokkin.API.SearchService do
     "blue" => "\"super saiyan god ss\"",
     "sv" => "\"super vegito\"",
     "bojack" => "boujack",
-    "cooler" => "coora"
+    "cooler" => "coora",
+    "ui" => "\"ultra instinct\""
   }
   @token_blacklist ["agl", "str", "teq", "int", "phy", "r", "n", "1", "2", "3", "4"]
+  @double_name_list ["buu (kid)", "goku (ultra instinct -sign-)"]
   @split_regex ~r/[ ]+(?=([^"]*"[^"]*")*[^"]*$)/
   @default_limit 100
   @default_offset 0
@@ -181,6 +183,7 @@ defmodule Dokkin.API.SearchService do
     |> Enum.join(" ")
     |> String.downcase()
     quick_search_name = [type, rarity, normalize(leader_skill), normalize(card.name)]
+    |> maybe_double_name(card.name)
     |> Enum.join(" ")
     |> String.downcase()
     %{
@@ -279,5 +282,14 @@ defmodule Dokkin.API.SearchService do
     |> Enum.map(fn(category) ->
       category.name
     end)
+  end
+
+  defp maybe_double_name(search_name, name) do
+    downcased_name = String.downcase(name)
+    if Enum.member?(@double_name_list, downcased_name) do
+      search_name ++ [downcased_name]
+    else
+      search_name
+    end
   end
 end
