@@ -138,6 +138,10 @@ defmodule Dokkin.API.SearchService do
     super(request, state)
   end
 
+  ###############
+  ### Helpers ###
+  ###############
+
   @spec create_index() :: list
   defp create_index() do
     CardService.get_all()

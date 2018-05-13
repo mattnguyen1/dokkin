@@ -222,6 +222,19 @@ defmodule Dokkin.API.CardService do
     |> do_get_minimal()
   end
 
+  @spec do_get_all() :: list
+  defp do_get_all() do
+    Card
+    |> query_detailed()
+    |> order_by_atk()
+    |> Repo.all()
+    |> merge_super_attacks()
+  end
+
+  #####################
+  ### Query Helpers ###
+  #####################
+
   @spec get_base_id(String.t) :: String.t
   defp get_base_id(id) when is_binary(id) do
     query_base_id(id)
@@ -232,15 +245,6 @@ defmodule Dokkin.API.CardService do
 
   defp do_get_base_id(:nil, id) do id end
   defp do_get_base_id(base_id, _) do Integer.to_string(base_id) end
-
-  @spec do_get_all() :: list
-  defp do_get_all() do
-    Card
-    |> query_detailed()
-    |> order_by_atk()
-    |> Repo.all()
-    |> merge_super_attacks()
-  end
 
   @spec query_minimal(Ecto.Queryable.t) :: Ecto.Queryable.t
   defp query_minimal(query) do

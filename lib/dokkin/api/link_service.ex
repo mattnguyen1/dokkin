@@ -41,6 +41,10 @@ defmodule Dokkin.API.LinkService do
     |> Repo.all()
   end
 
+  #####################
+  ### Query Helpers ###
+  #####################
+
   @spec by_id(Ecto.Queryable.t, String.t) :: Ecto.Queryable.t
   defp by_id(query, id) do
     query |> where([ls], ls.id == ^id)

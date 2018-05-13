@@ -5,12 +5,13 @@ defmodule Dokkin.Categories do
 
   schema "card_categories" do
     field :name, :string
+    # field :open_at, :naive_datetime
   end
 
   @doc false
   def changeset(categories, attrs) do
     categories
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, [:name, :open_at])
+    |> validate_required([:name, :open_at])
   end
 end
