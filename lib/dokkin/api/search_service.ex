@@ -284,12 +284,13 @@ defmodule Dokkin.API.SearchService do
     end)
   end
 
-  defp maybe_double_name(search_name, name) do
+  @spec maybe_double_name(list, String.t) :: list
+  defp maybe_double_name(search_name_list, name) do
     downcased_name = String.downcase(name)
     if Enum.member?(@double_name_list, downcased_name) do
-      search_name ++ [downcased_name]
+      search_name_list ++ [downcased_name]
     else
-      search_name
+      search_name_list
     end
   end
 end

@@ -24,6 +24,7 @@ defmodule Dokkin.API.CategoryService do
   @doc """
   Gets all categories that are currently available.
   """
+  @spec get_available() :: list
 
   def get_available() do
     cache_get_available()
@@ -38,6 +39,7 @@ defmodule Dokkin.API.CategoryService do
     Repo.fetch_cards("category-", id, &do_get/1, 1)
   end
 
+  @spec cache_get_available() :: list
   defp cache_get_available() do
     Repo.fetch_cards("category-list", &do_get_available/0)
   end

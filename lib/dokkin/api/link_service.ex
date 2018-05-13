@@ -21,6 +21,16 @@ defmodule Dokkin.API.LinkService do
     |> List.first()
   end
 
+  @doc """
+  Gets all links that are currently available.
+  """
+  @spec get_available() :: list
+
+  def get_available() do
+    cache_get_available()
+  end
+
+
   ####################
   ### Cache Client ###
   ####################
@@ -28,6 +38,11 @@ defmodule Dokkin.API.LinkService do
   @spec cache_get(String.t) :: list
   defp cache_get(id) do
     Repo.fetch_cards("link-", id, &do_get/1, 1)
+  end
+
+  @spec cache_get_available() :: list
+  defp cache_get_available() do
+    Repo.fetch_cards("links-list", &do_get_available/0)
   end
 
   ###############
@@ -38,6 +53,12 @@ defmodule Dokkin.API.LinkService do
   defp do_get(id) when is_binary(id) do
     LinkSkills
     |> by_id(id)
+    |> Repo.all()
+  end
+
+  @spec do_get_available() :: String.t
+  defp do_get_available() do
+    LinkSkills
     |> Repo.all()
   end
 

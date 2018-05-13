@@ -8,6 +8,12 @@ defmodule DokkinWeb.API.LinkView do
     render link, DokkinWeb.API.LinkView, "show.json"
   end
 
+  def render("index.json", %{links: links}) do
+    %{
+      links: render_many(links, DokkinWeb.API.LinkView, "show.json")
+    }
+  end
+
   def render("show.json", %{link:
     %{
       id: id,
