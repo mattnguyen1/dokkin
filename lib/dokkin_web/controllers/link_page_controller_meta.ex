@@ -33,7 +33,7 @@ defmodule DokkinWeb.Meta.LinkPageController do
       |> render("index.html")
     else
       conn
-      |> redirect(to: "/link/" <> correct_slug)
+      |> redirect(to: "/links/" <> correct_slug)
     end
   end
 end

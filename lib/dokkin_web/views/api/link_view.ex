@@ -18,13 +18,14 @@ defmodule DokkinWeb.API.LinkView do
     %{
       id: id,
       name: name,
-      description: description  
+      description: description
     }
   }) do
     %{
       id: id,
       name: name,
-      description: description
+      description: description,
+      slug: APIHelpers.normalize_slug(Integer.to_string(id) <> "-" <> name)
     }
   end
 end

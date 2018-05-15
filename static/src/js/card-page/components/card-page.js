@@ -203,7 +203,7 @@ class CardPage extends Component {
                           attachment={MIDDLE_LEFT}
                           tooltipContent={<span>{link.description}</span>}
                         >
-                          <Link to={`/link/${link.slug}`}>{link.name}</Link>
+                          <Link to={`/links/${link.slug}`}>{link.name}</Link>
                         </Tooltip>
                       </li>
                     ))}
@@ -221,7 +221,7 @@ class CardPage extends Component {
                   <ul>
                     {card.categories.map(category => (
                       <li key={category.id}>
-                        <Link to={`/category/${category.slug}`}>
+                        <Link to={`/categories/${category.slug}`}>
                           {category.name}
                         </Link>
                       </li>

@@ -14,12 +14,12 @@ defmodule DokkinWeb.PageController do
     |> CardPageController.assign_meta_and_render(card_slug)
   end
 
-  def index(conn, %{"path" => ["link", link_slug]}) do
+  def index(conn, %{"path" => ["links", link_slug]}) do
     conn
     |> LinkPageController.assign_meta_and_render(link_slug)
   end
 
-  def index(conn, %{"path" => ["category", category_slug]}) do
+  def index(conn, %{"path" => ["categories", category_slug]}) do
     conn
     |> CategoryPageController.assign_meta_and_render(category_slug)
   end

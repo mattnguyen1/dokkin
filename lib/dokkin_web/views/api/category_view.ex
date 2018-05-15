@@ -22,7 +22,8 @@ defmodule DokkinWeb.API.CategoryView do
   }) do
     %{
       id: id,
-      name: name
+      name: name,
+      slug: APIHelpers.normalize_slug(Integer.to_string(id) <> "-" <> name)
     }
   end
 end

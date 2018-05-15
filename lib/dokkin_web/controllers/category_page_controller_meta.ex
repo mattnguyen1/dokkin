@@ -32,7 +32,7 @@ defmodule DokkinWeb.Meta.CategoryPageController do
       |> render("index.html")
     else
       conn
-      |> redirect(to: "/category/" <> correct_slug)
+      |> redirect(to: "/categories/" <> correct_slug)
     end
   end
 end
