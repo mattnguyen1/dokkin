@@ -8,22 +8,22 @@ const CardRow = props => {
   const cardUrl = props.url;
 
   return (
-    <li className="card-row" data-type-id={props.id}>
-      <div className="card-row-left">
+    <li className="grid-item" data-type-id={props.id}>
+      <div className="grid-item-left">
         <Link to={cardUrl}>
           <Card {...props} />
         </Link>
       </div>
-      <div className="card-row-right">
-        <div className="card-row-title">{props.leader_skill}</div>
-        <div className="card-row-name">{props.name}</div>
-        <div className="card-row-details">
-          <div className="card-row-detail-item">
-            <span className="card-row-detail-title">Leader Skill: </span>
+      <div className="grid-item-right">
+        <div className="grid-item-title">{props.leader_skill}</div>
+        <div className="grid-item-name">{props.name}</div>
+        <div className="grid-item-details">
+          <div className="grid-item-detail-item">
+            <span className="grid-item-detail-title">Leader Skill: </span>
             {props.leader_skill_description}
           </div>
-          <div className="card-row-detail-item">
-            <span className="card-row-detail-title">Passive: </span>
+          <div className="grid-item-detail-item">
+            <span className="grid-item-detail-title">Passive: </span>
             {props.passive_description}
           </div>
         </div>

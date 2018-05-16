@@ -53,8 +53,8 @@ class CategoryPage extends Component {
     return (
       <div className="page category-page">
         {category && (
-          <div className="category-page-header">
-            <h1 className="category-page-name">{category.name}</h1>
+          <div className="page-header">
+            <h1 className="page-name">{category.name}</h1>
           </div>
         )}
         <CardGrid />

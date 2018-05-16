@@ -251,7 +251,7 @@ h1, h2, h3, h4, h5, h6 {
       }
     }
 
-    .card-row-detail-item {
+    .grid-item-detail-item {
       margin-bottom: 10px;
     }
 
@@ -328,7 +328,7 @@ h1, h2, h3, h4, h5, h6 {
   list-style-type: none;
 }
 
-.card-row {
+.grid-item {
   background-color: $dark-grey;
   max-width: 100%;
   width: 500px;
@@ -337,17 +337,17 @@ h1, h2, h3, h4, h5, h6 {
   padding: 10px;
   border-radius: 9px;
 
-  .card-row-right {
+  .grid-item-right {
     margin-left: 20px;
   }
 
-  .card-row-title {
+  .grid-item-title {
     font-size: $font-small;
     color: $light-blue;
   }
 
   &.loader {
-    .card-row-thumb-loader {
+    .grid-item-thumb-loader {
       margin: 0 auto;
       height: 90px;
       width: 90px;
@@ -358,7 +358,7 @@ h1, h2, h3, h4, h5, h6 {
       // animation: pulse 1s infinite ease-in-out;
     }
   
-    .card-row-title-loader {
+    .grid-item-title-loader {
       height: 20px;
       width: 175px;
       background-color: $grey;
@@ -367,7 +367,7 @@ h1, h2, h3, h4, h5, h6 {
       // animation: pulse 1s infinite ease-in-out;
     }
   
-    .card-row-loader-text {
+    .grid-item-loader-text {
       background-color: $grey;
       height: 15px;
       margin-bottom: 7px;
@@ -388,14 +388,14 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.card-row-details {
+.grid-item-details {
   font-size: $font-small;
 
-  .card-row-detail-title {
+  .grid-item-detail-title {
     font-weight: bold;
   }
 
-  .card-row-detail-item {
+  .grid-item-detail-item {
     margin-top: 5px;
     img {
       opacity: .6;
@@ -516,8 +516,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.link-page-header,
-.category-page-header {
+.page-header {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -526,14 +525,37 @@ h1, h2, h3, h4, h5, h6 {
   justify-items: center;
   text-align: center;
 
-  .link-page-name,
-  .category-page-name {
+  .page-name {
     font-size: $font-heading;
     font-weight: bold;
   }
 
-  .link-page-description {
+  .page-description {
     font-size: $font-subheading;
     color: $light-blue;
+  }
+}
+
+.nav-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-left: 0;
+
+  li {
+    list-style-type: none;
+  }
+
+  .category-nav-row {
+    width: 250px;
+    height: 50px;
+    font-size: $font-subheading;
+    align-items: center;
+    justify-content: center;
+    transition: background-color .1s ease-in-out;
+
+    &:hover {
+      background-color: $orange;
+    }
   }
 }

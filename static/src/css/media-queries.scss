@@ -59,14 +59,14 @@ $card-page-flexbox-width: 815px;
       }
     }
 
-    .card-row {
+    .grid-item {
       &.loader {
       
-        .card-row-title-loader {
+        .grid-item-title-loader {
           width: 150px;
         }
       
-        .card-row-loader-text {
+        .grid-item-loader-text {
           &.first {
             width: 200px;
           }

@@ -19,8 +19,8 @@ class CategoryNavPage extends Component {
     const { categories, isLoading } = this.props;
     return (
       <div className="page category-nav-page">
-        <div className="category-nav-page-header">
-          <h1 className="category-nav-page-title">Categories</h1>
+        <div className="page-header">
+          <h1 className="page-name">Categories</h1>
         </div>
         <NavGrid
           RowComponent={CategoryNavRow}

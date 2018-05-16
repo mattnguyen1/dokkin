@@ -155,13 +155,13 @@ class CardPage extends Component {
                 </div>
               </div>
             </div>
-            <div className="card-page-info card-row-details">
+            <div className="card-page-info grid-item-details">
               <div className="card-page-name">
                 <h1 className="card-page-title">{card.leader_skill}</h1>
                 <h2 className="card-page-base-name">{card.name}</h2>
                 <hr />
               </div>
-              <div className="card-row-detail-item">
+              <div className="grid-item-detail-item">
                 <img
                   src="https://static.dokk.in/label/com_label_leader_skill_03.png"
                   title="Leader Skill"
@@ -169,7 +169,7 @@ class CardPage extends Component {
                 />
                 <div>{card.leader_skill_description}</div>
               </div>
-              <div className="card-row-detail-item">
+              <div className="grid-item-detail-item">
                 <img
                   src="https://static.dokk.in/label/com_label_passive_skill_02.png"
                   title="Passive Skill"
@@ -177,7 +177,7 @@ class CardPage extends Component {
                 />
                 <div>{card.passive_description}</div>
               </div>
-              <div className="card-row-detail-item">
+              <div className="grid-item-detail-item">
                 <img
                   src="https://static.dokk.in/label/com_label_sp_atk.png"
                   title="Super ATK"
@@ -190,7 +190,7 @@ class CardPage extends Component {
                 </div>
               </div>
               {card.links && (
-                <div className="card-row-detail-item card-page-links">
+                <div className="grid-item-detail-item card-page-links">
                   <img
                     src="https://static.dokk.in/label/com_label_link_skill_99.png"
                     title="Link Skill"
@@ -211,7 +211,7 @@ class CardPage extends Component {
                 </div>
               )}
               {card.categories && (
-                <div className="card-row-detail-item card-page-categories">
+                <div className="grid-item-detail-item card-page-categories">
                   <img
                     className="card-info-category"
                     src="https://static.dokk.in/label/com_label_category_99.png"

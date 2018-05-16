@@ -52,9 +52,9 @@ class LinkPage extends Component {
     return (
       <div className="page link-page">
         {link && (
-          <div className="link-page-header">
-            <h1 className="link-page-name">{link.name}</h1>
-            <h2 className="link-page-description">{link.description}</h2>
+          <div className="page-header">
+            <h1 className="page-name">{link.name}</h1>
+            <h2 className="page-description">{link.description}</h2>
           </div>
         )}
         <CardGrid />
