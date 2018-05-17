@@ -6,8 +6,9 @@ import SidebarLink from "./components/sidebar-link";
 class LeftNav extends Component {
   render() {
     return (
-      <Sidebar>
+      <Sidebar className="left-nav">
         <SidebarLink to="/categories">Categories</SidebarLink>
+        <SidebarLink to="/links">Links</SidebarLink>
       </Sidebar>
     );
   }

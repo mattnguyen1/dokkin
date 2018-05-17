@@ -3,6 +3,7 @@ import { Route, Switch, BrowserRouter, Redirect } from "react-router-dom";
 import SearchPage from "dokkin/js/search-page";
 import CardPage from "dokkin/js/card-page";
 import LinkPage from "dokkin/js/link-page";
+import LinkNavPage from "dokkin/js/link-nav-page";
 import CategoryPage from "dokkin/js/category-page";
 import CategoryNavPage from "dokkin/js/category-nav-page";
 import NavBar from "dokkin/js/nav-bar";
@@ -21,6 +22,7 @@ const App = () => (
         <Route path="/search" component={SearchPage} />
         <Route path="/card/:cardSlug" component={CardPage} />
         <Route path="/links/:linkSlug" component={LinkPage} />
+        <Route path="/links/" component={LinkNavPage} />
         <Route path="/categories/:categorySlug" component={CategoryPage} />
         <Route path="/categories/" component={CategoryNavPage} />
         <Redirect to="/" />

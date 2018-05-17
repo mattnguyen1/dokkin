@@ -1,0 +1,4 @@
+// Fetching /api/links
+export const FETCH_LINKS_SUCCESS = "FETCH_LINKS_SUCCESS";
+export const FETCH_LINKS_LOADING = "FETCH_LINKS_LOADING";
+export const FETCH_LINKS_ERROR = "FETCH_LINKS_ERROR";

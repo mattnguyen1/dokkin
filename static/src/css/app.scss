@@ -182,7 +182,7 @@ h1, h2, h3, h4, h5, h6 {
   padding-top: 20px;
   // Really hacky way to make flex wrap
   // look alright with pure CSS
-  margin-left: -40px;
+  // margin-left: -40px;
   background-color: $dark-grey;
   height: 100vh;
 
@@ -546,16 +546,55 @@ h1, h2, h3, h4, h5, h6 {
     list-style-type: none;
   }
 
-  .category-nav-row {
+  .grid-item {
     width: 250px;
     height: 50px;
-    font-size: $font-subheading;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     transition: background-color .1s ease-in-out;
+
+    &.link-nav-row {
+      height: 80px;
+    }
+
+    .nav-row-title {
+      font-size: $font-subheading;      
+      margin-bottom: 5px;
+    }
+
+    .nav-row-subtitle {
+      width: 80%;
+      font-size: $font-medium;
+      color: $light-blue;
+      text-align: center;
+    }
 
     &:hover {
       background-color: $orange;
+    }
+  }
+}
+
+.left-nav {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  .sidebar-link a {
+    display: block;
+    box-sizing: border-box;
+    padding-left: 25px;
+    font-weight: 400;
+    height: 30px;
+    line-height: 30px;
+    opacity: .8;
+    width: 100%;
+
+    &:hover {
+      opacity: 1;
+      background-color: $light-grey;
     }
   }
 }
