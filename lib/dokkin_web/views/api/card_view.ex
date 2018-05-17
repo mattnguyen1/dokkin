@@ -12,6 +12,12 @@ defmodule DokkinWeb.API.CardView do
     }
   end
 
+  def render("show.json", %{cards: cards}) do
+    %{
+      cards: render_many(cards, DokkinWeb.API.CardView, "show.json")
+    }
+  end
+
   def render("show.json", %{card: 
     %{
       card: card,
@@ -37,6 +43,7 @@ defmodule DokkinWeb.API.CardView do
     Map.merge(%{
       id: card.id,
       name: card.name,
+      open_at: APIHelpers.get_unix_time(card.open_at),
       resource_id: card.resource_id,
       alliance_type: @alliance_types[card.awakening_element_type],
       rarity: card.rarity,

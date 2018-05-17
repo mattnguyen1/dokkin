@@ -16,6 +16,7 @@ defmodule Dokkin.Card do
     field :resource_id, :integer
     field :atk_max, :integer
     field :passive_skill_set_id, :integer
+    field :open_at, SQLiteDateTime
   end
 
   def alliance(card) do

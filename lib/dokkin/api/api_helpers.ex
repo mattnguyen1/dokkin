@@ -40,4 +40,12 @@ defmodule Dokkin.APIHelpers do
     |> String.replace(~r/#{regex_matches}/, "")
     |> String.trim()
   end
+
+  @spec get_unix_time(NaiveDateTime.t) :: integer
+  def get_unix_time(naive_dt) do
+    naive_dt
+    |> IO.inspect()
+    |> DateTime.from_naive!("Etc/UTC")
+    |> DateTime.to_unix()
+  end
 end

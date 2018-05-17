@@ -14,6 +14,7 @@ defmodule Dokkin.API.CardService do
   alias Dokkin.CardSpecials
   alias Dokkin.Specials
   @no_card_unique_id 9999
+  @sec_in_a_month 2419200
 
   ##############
   ### Client ###
@@ -87,6 +88,28 @@ defmodule Dokkin.API.CardService do
   end
 
   @doc """
+  Get the upcoming cards within a month
+  """
+  @spec get_upcoming() :: list
+
+  def get_upcoming() do
+    Benchmark.measure("Dokkin.API.CardService.get_upcoming()", fn ->
+      cache_get_upcoming()
+    end)
+  end
+
+  @doc """
+  Get the newest cards in the last month
+  """
+  @spec get_new() :: list
+
+  def get_new() do
+    Benchmark.measure("Dokkin.API.CardService.get_new()", fn ->
+      cache_get_new()
+    end)
+  end
+
+  @doc """
   Gets the dokkan awakening of the given card id
   """
   @spec get_next_dokkan(String.t) :: Card.t
@@ -142,6 +165,22 @@ defmodule Dokkin.API.CardService do
   @spec cache_get_all() :: list
   defp cache_get_all() do
     Repo.fetch_cards("all_cards", &do_get_all/0)
+  end
+
+  @spec cache_get_upcoming() :: list
+  defp cache_get_upcoming() do
+    Date.utc_today()
+    |> Date.to_string()
+    |> (&("#{&1}-upcoming")).()
+    |> Repo.fetch_cards(&do_get_upcoming/0)
+  end
+
+  @spec cache_get_new() :: list
+  defp cache_get_new() do
+    Date.utc_today()
+    |> Date.to_string()
+    |> (&("#{&1}-new")).()
+    |> Repo.fetch_cards(&do_get_new/0)
   end
 
   @spec cache_get_base_id(String.t) :: integer
@@ -229,6 +268,18 @@ defmodule Dokkin.API.CardService do
     |> order_by_atk()
     |> Repo.all()
     |> merge_super_attacks()
+  end
+
+  @spec do_get_upcoming() :: list
+  defp do_get_upcoming() do
+    cache_get_all()
+    |> filter_upcoming()
+  end
+
+  @spec do_get_new() :: list
+  defp do_get_new() do
+    cache_get_all()
+    |> filter_new()
   end
 
   #####################
@@ -476,5 +527,27 @@ defmodule Dokkin.API.CardService do
       name: name,
       description: description
     }
+  end
+
+  ######################
+  ### Result Helpers ###
+  ######################
+
+  defp filter_upcoming(results) do
+    Enum.filter(results, &is_upcoming/1)
+  end
+
+  defp is_upcoming(result) do
+    time_diff = NaiveDateTime.diff(result.card.open_at, NaiveDateTime.utc_now())
+    time_diff < @sec_in_a_month and time_diff > 0
+  end
+
+  defp filter_new(results) do
+    Enum.filter(results, &is_new/1)
+  end
+
+  defp is_new(result) do
+    time_diff = NaiveDateTime.diff(NaiveDateTime.utc_now(), result.card.open_at)
+    time_diff < @sec_in_a_month and time_diff > 0
   end
 end
