@@ -1,15 +1,20 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 class SidebarLink extends Component {
   render() {
-    const { children, ...rest } = this.props;
+    const { children, to, location, staticContext, ...rest } = this.props;
+    const isCurrentPage = to === location.pathname;
+
+    const linkClass = `sidebar-link ${isCurrentPage && "active"}`;
     return (
-      <div className="sidebar-link">
-        <Link {...rest}>{children}</Link>
+      <div className={linkClass}>
+        <Link to={to} {...rest}>
+          {children}
+        </Link>
       </div>
     );
   }
 }
 
-export default SidebarLink;
+export default withRouter(SidebarLink);

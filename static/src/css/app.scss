@@ -587,20 +587,27 @@ h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   box-sizing: border-box;
 
-  .sidebar-link a {
-    display: block;
-    box-sizing: border-box;
-    padding-left: 25px;
-    font-weight: 400;
-    font-size: $font-small;
-    height: 30px;
-    line-height: 30px;
-    opacity: .8;
-    width: 100%;
 
-    &:hover {
-      opacity: 1;
-      background-color: $light-grey;
+  .sidebar-link {
+    &.active a {
+      font-weight: bold;
+    }
+    a {
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      padding-left: 20px;
+      font-weight: 400;
+      font-size: $font-small;
+      height: 30px;
+      line-height: 30px;
+      opacity: .8;
+      width: 100%;
+
+      &:hover {
+        opacity: 1;
+        background-color: $light-grey;
+      }
     }
   }
 }
