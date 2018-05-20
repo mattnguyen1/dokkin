@@ -11,37 +11,43 @@ defmodule DokkinWeb.PageController do
   alias DokkinWeb.Meta.CategoryNavPageController
   alias Dokkin.Card
 
-  # Card page controller route
+  # /card/:card_slug
   def index(conn, %{"path" => ["card", card_slug]}) do
     conn
     |> CardPageController.assign_meta_and_render(card_slug)
   end
 
+  # /cards/new
   def index(conn, %{"path" => ["cards", "new"]}) do
     conn
     |> NewCardPageController.assign_meta_and_render()
   end
 
+  # /links/:link_slut
   def index(conn, %{"path" => ["links", link_slug]}) do
     conn
     |> LinkPageController.assign_meta_and_render(link_slug)
   end
 
+  # /links
   def index(conn, %{"path" => ["links"]}) do
     conn
     |> LinkNavPageController.assign_meta_and_render()
   end
 
+  # /categories/:category_slug
   def index(conn, %{"path" => ["categories", category_slug]}) do
     conn
     |> CategoryPageController.assign_meta_and_render(category_slug)
   end
 
+  # /categories
   def index(conn, %{"path" => ["categories"]}) do
     conn
     |> CategoryNavPageController.assign_meta_and_render()
   end
 
+  # /
   def index(conn, _params) do
     conn
     |> assign_meta()

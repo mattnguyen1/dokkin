@@ -8,6 +8,7 @@ class LeftNav extends Component {
     return (
       <Sidebar className="left-nav">
         <SidebarLink to="/cards/new">New Cards</SidebarLink>
+        <SidebarLink to="/cards/upcoming">Upcoming Cards</SidebarLink>
         <SidebarLink to="/categories">Categories</SidebarLink>
         <SidebarLink to="/links">Links</SidebarLink>
       </Sidebar>

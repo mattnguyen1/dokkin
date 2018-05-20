@@ -328,6 +328,11 @@ h1, h2, h3, h4, h5, h6 {
   list-style-type: none;
 }
 
+.card-grid-empty-state {
+  font-size: 36px;
+  padding-top: 30px;
+}
+
 .grid-item {
   background-color: $dark-grey;
   max-width: 100%;
@@ -587,6 +592,7 @@ h1, h2, h3, h4, h5, h6 {
     box-sizing: border-box;
     padding-left: 25px;
     font-weight: 400;
+    font-size: $font-small;
     height: 30px;
     line-height: 30px;
     opacity: .8;

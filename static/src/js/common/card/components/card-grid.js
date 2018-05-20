@@ -32,24 +32,28 @@ class CardGrid extends Component {
 
   render() {
     const { cardsList, canLoadMore, isLoading } = this.props;
-    return (
-      <InfiniteScroll
-        pageStart={1}
-        loadMore={this.loadCards}
-        hasMore={canLoadMore}
-        loader={CardGrid.renderLoaders(5)}
-        className="infinite-card-grid"
-      >
-        {!cardsList.length && isLoading ? (
-          CardGrid.renderLoaders(50)
-        ) : (
-          <ul className="card-grid">
-            {cardsList &&
-              cardsList.map(card => <CardRow key={card.id} {...card} />)}
-          </ul>
-        )}
-      </InfiniteScroll>
-    );
+    if (!isLoading && !canLoadMore && !cardsList.length) {
+      return <div className="card-grid-empty-state">no results :(</div>;
+    } else {
+      return (
+        <InfiniteScroll
+          pageStart={1}
+          loadMore={this.loadCards}
+          hasMore={canLoadMore}
+          loader={CardGrid.renderLoaders(5)}
+          className="infinite-card-grid"
+        >
+          {!cardsList.length && isLoading ? (
+            CardGrid.renderLoaders(50)
+          ) : (
+            <ul className="card-grid">
+              {cardsList &&
+                cardsList.map(card => <CardRow key={card.id} {...card} />)}
+            </ul>
+          )}
+        </InfiniteScroll>
+      );
+    }
   }
 }
 
