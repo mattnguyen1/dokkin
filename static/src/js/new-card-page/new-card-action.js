@@ -4,15 +4,15 @@ import {
   FETCH_NEW_CARDS_LOADING,
   FETCH_NEW_CARDS_ERROR
 } from "./new-card-action-types";
-import { fetchNewCards } from "./new-card-action";
 
-export function fetchNewCardsSuccess() {
+export function fetchNewCardsSuccess(response) {
   return {
-    type: FETCH_NEW_CARDS_SUCCESS
+    type: FETCH_NEW_CARDS_SUCCESS,
+    response
   };
 }
 
-export function fetchNewCardsLoading(id) {
+export function fetchNewCardsLoading() {
   return {
     type: FETCH_NEW_CARDS_LOADING
   };

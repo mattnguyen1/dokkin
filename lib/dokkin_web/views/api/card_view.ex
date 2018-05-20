@@ -64,10 +64,6 @@ defmodule DokkinWeb.API.CardView do
     })
   end
 
-  def render("show.js", params) do
-    IO.inspect(params)
-  end
-
   defp get_minimal_view(%{
     card: card,
     leader_skill: leader_skill

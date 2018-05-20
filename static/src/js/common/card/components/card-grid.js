@@ -25,6 +25,8 @@ class CardGrid extends Component {
       const queryParams = Object.assign(params);
       queryParams.offset = page * limit;
       fetchCards(queryParams);
+    } else {
+      fetchCards();
     }
   };
 

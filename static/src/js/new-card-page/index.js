@@ -1,13 +1,16 @@
 import { connect } from "react-redux";
-import { fetchCategoryAndCards } from "dokkin/js/category-page/category-action";
+import { fetchNewCards } from "./new-card-action";
 import NewCardPage from "./components/new-card-page";
 
 const mapStateToProps = state => ({
-  cards: state.cardReducer.cards
+  reducer: state.newCardReducer,
+  cards: state.newCardReducer.cardsList.cards,
+  isLoading: state.newCardReducer.cardsList.isLoading,
+  canLoadMore: state.newCardReducer.cardsList.canLoadMore
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchNewCards: id => dispatch(fetchNewCards(id))
+  fetchNewCards: id => dispatch(fetchNewCards())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryPage);
+export default connect(mapStateToProps, mapDispatchToProps)(NewCardPage);

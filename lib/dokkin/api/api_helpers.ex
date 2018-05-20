@@ -26,8 +26,6 @@ defmodule Dokkin.APIHelpers do
 
   @spec get_base_element(integer) :: String.t
   def get_base_element(element) do
-    IO.inspect(element)
-    IO.inspect(rem(2, 10))
     Atom.to_string(@element[rem(element, 10)])
   end
 
@@ -44,7 +42,6 @@ defmodule Dokkin.APIHelpers do
   @spec get_unix_time(NaiveDateTime.t) :: integer
   def get_unix_time(naive_dt) do
     naive_dt
-    |> IO.inspect()
     |> DateTime.from_naive!("Etc/UTC")
     |> DateTime.to_unix()
   end

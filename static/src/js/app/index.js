@@ -6,6 +6,7 @@ import LinkPage from "dokkin/js/link-page";
 import LinkNavPage from "dokkin/js/link-nav-page";
 import CategoryPage from "dokkin/js/category-page";
 import CategoryNavPage from "dokkin/js/category-nav-page";
+import NewCardPage from "dokkin/js/new-card-page";
 import NavBar from "dokkin/js/nav-bar";
 import LeftNav from "dokkin/js/left-nav";
 import GoogleAnalytics from "dokkin/js/common/google-analytics";
@@ -25,6 +26,7 @@ const App = () => (
         <Route path="/links/" component={LinkNavPage} />
         <Route path="/categories/:categorySlug" component={CategoryPage} />
         <Route path="/categories/" component={CategoryNavPage} />
+        <Route path="/new-card-page" component={NewCardPage} />
         <Redirect to="/" />
       </Switch>
       <GoogleAnalytics />

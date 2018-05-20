@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import ReactRouterPropTypes from "react-router-prop-types";
-import CardGrid from "dokkin/js/common/card/card-grid-container";
+import CardGrid from "dokkin/js/common/card/components/card-grid";
 
 class NewCardPage extends Component {
   static getPageTitle() {
@@ -11,7 +11,7 @@ class NewCardPage extends Component {
   }
 
   componentWillMount() {
-    this.updateCardGrid(this.props);
+    this.updateCardGrid();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -21,7 +21,7 @@ class NewCardPage extends Component {
       pathname !== nextProps.location.pathname ||
       search !== nextProps.location.search
     ) {
-      this.updateCardGrid(nextProps);
+      this.updateCardGrid();
       document.title = NewCardPage.getPageTitle();
     }
   }
@@ -31,12 +31,18 @@ class NewCardPage extends Component {
   }
 
   render() {
+    const { cards, canLoadMore, isLoading, fetchNewCards } = this.props;
     return (
       <div className="page new-card-page">
         <div className="page-header">
           <h1 className="page-name">Recently Released</h1>
         </div>
-        <CardGrid />
+        <CardGrid
+          cardsList={cards}
+          canLoadMore={canLoadMore}
+          isLoading={isLoading}
+          fetchCards={fetchNewCards}
+        />
       </div>
     );
   }
@@ -44,13 +50,7 @@ class NewCardPage extends Component {
 
 NewCardPage.propTypes = {
   location: ReactRouterPropTypes.location.isRequired,
-  match: ReactRouterPropTypes.match.isRequired,
-  categoryCache: PropTypes.objectOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired
-    })
-  ).isRequired,
-  fetchCategoryAndCards: PropTypes.func.isRequired
+  fetchNewCards: PropTypes.func.isRequired
 };
 
 export default withRouter(NewCardPage);

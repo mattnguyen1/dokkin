@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import cardReducer from "dokkin/js/common/card/card-reducers";
+import newCardReducer from "dokkin/js/new-card-page/new-card-reducers";
 import searchReducer from "dokkin/js/search/search-reducers";
 import linkReducer from "dokkin/js/link-page/link-reducers";
 import linkNavReducer from "dokkin/js/link-nav-page/link-nav-reducers";
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   linkReducer,
   linkNavReducer,
   categoryReducer,
-  categoryNavReducer
+  categoryNavReducer,
+  newCardReducer
 });
 
 export default rootReducer;
