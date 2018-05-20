@@ -26,7 +26,7 @@ const App = () => (
         <Route path="/links/" component={LinkNavPage} />
         <Route path="/categories/:categorySlug" component={CategoryPage} />
         <Route path="/categories/" component={CategoryNavPage} />
-        <Route path="/new-card-page" component={NewCardPage} />
+        <Route path="/cards/new" component={NewCardPage} />
         <Redirect to="/" />
       </Switch>
       <GoogleAnalytics />

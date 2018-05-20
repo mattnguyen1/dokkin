@@ -12,6 +12,7 @@ class LinkNavPage extends Component {
 
   componentWillMount() {
     const { fetchLinks } = this.props;
+    document.title = LinkNavPage.getPageTitle();
     fetchLinks();
   }
 

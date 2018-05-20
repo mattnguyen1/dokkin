@@ -12,11 +12,11 @@ class NewCardPage extends Component {
 
   componentWillMount() {
     this.updateCardGrid();
+    document.title = NewCardPage.getPageTitle();
   }
 
   componentWillReceiveProps(nextProps) {
     const { pathname, search } = this.props.location;
-
     if (
       pathname !== nextProps.location.pathname ||
       search !== nextProps.location.search
@@ -35,7 +35,7 @@ class NewCardPage extends Component {
     return (
       <div className="page new-card-page">
         <div className="page-header">
-          <h1 className="page-name">Recently Released</h1>
+          <h1 className="page-name">New Cards</h1>
         </div>
         <CardGrid
           cardsList={cards}

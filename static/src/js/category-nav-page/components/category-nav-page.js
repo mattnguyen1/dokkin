@@ -12,6 +12,7 @@ class CategoryNavPage extends Component {
 
   componentWillMount() {
     const { fetchCategories } = this.props;
+    document.title = CategoryNavPage.getPageTitle();
     fetchCategories();
   }
 

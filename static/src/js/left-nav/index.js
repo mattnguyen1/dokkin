@@ -7,6 +7,7 @@ class LeftNav extends Component {
   render() {
     return (
       <Sidebar className="left-nav">
+        <SidebarLink to="/cards/new">New Cards</SidebarLink>
         <SidebarLink to="/categories">Categories</SidebarLink>
         <SidebarLink to="/links">Links</SidebarLink>
       </Sidebar>

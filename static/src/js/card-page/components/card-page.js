@@ -36,7 +36,15 @@ class CardPage extends Component {
   }
 
   componentWillMount() {
+    const { cardCache, match } = this.props;
+    const { params } = match;
+    const cardId = params.cardSlug.split("-")[0];
+    const card = cardCache[cardId];
+
     this.updateCard(this.props);
+    if (card) {
+      document.title = CardPage.getPageTitle(card);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
