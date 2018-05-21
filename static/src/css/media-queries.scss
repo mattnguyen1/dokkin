@@ -1,5 +1,6 @@
 $tablet-width: 768px;
 $card-page-flexbox-width: 815px;
+$mobile-sidebar-width: 35px;
 
 @media screen and (max-width: $card-page-flexbox-width) {
   .app-container {
@@ -34,6 +35,9 @@ $card-page-flexbox-width: 815px;
 
 @media screen and (max-width: $tablet-width) {
   .app-container {
+    .page {
+      margin: 0 0 0 $mobile-sidebar-width;
+    }
     .nav-bar {
       .nav-bar-left {
         width: 100%;
@@ -80,6 +84,23 @@ $card-page-flexbox-width: 815px;
           }
         }
       }
+    }
+
+    .left-nav {
+      padding-top: 5px;
+      
+      .sidebar-link {
+        a {
+          padding-left: 10px;
+        }
+        span {
+          display: none;
+        }
+      }
+    }
+
+    .sidebar {
+      width: $mobile-sidebar-width;
     }
   }
 
