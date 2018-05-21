@@ -94,6 +94,7 @@ defmodule Dokkin.API.CategoryService do
   end
 
   defp is_available(result) do
-    result.open_at < NaiveDateTime.utc_now()
+    time_diff = NaiveDateTime.diff(result.open_at, NaiveDateTime.utc_now())
+    time_diff < 0
   end
 end
