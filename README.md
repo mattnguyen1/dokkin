@@ -32,4 +32,3 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 - 404 page
 - Stats and awakening medals on card page
-- Make quick search more of a title match than a full text search
