@@ -13,6 +13,8 @@ defmodule Dokkin.API.CardService do
   alias Dokkin.PassiveSkillSet
   alias Dokkin.CardSpecials
   alias Dokkin.Specials
+  alias Dokkin.QueryBuilder
+  alias Dokkin.Query
   @no_card_unique_id 9999
   @sec_in_a_month 2419200
 
