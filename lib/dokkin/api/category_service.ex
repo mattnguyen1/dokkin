@@ -6,6 +6,7 @@ defmodule Dokkin.API.CategoryService do
   import Ecto.Query, warn: false
   alias Dokkin.Repo
   alias Dokkin.Categories
+  @sec_in_a_month 2419200
 
   ##############
   ### Client ###
@@ -95,6 +96,6 @@ defmodule Dokkin.API.CategoryService do
 
   defp is_available(result) do
     time_diff = NaiveDateTime.diff(result.open_at, NaiveDateTime.utc_now())
-    time_diff < 0
+    time_diff < @sec_in_a_month
   end
 end

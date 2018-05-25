@@ -12,9 +12,9 @@ defmodule Dokkin.QueryBuilder.Card do
 
   def query_minimal(query) do
     query
-    |> QueryBuilder.Card.from_minimal_card()
-    |> QueryBuilder.Card.order_by_atk()
-    |> QueryBuilder.Card.select_minimal()
+    |> from_minimal_card()
+    |> order_by_atk()
+    |> select_minimal()
   end
 
   @doc """
@@ -24,9 +24,9 @@ defmodule Dokkin.QueryBuilder.Card do
 
   def query_detailed(query) do
     query
-    |> QueryBuilder.Card.from_detailed_card()
-    |> QueryBuilder.Card.order_by_atk()
-    |> QueryBuilder.Card.select_detailed()
+    |> from_detailed_card()
+    |> order_by_atk()
+    |> select_detailed()
   end
 
   @doc """
