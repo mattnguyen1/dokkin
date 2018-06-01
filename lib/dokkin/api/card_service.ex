@@ -23,21 +23,12 @@ defmodule Dokkin.API.CardService do
   ##############
 
   @doc """
-  Get cards that match the given name
-  """
-  @spec get(map) :: list
-
-  def get(%{name: name}) do
-    cache_get(name)
-  end
-
-  @doc """
   Get a single card matching the given id
   """
-  @spec get(map) :: Card.t
+  @spec get(integer) :: Card.t
 
-  def get(%{id: id}) do
-    Benchmark.measure("Dokkin.API.CardService.get(%{id: id})", fn ->
+  def get(id) do
+    Benchmark.measure("Dokkin.API.CardService.get(id", fn ->
       List.first(cache_get_by_id(id))
     end)
   end
@@ -45,23 +36,11 @@ defmodule Dokkin.API.CardService do
   @doc """
   Get cards matching all the given ids
   """
-  @spec get(list) :: list
+  @spec get_from_ids(list) :: list
 
-  def get(ids) when is_list(ids) do
-    Benchmark.measure("Dokkin.API.CardService.get(ids)", fn ->
+  def get_from_ids(ids) do
+    Benchmark.measure("Dokkin.API.CardService.get_from_ids(ids)", fn ->
       do_get(ids)
-    end)
-  end
-
-  @doc """
-  Get cards matching all the given ids from the given
-  offse with at most a limit number of cards.
-  """
-  @spec get(list, integer, integer) :: list
-
-  def get(ids, limit, offset) when is_list(ids) do
-    Benchmark.measure("Dokkin.API.CardService.get(ids)", fn ->
-      do_get(ids, limit, offset)
     end)
   end
 
@@ -200,29 +179,11 @@ defmodule Dokkin.API.CardService do
   ### Queries ###
   ###############
 
-  @spec do_get(String.t) :: list
-  defp do_get(name) when is_binary(name) do
-    Card
-    |> by_name(name)
-    |> query_minimal()
-    |> Repo.all()
-  end
-
   @spec do_get(list) :: list
   defp do_get(ids) when is_list(ids) do
     Card
     |> by_ids(ids)
     |> query_detailed()
-    |> Repo.all()
-    |> merge_super_attacks()
-  end
-
-  @spec do_get(list, integer, integer) :: list
-  defp do_get(ids, limit, offset) when is_list(ids) do
-    Card
-    |> by_ids(ids)
-    |> query_detailed()
-    |> by_page(limit, offset)
     |> Repo.all()
     |> merge_super_attacks()
   end

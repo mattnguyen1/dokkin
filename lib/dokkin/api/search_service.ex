@@ -101,7 +101,7 @@ defmodule Dokkin.API.SearchService do
     |> Enum.drop(offset)
     |> Enum.take(limit)
     |> Enum.reduce([], fn(card, acc) -> [card.id | acc] end)
-    |> CardService.get()
+    |> CardService.get_from_ids()
     |> (&({:reply, {&1, total, marker}, state})).()
   end
 
