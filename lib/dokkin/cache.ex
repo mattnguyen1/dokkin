@@ -1,13 +1,50 @@
 defmodule Dokkin.Cache do
-  
+
+  defmacro __using__(_opts) do
+    quote do
+      import Dokkin.Cache
+    end
+  end
+
+  defmacro cget_date(fetch_fn) do
+    current_date = Date.utc_today()
+    |> Date.to_string()
+    quote do
+      unquote(__CALLER__.function)
+      |> elem(0)
+      |> Atom.to_string()
+      |> (&("#{unquote(current_date)}-#{&1}")).()
+      |> fetch_cards(unquote(fetch_fn))
+    end
+  end
+
+  defmacro cget(fetch_fn) do
+    quote do
+      unquote(__CALLER__.function)
+      |> elem(0)
+      |> Atom.to_string()
+      |> fetch_cards(unquote(fetch_fn))
+    end
+  end
+
   defmacro cget(fetch_fn, slug) do
-    cache_slug = elem(__ENV__.function, 0) <> "-" <> slug
-    fetch_cards(cache_slug, fetch_fn)
+    quote do
+      unquote(__CALLER__.function)
+      |> elem(0)
+      |> Atom.to_string()
+      |> (&("#{&1}-#{unquote(slug)}")).()
+      |> fetch_cards(unquote(fetch_fn))
+    end
   end
 
   defmacro cget(fetch_fn, slug, :invoke) do
-    cache_slug = elem(__ENV__.function, 0) <> "-" <> slug
-    fetch_cards(cache_slug, fetch_fn, slug)
+    quote do
+      unquote(__CALLER__.function)
+      |> elem(0)
+      |> Atom.to_string()
+      |> (&("#{&1}-#{unquote(slug)}")).()
+      |> fetch_cards(unquote(fetch_fn), unquote(slug))
+    end
   end
 
   @doc """

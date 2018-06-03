@@ -4,6 +4,7 @@ defmodule Dokkin.API.CardService do
   """
 
   import Ecto.Query, warn: false
+  use Dokkin.Cache
   alias Dokkin.Repo
   alias Dokkin.Card
   alias Dokkin.LeaderSkill
@@ -118,61 +119,50 @@ defmodule Dokkin.API.CardService do
   ### Cache Client ###
   ####################
 
-  @spec cache_get(String.t) :: list
-  defp cache_get(name) do
-    Repo.fetch_cards(name, &do_get/1, 1)
-  end
-
   @spec cache_get_by_id(String.t) :: list
   defp cache_get_by_id(id) do
-    Repo.fetch_cards(id, &do_get_by_id/1, 1)
+    cget &do_get_by_id/1, id, :invoke
   end
 
   @spec cache_get_minimal(String.t) :: list
   defp cache_get_minimal(id) do
-    Repo.fetch_cards("minimal-", id, &do_get_minimal/1, 1)
+    cget &do_get_minimal/1, id, :invoke
   end
 
   @spec cache_get_next_dokkan(String.t) :: list
   defp cache_get_next_dokkan(id) do
-    Repo.fetch_cards("next-dokkan-", id, &do_get_next_dokkan/1, 1)
+    cget &do_get_next_dokkan/1, id, :invoke
   end
 
   @spec cache_get_prev_dokkan(String.t) :: list
   defp cache_get_prev_dokkan(id) do
-    Repo.fetch_cards("prev-dokkan-", id, &do_get_prev_dokkan/1, 1)
+    cget &do_get_prev_dokkan/1, id, :invoke
   end
 
   @spec cache_get_all() :: list
   defp cache_get_all() do
-    Repo.fetch_cards("all_cards", &do_get_all/0)
+    cget &do_get_all/0
   end
 
   @spec cache_get_upcoming() :: list
   defp cache_get_upcoming() do
-    Date.utc_today()
-    |> Date.to_string()
-    |> (&("#{&1}-upcoming")).()
-    |> Repo.fetch_cards(&do_get_upcoming/0)
+    cget_date &do_get_upcoming/0
   end
 
   @spec cache_get_new() :: list
   defp cache_get_new() do
-    Date.utc_today()
-    |> Date.to_string()
-    |> (&("#{&1}-new")).()
-    |> Repo.fetch_cards(&do_get_new/0)
+    cget_date &do_get_new/0
   end
 
   @spec cache_get_base_id(String.t) :: integer
   defp cache_get_base_id(id) when is_binary(id) do
-    Repo.fetch_cards("base-id-", id, &get_base_id/1, 1)
+    cget &get_base_id/1, id, :invoke
   end
 
   @spec cache_get_base_id(integer) :: integer
   defp cache_get_base_id(id) when is_integer(id) do
     id = Integer.to_string(id)
-    Repo.fetch_cards("base-id-", id, &get_base_id/1, 1)
+    cget &get_base_id/1, id, :invoke
   end
 
   ###############
