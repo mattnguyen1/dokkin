@@ -192,8 +192,10 @@ class CardPage extends Component {
                   alt="Super ATK"
                 />
                 <div>
-                  {card.super_attack_description.map(description => (
-                    <div key={description}>{description}</div>
+                  {card.super_attack_description.map((description, index) => (
+                    <div key={description}>
+                      {card.super_attack_ki[index]} ki - {description}
+                    </div>
                   ))}
                 </div>
               </div>

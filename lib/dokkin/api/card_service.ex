@@ -332,6 +332,7 @@ defmodule Dokkin.API.CardService do
       leader_skill_description: ls.description,
       super_attack: [s.name],
       super_attack_description: [s.description],
+      super_attack_ki: [cs.eball_num_start],
       passive_description: p.description,
       link1: %{
         id: link1.id,
@@ -465,7 +466,8 @@ defmodule Dokkin.API.CardService do
       List.update_at(card_list, 0, fn (card_dupe) ->
         %{card |
           super_attack: card.super_attack ++ card_dupe.super_attack,
-          super_attack_description: card.super_attack_description ++ card_dupe.super_attack_description
+          super_attack_description: card.super_attack_description ++ card_dupe.super_attack_description,
+          super_attack_ki: card.super_attack_ki ++ card_dupe.super_attack_ki
         }
       end)
     else
