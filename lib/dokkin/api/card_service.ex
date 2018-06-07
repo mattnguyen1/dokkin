@@ -302,6 +302,13 @@ defmodule Dokkin.API.CardService do
     |> select_all()
   end
 
+  @spec query_awakening_info(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp query_awakening_info(query) do
+    query
+    |> join_awakenings()
+    |> select_awakenings()
+  end
+
   @spec by_page(Ecto.Queryable.t, integer, integer) :: Ecto.Queryable.t
   defp by_page(query, limit, offset) do
     query
@@ -409,6 +416,17 @@ defmodule Dokkin.API.CardService do
     }
   end
 
+  @spec select_awakenings(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp select_awakenings(query) do
+    from [c, ar, a, ai] in query,
+    select: %{
+      id: [ai.id],
+      quantity: [a.quantity],
+      rarity: [ai.rarity],
+      name: [ai.name]
+    }
+  end
+
   @spec join_all(Ecto.Queryable.t) :: Ecto.Queryable.t
   defp join_all(query) do
     from c in query,
@@ -442,6 +460,14 @@ defmodule Dokkin.API.CardService do
     left_join: ar in AwakeningRoutes, on: ar.awaked_card_id == c.id,
     left_join: p in PassiveSkillSet, on: c.passive_skill_set_id == p.id,
     where: is_nil(ar.type) or ar.type == "CardAwakeningRoute::Dokkan"
+  end
+
+  @spec join_awakenings(Ecto.Queryable.t) :: Ecto.Queryable.t
+  defp join_awakenings(query) do
+    from c in query,
+    left_join: ar in AwakeningRoutes, on: ar.awaked_card_id == c.id,
+    left_join: a in Awakenings, on: a.card_awakening_set_id == ar.card_awakening_set_id,
+    left_join: ai in AwakeningItems, on: ai.id == a.awakening_item_id
   end
 
   @spec by_base_awakening(Ecto.Queryable.t) :: Ecto.Queryable.t
