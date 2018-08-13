@@ -5,7 +5,11 @@ defmodule Dokkin.Query.Card do
 
   alias Dokkin.QueryBuilder
 
+  @doc """
+  Get all the cards from the given ids
+  """
   @spec get_from_ids(list) :: list
+
   def get_from_ids(ids) when is_list(ids) do
     Card
     |> QueryBuilder.Card.by_ids(ids)
